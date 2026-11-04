@@ -80,7 +80,7 @@ export const site = siteSchema.parse({
     projectsHint: "Choose a project to watch it build.",
     workHeading: "Every business gets its own look.",
     workIntro:
-      "A dog groomer, a hair stylist and a shawarma restaurant don’t share customers, so they shouldn’t share a look. Each project is designed from the business itself: its people, its place and its customers.",
+      "A dog groomer, a hair stylist, a gymnastics gym and a shawarma restaurant don’t share customers, so they shouldn’t share a look. Each project is designed from the business itself: its people, its place and its customers.",
     servicesHeading: "One person for everything your customers see.",
     processHeading: "How working together goes.",
     processIntro:

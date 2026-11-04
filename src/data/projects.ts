@@ -340,6 +340,129 @@ const all = z.array(projectSchema).parse([
     },
   },
   {
+    id: "agsa-flyers",
+    published: true,
+    status: "past",
+    name: "Acrobatic Gymnastics of San Antonio",
+    kind: "Gymnastics gym",
+    business:
+      "A competitive acrobatic gymnastics gym with classes, an acro team, camps and birthday parties",
+    place: "San Antonio, Texas",
+    accent: "#FF4A4A",
+    services: ["Brand", "Website", "Local search"],
+    liveUrl: "https://web.archive.org/web/20230129031712/http://agsaflyers.com/",
+    links: [],
+    summary:
+      "The logo, the website and the marketing for a local gym. In 2012, its first year with them, the gym’s income doubled.",
+    screens: {
+      desktop: {
+        src: "agsa-flyers/site-home-desktop.jpg",
+        alt: "The AGSA home page: the gym’s storefront, “About AGSA” in red, and a dark Parent Portal band with red buttons for schedules and sign-in",
+        caption: null,
+      },
+      phone: {
+        src: "agsa-flyers/site-home-phone.jpg",
+        alt: "The AGSA home page on a phone",
+        caption: null,
+      },
+    },
+    code: `<div class="boldgrid-section background-fixed color1-background-color">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-xs-12 col-sm-12">
+        <h2 class="title-main color3-color color3-border-color">
+          <a href="https://app.iclasspro.com/portal/agsaflipcity">Parent Portal</a>
+        </h2>
+        <a class="btn btn-raised btn-pill btn-color-2 btn-block"
+           href="https://app.iclasspro.com/portal/agsaflipcity/classes">Class Schedules</a>
+        <a class="btn btn-raised btn-pill btn-color-2 btn-block"
+           href="https://app.iclasspro.com/portal/agsaflipcity/camps/7">Camp Schedules</a>
+        <a class="btn btn-raised btn-pill btn-color-2 btn-block"
+           href="https://app.iclasspro.com/portal/agsaflipcity/login">Parent Login / Register Account</a>
+      </div>
+      <div class="col-md-6 col-xs-12 col-sm-12">
+        <h3 class="color3-color">New to Gymnastics? Try a FREE class!</h3>
+      </div>
+    </div>
+  </div>
+</div>`,
+    pageTitle: "Acrobatic Gymnastics of San Antonio: brand, website and marketing for a local gym",
+    pageDescription:
+      "How Tim Rios’s logo, website and marketing for Acrobatic Gymnastics of San Antonio doubled the gym’s income in 2012.",
+    before: {
+      heading: "Where AGSA started",
+      text: "In 2011 the gym’s website was a single dark page: red script lettering over black, a team photo and a block of links.",
+      image: {
+        src: "agsa-flyers/old-site-home-desktop.jpg",
+        alt: "The earlier AGSA website: a black page with red script lettering reading “Acrobatic Gymnastics of San Antonio” and a team photo",
+        caption: "The site before, October 2010.",
+      },
+    },
+    sections: [
+      {
+        service: "Brand",
+        heading: "A star for the gym",
+        text: "I designed the AGSA logo, a star with a gymnast at its center, and the tuition calendars that tell parents when each four-week session is billed and when the gym is closed.",
+        points: [],
+        images: [
+          {
+            src: "agsa-flyers/logo.png",
+            alt: "The AGSA logo: a red-outlined star with a gymnast in blue at its center, beside the words Acrobatic Gymnastics of San Antonio",
+            caption: "The logo.",
+            treatment: "artwork-on-light",
+          },
+          {
+            src: "agsa-flyers/tuition-calendar.jpg",
+            alt: "The AGSA tuition payment calendar: twelve color-coded months, one color per four-week session, with closures marked in red",
+            caption: "The tuition payment calendar, 2026 edition.",
+            treatment: "artwork-on-light",
+          },
+        ],
+      },
+      {
+        service: "Website",
+        heading: "Everything a parent needs, on the home page",
+        text: "From 2012 I built and ran the gym’s website through several versions, rebuilt on WordPress in 2018. The home page put the Parent Portal up front, with class and camp schedules, sign-in and account creation linked straight to the gym’s class-management system, next to a free trial class, the tuition prices and photos of the gym’s own athletes.",
+        points: [
+          "Pages for the acro team, birthday parties, training programs, staff and policies.",
+          "Built so the gym could run it alone: after I stepped away in 2020, the gym kept it going for six more years, posting its own announcements for sign-ups, tryouts, its move and closures.",
+          "Secure by design: when an automated vulnerability scanner probed the site in 2022, comment moderation held every one of its 54 test comments.",
+        ],
+        images: [
+          {
+            src: "agsa-flyers/site-training-desktop.jpg",
+            alt: "The AGSA training program page",
+            caption: "A training program page.",
+          },
+          {
+            src: "agsa-flyers/site-birthday-parties-desktop.jpg",
+            alt: "The AGSA birthday parties page",
+            caption: "Birthday parties.",
+          },
+        ],
+      },
+      {
+        service: "Local search",
+        heading: "Found by families nearby",
+        text: "Marketing and search work aimed at families looking for gymnastics in San Antonio, sending them to the gym’s own site and its free trial class. Together with the new site, it doubled the gym’s income in 2012.",
+        points: [],
+        images: [],
+      },
+    ],
+    results: {
+      heading: "Results",
+      items: [
+        {
+          figure: "+100%",
+          text: "the gym’s income in 2012, through the new website, marketing and search",
+        },
+        { figure: "14 years", text: "the site served the gym, from 2012 to 2026" },
+      ],
+      source:
+        "Income: the gym’s own figures, which I kept as its Business Manager. Site screenshots: Internet Archive, January 2023 and October 2010.",
+    },
+  },
+  {
     id: "shawarma-way",
     published: true,
     status: "in-progress",
@@ -438,98 +561,6 @@ const all = z.array(projectSchema).parse([
       ],
       source:
         "Lighthouse and a pre-launch SEO audit of the preview, 3 November 2026. Search and order numbers will follow the launch.",
-    },
-  },
-  {
-    // Unpublished until Tim confirms the open questions in case-studies/agsa-flyers/notes.md
-    id: "agsa-flyers",
-    published: false,
-    status: "past",
-    name: "Acrobatic Gymnastics of San Antonio",
-    kind: "Gymnastics gym",
-    business:
-      "A competitive acrobatic gymnastics gym with classes, an acro team, camps and birthday parties",
-    place: "San Antonio, Texas",
-    accent: "#FF4A4A",
-    services: ["Website", "Local search"],
-    liveUrl: "https://web.archive.org/web/20230129031712/http://agsaflyers.com/",
-    links: [],
-    summary:
-      "The gym’s website and marketing for years, built for parents: schedules, sign-ups and prices in one place. In one year, the gym’s income doubled.",
-    screens: {
-      desktop: {
-        src: "agsa-flyers/site-home-desktop.jpg",
-        alt: "The AGSA home page: the gym’s storefront, “About AGSA” in red, and a dark Parent Portal band with red buttons for schedules and sign-in",
-        caption: null,
-      },
-      phone: {
-        src: "agsa-flyers/site-home-phone.jpg",
-        alt: "The AGSA home page on a phone",
-        caption: null,
-      },
-    },
-    code: `<div class="boldgrid-section background-fixed color1-background-color">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6 col-xs-12 col-sm-12">
-        <h2 class="title-main color3-color color3-border-color">
-          <a href="https://app.iclasspro.com/portal/agsaflipcity">Parent Portal</a>
-        </h2>
-        <a class="btn btn-raised btn-pill btn-color-2 btn-block"
-           href="https://app.iclasspro.com/portal/agsaflipcity/classes">Class Schedules</a>
-        <a class="btn btn-raised btn-pill btn-color-2 btn-block"
-           href="https://app.iclasspro.com/portal/agsaflipcity/camps/7">Camp Schedules</a>
-        <a class="btn btn-raised btn-pill btn-color-2 btn-block"
-           href="https://app.iclasspro.com/portal/agsaflipcity/login">Parent Login / Register Account</a>
-      </div>
-      <div class="col-md-6 col-xs-12 col-sm-12">
-        <h3 class="color3-color">New to Gymnastics? Try a FREE class!</h3>
-      </div>
-    </div>
-  </div>
-</div>`,
-    pageTitle: "Acrobatic Gymnastics of San Antonio: website and marketing for a local gym",
-    pageDescription:
-      "How Tim Rios’s website and marketing for Acrobatic Gymnastics of San Antonio helped double the gym’s income in a year.",
-    before: {
-      heading: "Where AGSA started",
-      text: "TO CONFIRM WITH TIM: what the gym had before.",
-      image: null,
-    },
-    sections: [
-      {
-        service: "Website",
-        heading: "Everything a parent needs, on the home page",
-        text: "The site was built for busy parents. The home page put the Parent Portal up front, with class and camp schedules, sign-in and account creation linked straight to the gym’s class-management system, next to a free trial class, the tuition prices and photos of the gym’s own athletes.",
-        points: [
-          "Pages for the acro team, birthday parties, training programs, staff and policies.",
-          "Seasonal pop-up announcements as marketing: training-program sign-ups, acro team tryouts, a free trial class, the owner’s USA Gymnastics Hall of Fame induction, the gym’s move, and closures for holidays and storms.",
-          "Kept current from 2018 to 2026, and secure: when an automated vulnerability scanner probed the site in 2022, comment moderation held every one of its 54 test comments.",
-        ],
-        images: [
-          {
-            src: "agsa-flyers/site-acro-team-desktop.jpg",
-            alt: "The AGSA acro team page",
-            caption: "The acro team page.",
-          },
-          {
-            src: "agsa-flyers/site-birthday-parties-desktop.jpg",
-            alt: "The AGSA birthday parties page",
-            caption: "Birthday parties.",
-          },
-        ],
-      },
-    ],
-    results: {
-      heading: "Results",
-      items: [
-        {
-          figure: "2×",
-          text: "the gym’s income in one year, through the website, marketing and search",
-        },
-      ],
-      source:
-        "Tim’s own figures as the gym’s Business Manager. Site screenshots: Internet Archive, January 2023.",
     },
   },
 ]);
