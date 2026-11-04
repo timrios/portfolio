@@ -57,12 +57,17 @@ const hasReels = reels.some((reel) => reel.projectId === project.id);
         <span class="muted">{labels.whatIDid}:</span> {project.services.join(", ")}
       </li>
       <li>
-        <span class="muted">{siteLabel}:</span> <a href={project.liveUrl}>{shownUrl}</a>
+        <span class="muted">{siteLabel}:</span>{" "}
+        <a class="link" href={project.liveUrl}>
+          {shownUrl}
+        </a>
       </li>
       {project.links.map((link) => (
         <li>
           <span class="muted">{link.label}:</span>{" "}
-          <a href={link.href}>{new URL(link.href).pathname.replaceAll("/", "") || link.label}</a>
+          <a class="link" href={link.href}>
+            {new URL(link.href).pathname.replaceAll("/", "") || link.label}
+          </a>
         </li>
       ))}
     </ul>
@@ -207,9 +212,7 @@ const hasReels = reels.some((reel) => reel.projectId === project.id);
 
   .facts a {
     display: inline-block;
-    padding-block: var(--space-2);
-    color: var(--accent);
-    text-underline-offset: 0.25em;
+    padding-top: var(--space-3);
   }
 
   .browse {

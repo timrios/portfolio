@@ -31,8 +31,10 @@ const { project } = Astro.props;
     <p class="outcome">{project.outcome}</p>
     <p class="services">{project.services.join(", ")}</p>
     <p class="links">
-      <a href={`/work/${project.id}/`}>{site.preview.story}</a>
-      <button type="button" class="open" data-open-preview={project.id}>
+      <a class="link" href={`/work/${project.id}/`}>
+        {site.preview.story}
+      </a>
+      <button type="button" class="open link" data-open-preview={project.id}>
         {site.preview.open}
       </button>
     </p>
@@ -95,27 +97,21 @@ const { project } = Astro.props;
   .links {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-2) var(--space-6);
-    margin-top: var(--space-3);
+    align-items: center;
+    gap: var(--space-4) var(--space-6);
+    margin-top: var(--space-5);
   }
 
-  .links a,
+  /* The button looks like its neighbouring link (global .link style); only the browser's button chrome is removed */
+  /* Standalone links get room above the text for a 44px target; the bar stays right under the words */
+  .links .link {
+    padding-top: 0.85rem;
+  }
+
   .open {
-    all: unset;
+    border: 0;
+    font: inherit;
     cursor: pointer;
-    display: inline-block;
-    padding-block: var(--space-3);
-    font-weight: 600;
-    color: var(--accent);
-    text-decoration: underline;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 0.3em;
-  }
-
-  .links a:focus-visible,
-  .open:focus-visible {
-    outline: 2px solid var(--focus);
-    outline-offset: 2px;
   }
 
   @media (min-width: 1024px) {

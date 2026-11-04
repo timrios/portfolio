@@ -2,27 +2,27 @@
    Light is the default; html[data-theme="dark"] switches every semantic token. A script in the page head sets
    data-theme before the page paints, from the visitor's saved choice or else their device setting. */
 :root {
-  /* Palette: light */
+  /* Palette: the olive family (DESIGN.md → Color) */
+  --color-moss-deep: #1e2416;
+  --color-olive: #55651f;
+  --color-sage: #eef1df;
+  --color-sage-mist: #f9faf4;
   --color-white: #ffffff;
-  --color-mist: #f3f4f6;
-  --color-ink: #111418;
-  --color-slate: #5a626d;
-  --color-haze: #e3e6ea;
-  --color-steel: #8a929c;
-  --color-cobalt: #2747d8;
+  --color-ink: #1c2016;
+  --color-lichen: #586049;
+  --color-reed: #878d76;
   --color-brick: #b42318;
-  /* Palette: dark */
-  --color-graphite: #111317;
-  --color-carbon: #171a1f;
-  --color-charcoal: #1b1e24;
-  --color-frost: #eceef1;
-  --color-pewter: #9aa1ac;
-  --color-seam: #262a31;
-  --color-iron: #6b7280;
-  --color-periwinkle: #8fa8ff;
-  --color-night: #0c0f14;
+  --color-moss-night: #13170d;
+  --color-moss-card: #1c2114;
+  --color-moss-band: #2a3218;
+  --color-chartreuse: #b9cc6a;
+  --color-linen: #eef1e6;
+  --color-dry-grass: #b0b79e;
+  --color-bark: #6e765c;
+  --color-lichen-light: #c4cbb3;
+  --color-fern: #7d8566;
   --color-coral: #ff8a7a;
-  /* Both looks and print */
+  /* Client artwork mat and print */
   --color-paper: #f2eee6;
   --color-black: #000000;
   --color-print-white: #ffffff;
@@ -30,21 +30,22 @@
 
   /* Semantic: light */
   color-scheme: light;
-  --bg: var(--color-white);
-  --band: var(--color-mist);
+  --bg: var(--color-sage-mist);
+  --deep-bg: var(--color-moss-deep);
+  --band: var(--color-sage);
   --surface: var(--color-white);
   --text: var(--color-ink);
-  --text-muted: var(--color-slate);
-  --rule: var(--color-haze);
-  --field-border: var(--color-steel);
-  --accent: var(--color-cobalt);
+  --text-muted: var(--color-lichen);
+  --rule: color-mix(in srgb, var(--color-olive) 14%, transparent);
+  --field-border: var(--color-reed);
+  --accent: var(--color-olive);
   --on-accent: var(--color-white);
   --focus: var(--accent);
   --error: var(--color-brick);
-  --code: var(--color-slate);
+  --code: var(--color-lichen);
   --shadow:
-    0 1px 2px color-mix(in srgb, var(--color-ink) 6%, transparent),
-    0 12px 32px -12px color-mix(in srgb, var(--color-ink) 18%, transparent);
+    0 1px 2px color-mix(in srgb, var(--color-moss-deep) 6%, transparent),
+    0 14px 30px -14px color-mix(in srgb, var(--color-moss-deep) 30%, transparent);
 
   /* Type */
   --font-display: var(--font-bricolage);
@@ -87,20 +88,56 @@
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: var(--color-graphite);
-  --band: var(--color-carbon);
-  --surface: var(--color-charcoal);
-  --text: var(--color-frost);
-  --text-muted: var(--color-pewter);
-  --rule: var(--color-seam);
-  --field-border: var(--color-iron);
-  --accent: var(--color-periwinkle);
-  --on-accent: var(--color-night);
+  --bg: var(--color-moss-night);
+  --deep-bg: var(--color-moss-band);
+  --band: var(--color-moss-card);
+  --surface: var(--color-moss-card);
+  --text: var(--color-linen);
+  --text-muted: var(--color-dry-grass);
+  --rule: color-mix(in srgb, var(--color-chartreuse) 14%, transparent);
+  --field-border: var(--color-bark);
+  --accent: var(--color-chartreuse);
+  --on-accent: var(--color-moss-deep);
   --error: var(--color-coral);
-  --code: var(--color-pewter);
+  --code: var(--color-dry-grass);
   --shadow:
     0 1px 2px color-mix(in srgb, var(--color-black) 40%, transparent),
     0 18px 40px -16px color-mix(in srgb, var(--color-black) 70%, transparent);
+}
+
+/* A whole section in the deep shade (results, closing, footer): every token inside switches to read on deep moss,
+   and a soft glow of the olive gives the band depth */
+.deep {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--deep-bg);
+  color: var(--color-white);
+  --text: var(--color-white);
+  --text-muted: var(--color-lichen-light);
+  --rule: color-mix(in srgb, var(--color-chartreuse) 18%, transparent);
+  --field-border: var(--color-fern);
+  --accent: var(--color-chartreuse);
+  --on-accent: var(--color-moss-deep);
+  --focus: var(--accent);
+}
+
+:root[data-theme="dark"] .deep {
+  --text: var(--color-linen);
+  color: var(--color-linen);
+}
+
+.deep::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -60% 30% -60% -15%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-olive) 55%, transparent),
+    transparent
+  );
+  pointer-events: none;
 }
 
 @media (min-width: 768px) {
@@ -149,11 +186,11 @@ h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  font-weight: 650;
+  font-weight: 700;
   font-variation-settings:
-    "opsz" 64,
-    "wdth" 100;
-  letter-spacing: -0.022em;
+    "opsz" 96,
+    "wdth" 98;
+  letter-spacing: -0.028em;
   line-height: 1.08;
   text-wrap: balance;
 }
@@ -168,6 +205,10 @@ h2 {
 
 h3 {
   font-size: var(--text-3);
+  font-weight: 650;
+  font-variation-settings:
+    "opsz" 32,
+    "wdth" 100;
   letter-spacing: -0.01em;
   line-height: 1.25;
 }
@@ -251,6 +292,7 @@ p {
 .btn--primary {
   background: var(--accent);
   color: var(--on-accent);
+  box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--accent) 80%, transparent);
 }
 
 .btn--primary:hover {
@@ -267,9 +309,26 @@ p {
   box-shadow: inset 0 0 0 1.5px var(--text);
 }
 
-/* A band of color across the page (results, closing) */
+/* A pale panel across the page */
 .band {
   background: var(--band);
+}
+
+/* Designed links: a 2px accent bar under the text that fills in behind it on hover */
+.link {
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+  background: linear-gradient(var(--accent), var(--accent)) 0 100% / 100% 2px no-repeat;
+  padding-bottom: 2px;
+  transition:
+    background-size 0.25s var(--ease-out),
+    color 0.25s;
+}
+
+.link:hover {
+  background-size: 100% 100%;
+  color: var(--on-accent);
 }
 
 /* Printing the resume (or saving it as PDF): plain paper, and only the resume itself */

@@ -26,7 +26,7 @@ from what convinces a buyer.
 
 1. **Results first.** The first screen says what the owner gets (more customers) and shows real work; the next shows
    real numbers, each tied to the kind of business it came from.
-2. **The work brings the color.** Tim's frame is quiet: white (or graphite) and one blue. Client sites, logos and photos
+2. **The work brings the color.** Tim's frame is an olive family (see Color), quiet enough that client sites, logos and photos
    keep their own colors and are what the eye goes to.
 3. **Room to breathe.** Normal-width type at moderate sizes, wide margins, generous section spacing. Nothing fills the
    screen edge to edge.
@@ -45,76 +45,85 @@ from what convinces a buyer.
 
 ## Color
 
+**Olive** (Tim, 2026-11-04). A single accent on white read as a website-builder default, and purple has become an
+AI-design tell. Like Fanzi's teal, one hue becomes a family of three shades, each with a job: the **deep moss** carries
+whole sections (results, closing, footer), the **olive** does buttons and links, the **sage** tints the page and
+pale panels. Earthy, warm and local (Hill Country), and unlike any client's colors (teal, gold, red, ember).
+
 Two complete looks. `html[data-theme]` holds the visitor's choice; with none, the device setting decides
-(`prefers-color-scheme`). An inline script in the head applies a saved choice before the page paints, so there's no
-flash of the wrong look.
+(`prefers-color-scheme`). An inline script in the head applies it before the page paints. The dark look is built from
+the same hue (very deep moss), not a neutral gray, so both looks are one brand.
 
 ### Palette
 
-| Token                  | Hex       | Name        | Look  | Use                                   |
-| ---------------------- | --------- | ----------- | ----- | ------------------------------------- |
-| `--color-white`        | `#FFFFFF` | White       | Light | Page, cards                           |
-| `--color-mist`         | `#F3F4F6` | Mist        | Light | Bands (results, closing), tags        |
-| `--color-ink`          | `#111418` | Ink         | Light | Text                                  |
-| `--color-slate`        | `#5A626D` | Slate       | Light | Secondary text                        |
-| `--color-haze`         | `#E3E6EA` | Haze        | Light | Hairlines (decorative)                |
-| `--color-steel`        | `#8A929C` | Steel       | Light | Form field edges                      |
-| `--color-cobalt`       | `#2747D8` | Cobalt      | Light | Accent: buttons, links, focus         |
-| `--color-brick`        | `#B42318` | Brick       | Light | Errors                                |
-| `--color-graphite`     | `#111317` | Graphite    | Dark  | Page                                  |
-| `--color-carbon`       | `#171A1F` | Carbon      | Dark  | Bands                                 |
-| `--color-charcoal`     | `#1B1E24` | Charcoal    | Dark  | Cards, form fields                    |
-| `--color-frost`        | `#ECEEF1` | Frost       | Dark  | Text                                  |
-| `--color-pewter`       | `#9AA1AC` | Pewter      | Dark  | Secondary text                        |
-| `--color-seam`         | `#262A31` | Seam        | Dark  | Hairlines (decorative)                |
-| `--color-iron`         | `#6B7280` | Iron        | Dark  | Form field edges                      |
-| `--color-periwinkle`   | `#8FA8FF` | Periwinkle  | Dark  | Accent                                |
-| `--color-night`        | `#0C0F14` | Night       | Dark  | Text on the accent                    |
-| `--color-coral`        | `#FF8A7A` | Coral       | Dark  | Errors                                |
-| `--color-paper`        | `#F2EEE6` | Paper       | Both  | Mat behind client artwork drawn for light backgrounds |
-| `--color-black`        | `#000000` | Black       | Print | Resume print                          |
-| `--color-print-white`  | `#FFFFFF` | Print white | Print | Resume print                          |
-| `--color-print-gray`   | `#333333` | Print gray  | Print | Resume print, secondary text          |
+| Token                  | Hex       | Name        | Use                                            |
+| ---------------------- | --------- | ----------- | ---------------------------------------------- |
+| `--color-moss-deep`    | `#1E2416` | Deep moss   | Deep bands in light; cards in dark             |
+| `--color-olive`        | `#55651F` | Olive       | Accent in light: buttons, links, focus         |
+| `--color-sage`         | `#EEF1DF` | Sage        | Pale panels, tags (light)                      |
+| `--color-sage-mist`    | `#F9FAF4` | Sage mist   | Page (light)                                   |
+| `--color-white`        | `#FFFFFF` | White       | Cards (light)                                  |
+| `--color-ink`          | `#1C2016` | Ink         | Text (light); handle and tags on screenshots   |
+| `--color-lichen`       | `#586049` | Lichen      | Secondary text (light)                         |
+| `--color-reed`         | `#878D76` | Reed        | Field edges (light)                            |
+| `--color-brick`        | `#B42318` | Brick       | Errors (light)                                 |
+| `--color-moss-night`   | `#13170D` | Moss night  | Page (dark)                                    |
+| `--color-moss-card`    | `#1C2114` | Moss card   | Cards and fields (dark)                        |
+| `--color-moss-band`    | `#2A3218` | Moss band   | Deep bands (dark)                              |
+| `--color-chartreuse`   | `#B9CC6A` | Chartreuse  | Accent in dark and inside deep bands           |
+| `--color-linen`        | `#EEF1E6` | Linen       | Text (dark)                                    |
+| `--color-dry-grass`    | `#B0B79E` | Dry grass   | Secondary text (dark)                          |
+| `--color-bark`         | `#6E765C` | Bark        | Field edges (dark)                             |
+| `--color-lichen-light` | `#C4CBB3` | Pale lichen | Secondary text inside deep bands               |
+| `--color-fern`         | `#7D8566` | Fern        | Field edges inside deep bands                  |
+| `--color-coral`        | `#FF8A7A` | Coral       | Errors (dark)                                  |
+| `--color-paper`        | `#F2EEE6` | Paper       | Mat behind client artwork drawn for light backgrounds |
+| `--color-black`, `--color-print-white`, `--color-print-gray` | | Print | Resume print only |
 
 ### Semantic tokens
 
-Components use these, never the palette tokens directly (exceptions: the paper mat and the print colors).
+Components use these, never the palette tokens directly (exceptions: the paper mat, the print colors, and the
+slider's handle and tags, which sit on client screenshots).
 
-| Token            | Light   | Dark       | Use                                   |
-| ---------------- | ------- | ---------- | ------------------------------------- |
-| `--bg`           | white   | graphite   | Page                                  |
-| `--band`         | mist    | carbon     | Results band, closing, tags           |
-| `--surface`      | white   | charcoal   | Cards, preview window, form fields    |
-| `--text`         | ink     | frost      | Text                                  |
-| `--text-muted`   | slate   | pewter     | Secondary text                        |
-| `--rule`         | haze    | seam       | Hairlines                             |
-| `--field-border` | steel   | iron       | Form field and toggle edges (3:1)     |
-| `--accent`       | cobalt  | periwinkle | Primary buttons, links, focus, step numbers |
-| `--on-accent`    | white   | night      | Text on the accent                    |
-| `--focus`        | accent  | accent     | Focus outlines                        |
-| `--error`        | brick   | coral      | Form errors                           |
-| `--shadow`       | soft    | deeper     | Screenshots and cards                 |
-| `--code`         | slate   | pewter     | Decorative code behind the preview's build line, at low opacity |
+| Token            | Light      | Dark       | Inside `.deep` bands | Use                          |
+| ---------------- | ---------- | ---------- | -------------------- | ---------------------------- |
+| `--bg`           | sage mist  | moss night | deep moss (dark: moss band) | Page / band background |
+| `--band`         | sage       | moss card  |                      | Pale panels, tags            |
+| `--surface`      | white      | moss card  |                      | Cards, preview window, fields |
+| `--text`         | ink        | linen      | white / linen        | Text                         |
+| `--text-muted`   | lichen     | dry grass  | pale lichen          | Secondary text               |
+| `--rule`         | olive 14%  | chartreuse 14% | chartreuse 18%   | Hairlines (decorative)       |
+| `--field-border` | reed       | bark       | fern                 | Field and toggle edges (3:1) |
+| `--accent`       | olive      | chartreuse | chartreuse           | Buttons, links, focus        |
+| `--on-accent`    | white      | deep moss  | deep moss            | Text on the accent           |
+| `--error`        | brick      | coral      |                      | Errors                       |
+| `--shadow`       | moss-tinted, soft | black, deeper |               | Cards and screenshots        |
+
+`.deep` is a class for whole sections in the deep shade (results band, closing, footer): it switches the tokens above
+for everything inside, and adds a soft glow of the olive.
 
 ### Client colors
 
 Each project's `accent` in `projects.ts` appears only as the small square marker beside the client's name, with a
-1px `--field-border` edge so light colors (Fanzi's seafoam) stay visible on white. It's decorative: the name beside it
-carries the meaning. The build still checks each client color reaches 4.5:1 on black.
+1px `--field-border` edge. It's decorative: the name beside it carries the meaning.
 
 ### Approved pairings
 
-| Text / element    | Background | Light | Dark  |
-| ----------------- | ---------- | ----- | ----- |
-| text              | bg         | 18.5  | 16.0  |
-| text              | band       | 16.8  | 15.0  |
-| text-muted        | bg         | 6.2   | 7.1   |
-| text-muted        | band/card  | 5.6   | 6.4   |
-| on-accent         | accent     | 7.1   | 8.4   |
-| accent (links)    | bg         | 7.1   | 8.2   |
-| field-border      | bg         | 3.2   | 3.9   |
-| error             | bg         | 6.6   | 8.1   |
-| **Never:** rule (1.3) for anything a visitor must see | | | |
+| Text / element  | On                   | Ratio |
+| --------------- | -------------------- | ----- |
+| ink             | sage mist / sage / white | 15.8 / 14.4 / 16.6 |
+| lichen          | sage mist / sage / white | 6.3 / 5.7 / 6.6 |
+| olive (links)   | sage mist / sage / white | 6.1 / 5.6 / 6.4 |
+| white on olive  | button               | 6.4   |
+| reed edge       | sage mist / sage     | 3.3 / 3.0 |
+| white / pale lichen / chartreuse | deep moss | 15.9 / 9.5 / 9.0 |
+| fern edge       | deep moss            | 4.1   |
+| linen           | moss night / moss card / moss band | 15.9 / 14.4 / 11.7 |
+| dry grass       | moss night / moss card / moss band | 8.8 / 7.9 / 6.5 |
+| chartreuse      | moss night / moss card / moss band | 10.3 / 9.3 / 7.6 |
+| deep moss on chartreuse | button (dark) | 9.0   |
+| bark edge       | moss night / moss card | 3.8 / 3.5 |
+| brick / coral   | light page / dark page | 6.3 / 7.9 |
 
 ## Typography
 
@@ -127,7 +136,8 @@ carries the meaning. The build still checks each client color reaches 4.5:1 on b
 **Why:** the same Bricolage, now at its normal width and weight 650: friendly, confident and roomy, where the
 condensed 800 shouted. Self-hosted through Astro's font API.
 
-- Headlines: `"opsz" 64, "wdth" 100`, weight 650, letter-spacing −0.022em, line-height 1.08.
+- Headlines (h1, h2): `"opsz" 96, "wdth" 98`, weight 700, letter-spacing −0.028em, line-height 1.08: the display cut,
+  where the font's ink traps show.
 - h3: weight 650, letter-spacing −0.01em. Body: `"opsz" 14`, weight 400 (600 for emphasis and buttons).
 
 ### Type scale
@@ -219,7 +229,9 @@ Mobile-first; write these directly in `@media` rules.
 | **Preview window** | Opens the client's live site; the build line sweeps over its code while it loads. |
 | **Reels**          | Silent loops, play only while visible, one pause button.                          |
 | **Buttons**        | Hover darkens the accent slightly; ghost buttons gain a stronger edge.            |
-| **Links**          | Underline in the accent, 2px.                                                     |
+| **Links**          | A 2px accent bar under the text that fills in behind it on hover (text turns `--on-accent`). |
+| **Cards**          | Soft moss-tinted shadow, no border; lift 3px on hover.                            |
+| **Primary button** | A soft glow of the accent beneath it.                                             |
 
 ### Reduced motion
 

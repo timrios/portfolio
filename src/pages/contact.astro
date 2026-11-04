@@ -24,7 +24,10 @@ const errorText = c.error.replace("{email}", site.email);
         ))}
       </ol>
       <p class="direct muted">
-        {c.emailPrompt} <a href={`mailto:${site.email}`}>{site.email}</a>
+        {c.emailPrompt}{" "}
+        <a class="link" href={`mailto:${site.email}`}>
+          {site.email}
+        </a>
       </p>
     </div>
 

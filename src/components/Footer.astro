@@ -2,15 +2,19 @@
 import { site } from "../data/site";
 ---
 
-<footer class="footer">
+<footer class="footer deep">
   <div class="container inner">
     <p>
       <strong>{site.name}</strong>
       <span class="muted">{site.footer.about.replace("{city}", `${site.city}, Texas`)}</span>
     </p>
     <p class="contact">
-      <a href={`mailto:${site.email}`}>{site.email}</a>
-      <a href={`sms:${site.phoneSms}`}>{site.phone}</a>
+      <a class="link" href={`mailto:${site.email}`}>
+        {site.email}
+      </a>
+      <a class="link" href={`sms:${site.phoneSms}`}>
+        {site.phone}
+      </a>
       <span class="muted">© {new Date().getFullYear()}</span>
     </p>
   </div>
@@ -18,7 +22,6 @@ import { site } from "../data/site";
 
 <style>
   .footer {
-    border-top: 1px solid var(--rule);
     padding-block: var(--space-7) var(--space-8);
     font-size: var(--text-small);
   }
@@ -39,8 +42,6 @@ import { site } from "../data/site";
 
   .contact a {
     display: inline-block;
-    padding-block: var(--space-2);
-    text-decoration-color: var(--accent);
-    text-underline-offset: 0.25em;
+    margin-block: var(--space-2);
   }
 </style>

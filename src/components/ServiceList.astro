@@ -14,7 +14,7 @@ const published = new Map(projects.map((project) => [project.id, project]));
         <p class="problem">“{service.problem}”</p>
         <p class="text">{service.text}</p>
         {project && (
-          <a class="proof" href={`/work/${project.id}/`}>
+          <a class="proof link" href={`/work/${project.id}/`}>
             {service.proof.text}
           </a>
         )}
@@ -36,9 +36,20 @@ const published = new Map(projects.map((project) => [project.id, project]));
     flex-direction: column;
     gap: var(--space-3);
     padding: var(--space-5);
-    border: 1px solid var(--rule);
     border-radius: var(--radius-card);
     background: var(--surface);
+    box-shadow: var(--shadow);
+    transition: transform 0.25s var(--ease-out);
+  }
+
+  li:hover {
+    transform: translateY(-3px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    li:hover {
+      transform: none;
+    }
   }
 
   .problem {
@@ -54,12 +65,10 @@ const published = new Map(projects.map((project) => [project.id, project]));
   }
 
   .proof {
+    align-self: flex-start;
     margin-top: auto;
-    padding-top: var(--space-2);
     font-size: var(--text-small);
-    color: var(--accent);
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.25em;
+    font-weight: 500;
   }
 
   @media (min-width: 768px) {

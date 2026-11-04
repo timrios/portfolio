@@ -3,7 +3,7 @@
 import { site } from "../data/site";
 ---
 
-<section class="band closing" aria-labelledby="closing-heading">
+<section class="deep closing" aria-labelledby="closing-heading">
   <div class="container inner">
     <h2 id="closing-heading">{site.home.closingHeading}</h2>
     <p class="lede">{site.home.closingText}</p>
@@ -19,6 +19,11 @@ import { site } from "../data/site";
 </section>
 
 <style>
+  /* The glow sits to the right here, so it doesn't repeat the results band's */
+  .closing::before {
+    inset: -60% -10% -60% 40%;
+  }
+
   .closing {
     margin-top: var(--section);
     padding-block: var(--space-9);
