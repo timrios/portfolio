@@ -38,3 +38,6 @@ Video Drop/
 
 # Throwaway comparison images and reference screenshots; deleted once decided
 _compare/
+
+# Resume PDFs (npm run resume-pdf): they carry the phone number
+resume/

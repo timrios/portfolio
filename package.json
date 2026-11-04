@@ -14,7 +14,8 @@
     "format": "prettier --write .",
     "check": "npm run typecheck && npm run build",
     "shots": "node scripts/shots.mjs",
-    "project-screens": "node scripts/project-screens.mjs"
+    "project-screens": "node scripts/project-screens.mjs",
+    "resume-pdf": "node --env-file-if-exists=.env scripts/resume-pdf.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

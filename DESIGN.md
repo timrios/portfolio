@@ -53,6 +53,8 @@ the CSS, then the components.
 | `--color-soot`   | `#0A0A09` | Soot     | Raised surfaces: the build stage, form fields              |
 | `--color-smoke`  | `#4A4741` | Smoke    | The decorative code behind the build. Never for real text  |
 | `--color-flare`  | `#FF8A7A` | Flare    | Error messages only                                        |
+| `--color-print-white` | `#FFFFFF` | Print white | Paper, when the resume is printed or saved as PDF only |
+| `--color-print-gray`  | `#333333` | Print gray  | Secondary text on the printed resume only (12.6:1 on white) |
 
 ### Semantic tokens
 

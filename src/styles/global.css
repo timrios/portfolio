@@ -9,6 +9,9 @@
   --color-smoke: #4a4741;
   --color-pewter: #6b675f;
   --color-flare: #ff8a7a;
+  /* Print only (the resume PDF): plain black on white */
+  --color-print-white: #ffffff;
+  --color-print-gray: #333333;
 
   /* Semantic */
   --bg: var(--color-black);
@@ -226,12 +229,35 @@ p {
 }
 
 .btn--ghost {
+  background: transparent;
   color: var(--text);
   box-shadow: inset 0 0 0 1px var(--rule);
 }
 
 .btn--ghost:hover {
   box-shadow: inset 0 0 0 1px var(--text-muted);
+}
+
+/* Printing the resume (or saving it as PDF): plain paper, and only the resume itself */
+@media print {
+  /* The site is a dark page (color-scheme: dark), which would also darken the paper margins */
+  html:has(.resume) {
+    color-scheme: light;
+  }
+
+  html:has(.resume),
+  html:has(.resume) body {
+    background: var(--color-print-white);
+    color: var(--color-black);
+    font-size: 10pt;
+  }
+
+  /* !important: the header and footer's own display rules are more specific */
+  html:has(.resume) body > header,
+  html:has(.resume) body > footer,
+  html:has(.resume) .skip-link {
+    display: none !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

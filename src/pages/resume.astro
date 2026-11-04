@@ -1,0 +1,356 @@
+---
+// Tim's resume. On screen it follows the site's design; printed (or saved as PDF) it switches to a plain,
+// single-column black-on-white layout that applicant-tracking software reads cleanly. The phone number only
+// appears in the PDF made by `npm run resume-pdf`, which fills the empty [data-phone] slot.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { resume } from "../data/resume";
+import { projects } from "../data/projects";
+import { site } from "../data/site";
+
+const domain = site.domain;
+---
+
+<BaseLayout title={resume.title} description={resume.description} image="social/home.jpg">
+  <article class="resume container">
+    <header class="top">
+      <h1>{resume.name}</h1>
+      <p class="headline">{resume.headline}</p>
+      <p class="contact">
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+        <span data-phone></span>
+        <a href="/">{domain}</a>
+        <span>
+          {site.city}, {site.region}
+        </span>
+      </p>
+      <button class="btn btn--ghost print" type="button" data-print>
+        {resume.printLabel}
+      </button>
+    </header>
+
+    <section aria-labelledby="summary-heading">
+      <h2 id="summary-heading">Summary</h2>
+      <p class="summary">{resume.summary}</p>
+    </section>
+
+    <section aria-labelledby="experience-heading">
+      <h2 id="experience-heading">Experience</h2>
+      {resume.experience.map((job) => (
+        <div class="job">
+          <div class="job-head">
+            <h3>{job.employer}</h3>
+            <p class="mono dates">{job.dates}</p>
+          </div>
+          <p class="place muted">{job.place}</p>
+          {job.roles.map((role) => (
+            <div class="role">
+              <p class="role-title">
+                <strong>{role.title}</strong>
+                {role.dates && <span class="mono dates">{role.dates}</span>}
+              </p>
+              <ul>
+                {role.points.map((point) => (
+                  <li>{point}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      ))}
+    </section>
+
+    <section aria-labelledby="projects-heading">
+      <h2 id="projects-heading">Selected projects</h2>
+      <p class="muted">{resume.projectsIntro}</p>
+      <ul class="projects">
+        {projects.map((project) => (
+          <li>
+            <a href={`/work/${project.id}/`}>
+              <strong>{project.name}</strong>
+            </a>
+            , {project.kind.toLowerCase()}: {project.services.join(", ").toLowerCase()}.
+            <span class="url">
+              {domain}/work/{project.id}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section aria-labelledby="education-heading">
+      <h2 id="education-heading">Education</h2>
+      {resume.education.map((item) => (
+        <div class="job">
+          <div class="job-head">
+            <h3>{item.degree}</h3>
+            <p class="mono dates">{item.dates}</p>
+          </div>
+          <p class="place muted">{item.school}</p>
+          <ul>
+            {item.details.map((detail) => (
+              <li>{detail}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+      <p class="certs">
+        <strong>{resume.certifications.heading}:</strong> {resume.certifications.items.join(", ")}.
+      </p>
+    </section>
+
+    <section aria-labelledby="skills-heading">
+      <h2 id="skills-heading">Skills</h2>
+      <dl class="skills">
+        {resume.skills.map((group) => (
+          <div>
+            <dt>{group.group}</dt>
+            <dd>{group.items.join(", ")}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .resume {
+    max-width: 52rem;
+    padding-block: var(--space-8) var(--section);
+  }
+
+  h1 {
+    font-size: var(--text-display);
+    line-height: 0.88;
+  }
+
+  .headline {
+    margin-top: var(--space-3);
+    font-size: var(--text-lede);
+    color: var(--text-muted);
+  }
+
+  .contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    margin-top: var(--space-5);
+  }
+
+  .contact a {
+    display: inline-block;
+    padding-block: var(--space-2);
+    text-decoration-color: var(--rule);
+    text-underline-offset: 0.2em;
+  }
+
+  .contact span {
+    padding-block: var(--space-2);
+  }
+
+  .contact span:empty {
+    display: none;
+  }
+
+  .print {
+    margin-top: var(--space-5);
+  }
+
+  section {
+    margin-top: var(--space-8);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--rule);
+  }
+
+  h2 {
+    font-size: var(--text-3);
+    font-weight: 700;
+    font-variation-settings:
+      "opsz" 32,
+      "wdth" 85;
+    letter-spacing: 0;
+    margin-bottom: var(--space-4);
+  }
+
+  h3 {
+    font-size: 1.25rem;
+  }
+
+  .job + .job {
+    margin-top: var(--space-6);
+  }
+
+  .job-head,
+  .role-title {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-1) var(--space-4);
+  }
+
+  .dates {
+    color: var(--text-muted);
+  }
+
+  .place {
+    font-size: var(--text-small);
+  }
+
+  .role {
+    margin-top: var(--space-4);
+  }
+
+  ul {
+    margin-top: var(--space-2);
+    padding-left: 1.1rem;
+  }
+
+  li + li {
+    margin-top: var(--space-2);
+  }
+
+  li::marker {
+    color: var(--text-muted);
+  }
+
+  .projects .url {
+    display: none;
+  }
+
+  .projects a {
+    text-decoration-color: var(--rule);
+    text-underline-offset: 0.2em;
+  }
+
+  .certs {
+    margin-top: var(--space-4);
+  }
+
+  .skills div + div {
+    margin-top: var(--space-3);
+  }
+
+  dt {
+    font-weight: 600;
+  }
+
+  dd {
+    color: var(--text-muted);
+  }
+
+  @media (min-width: 768px) {
+    .skills div {
+      display: grid;
+      grid-template-columns: 13rem 1fr;
+      gap: var(--space-4);
+    }
+  }
+
+  /* Printed or saved as PDF: plain black on white, one column, nothing but the resume */
+  @media print {
+    @page {
+      size: letter;
+      margin: 0.55in 0.6in;
+    }
+
+    .print {
+      display: none;
+    }
+
+    .resume {
+      max-width: none;
+      padding: 0 2pt 0 0;
+    }
+
+    h1 {
+      font-size: 24pt;
+      line-height: 1;
+    }
+
+    .headline,
+    .muted,
+    .dates,
+    dd,
+    li::marker {
+      color: var(--color-print-gray);
+    }
+
+    .headline {
+      font-size: 11pt;
+    }
+
+    .contact {
+      margin-top: 4pt;
+      gap: 0 14pt;
+    }
+
+    .contact a,
+    .contact span {
+      padding: 0;
+      color: var(--color-black);
+      text-decoration: none;
+    }
+
+    section {
+      margin-top: 9pt;
+      padding-top: 5pt;
+      border-top: 0.75pt solid var(--color-black);
+      break-inside: auto;
+    }
+
+    h2 {
+      font-size: 11.5pt;
+      margin-bottom: 4pt;
+    }
+
+    h3 {
+      font-size: 11pt;
+    }
+
+    .job,
+    .role {
+      break-inside: avoid;
+    }
+
+    .job + .job {
+      margin-top: 7pt;
+    }
+
+    .role {
+      margin-top: 4pt;
+    }
+
+    ul {
+      margin-top: 2pt;
+    }
+
+    li + li {
+      margin-top: 1.5pt;
+    }
+
+    .projects a {
+      color: var(--color-black);
+      text-decoration: none;
+    }
+
+    .projects .url {
+      display: inline;
+      margin-left: 4pt;
+      color: var(--color-print-gray);
+    }
+
+    .skills div {
+      display: grid;
+      grid-template-columns: 1.6in 1fr;
+      gap: 6pt;
+    }
+
+    .skills div + div {
+      margin-top: 2pt;
+    }
+  }
+</style>
+
+<script>
+  document.querySelector("[data-print]")?.addEventListener("click", () => print());
+</script>

@@ -8,6 +8,7 @@ const aboutSchema = z.object({
   heading: z.string(),
   intro: z.array(z.string()).min(1),
   backgroundHeading: z.string(),
+  resumeLink: z.string(),
   /** In date order: a real sequence, so it's shown as a timeline */
   background: z.array(
     z.object({ id: z.string(), when: z.string(), what: z.string(), detail: z.string() }),
@@ -28,6 +29,7 @@ export const about = aboutSchema.parse({
     "I’m also finishing a degree in Cloud Computing, so what I build is fast, secure and set up properly behind the scenes, from hosting to email.",
   ],
   backgroundHeading: "Background",
+  resumeLink: "Full resume",
   background: [
     {
       id: "freelance",
