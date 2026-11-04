@@ -18,7 +18,11 @@ interface Props {
 }
 
 const { project, next } = Astro.props;
-const host = new URL(project.liveUrl).host;
+// An archived site shows the original address it captured ("agsaflyers.com"), not web.archive.org
+const shownUrl =
+  project.status === "past"
+    ? new URL(project.liveUrl.replace(/^.*?\/(https?:\/\/)/, "$1")).host.replace(/^www\./, "")
+    : new URL(project.liveUrl).host;
 ---
 
 <BaseLayout
@@ -45,10 +49,16 @@ const host = new URL(project.liveUrl).host;
       </div>
       <div>
         <dt class="mono">
-          {project.status === "live" ? site.projectLabels.liveSite : site.projectLabels.preview}
+          {
+            {
+              live: site.projectLabels.liveSite,
+              "in-progress": site.projectLabels.preview,
+              past: site.projectLabels.archived,
+            }[project.status]
+          }
         </dt>
         <dd>
-          <a href={project.liveUrl}>{host}</a>
+          <a href={project.liveUrl}>{shownUrl}</a>
         </dd>
       </div>
       {project.links.map((link) => (

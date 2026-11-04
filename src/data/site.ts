@@ -28,7 +28,12 @@ const siteSchema = z.object({
     closingText: z.string(),
   }),
   footer: z.object({ about: z.string(), colorNote: z.string() }),
-  projectLabels: z.object({ inProgress: z.string(), liveSite: z.string(), preview: z.string() }),
+  projectLabels: z.object({
+    inProgress: z.string(),
+    liveSite: z.string(),
+    preview: z.string(),
+    archived: z.string(),
+  }),
   contact: z.object({
     title: z.string(),
     description: z.string(),
@@ -89,7 +94,12 @@ export const site = siteSchema.parse({
     colorNote:
       "My own colors are black and paper. The accent color you see belongs to whichever client is on screen.",
   },
-  projectLabels: { inProgress: "In progress", liveSite: "Live site", preview: "Preview" },
+  projectLabels: {
+    inProgress: "In progress",
+    liveSite: "Live site",
+    preview: "Preview",
+    archived: "Archived site",
+  },
   contact: {
     title: "Contact",
     description:
