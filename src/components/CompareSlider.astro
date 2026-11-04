@@ -80,19 +80,19 @@ const delay = projects.findIndex((p) => p.id === project.id) * -2.3;
         color-mix(in srgb, var(--client) 70%, var(--accent)),
         transparent 72%
       );
-    opacity: 0.4;
-    animation: breathe 9s ease-in-out infinite alternate;
+    opacity: 0.6;
+    animation: breathe 7s ease-in-out infinite alternate;
     animation-delay: var(--delay);
   }
 
   @keyframes breathe {
     from {
-      opacity: 0.22;
-      scale: 0.92;
+      opacity: 0.3;
+      scale: 0.88;
     }
     to {
-      opacity: 0.62;
-      scale: 1.1;
+      opacity: 0.95;
+      scale: 1.14;
     }
   }
 

@@ -102,17 +102,17 @@ const pieces = [
 
   /* The glow breathes (scale is its own property, so it doesn't fight the pointer's translate) */
   .glow {
-    animation: hero-breathe 10s ease-in-out infinite alternate;
+    animation: hero-breathe 8s ease-in-out infinite alternate;
   }
 
   @keyframes hero-breathe {
     from {
-      scale: 0.94;
-      filter: blur(72px) brightness(0.8);
+      scale: 0.9;
+      filter: blur(72px) brightness(0.7);
     }
     to {
-      scale: 1.08;
-      filter: blur(72px) brightness(1.25);
+      scale: 1.12;
+      filter: blur(72px) brightness(1.4);
     }
   }
 

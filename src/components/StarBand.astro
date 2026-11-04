@@ -1,9 +1,9 @@
 ---
-// The site's ambient life: a band of stars that winds down the whole page like the Milky Way, with empty sky on either
-// side (DESIGN.md → Interaction). Two depths, so it feels like a real space: a far layer that's dim and slow, and a near
-// layer that's brighter and sparser and moves faster, both as it drifts and as the page scrolls. Near stars sometimes
-// carry a client's color. Stars live in page space along the band's path, so the band passes behind sections as
-// the visitor scrolls instead of filling the whole screen.
+// The site's ambient life: a band of stars that winds down the whole page, with empty sky on either side
+// (DESIGN.md → Interaction). Two depths, so it feels like a real space: a far layer that's dim and slow, and a near layer
+// that's brighter and sparser and moves faster, both as it drifts and as the page scrolls. Each star is born somewhere
+// in the band, follows its own gently curving path and fades out, so the band keeps its shape while the motion inside
+// looks natural. Near stars sometimes carry a client's color. Stars fade out around text so they never read as dirt.
 import { projects } from "../data/projects";
 
 const clientColors = projects.map((project) => project.accent);
@@ -15,9 +15,11 @@ const clientColors = projects.map((project) => project.accent);
   data-star-band
   data-clients={JSON.stringify(clientColors)}
 ></canvas>
+<div class="grain" aria-hidden="true"></div>
 
 <style>
-  .star-band {
+  .star-band,
+  .grain {
     position: fixed;
     inset: 0;
     z-index: -1;
@@ -26,8 +28,15 @@ const clientColors = projects.map((project) => project.accent);
     pointer-events: none;
   }
 
+  /* A very fine grain, so the haze's soft gradients don't show as rings on dark screens */
+  .grain {
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
   @media print {
-    .star-band {
+    .star-band,
+    .grain {
       display: none;
     }
   }
@@ -38,16 +47,20 @@ const clientColors = projects.map((project) => project.accent);
   const ctx = canvas?.getContext("2d");
 
   type Star = {
-    t: number; // Position along the band, 0 to 1 of its length
-    off: number; // Distance from the band's center, in band widths
-    speed: number; // Drift along the band, in pixels per second
+    x: number;
+    y: number; // Position in the layer's own space, which scrolls at the layer's speed
+    heading: number; // Direction of travel, in radians
+    turn: number; // How strongly its path curves
+    speed: number; // Pixels per second
+    age: number;
+    life: number; // Seconds from fading in to fading out
     size: number;
     alpha: number;
-    phase: number; // Twinkle and wobble timing
+    phase: number; // Twinkle and curve timing
     rate: number;
     color: string | null; // A client's color, or null for the look's own star color
   };
-  type Layer = { depth: number; stars: Star[] };
+  type Layer = { depth: number; stars: Star[]; spawn: (star: Star) => void };
 
   if (canvas && ctx) {
     const root = document.documentElement;
@@ -56,24 +69,10 @@ const clientColors = projects.map((project) => project.accent);
     const fine = matchMedia("(pointer: fine)").matches;
     const small = innerWidth < 768;
 
-    // Roughly bell-shaped, so stars crowd the band's center and thin out at its edges
+    // Roughly bell-shaped, from about -2 to 2
     const gauss = () => Math.random() + Math.random() + Math.random() + Math.random() - 2;
 
-    let colors = { star: "", far: "", haze: "", dark: true };
-    const readColors = () => {
-      const dark = root.dataset.theme !== "light";
-      const css = getComputedStyle(root);
-      colors = {
-        dark,
-        star: css.getPropertyValue(dark ? "--color-frost" : "--color-prussian").trim(),
-        far: css.getPropertyValue(dark ? "--color-sky" : "--color-steel").trim(),
-        haze: css.getPropertyValue(dark ? "--color-prussian" : "--color-sky").trim(),
-      };
-      hazeSprite = makeHaze(colors.haze);
-    };
-
     // A soft cloud, drawn once and stamped for the haze in the band
-    let hazeSprite: HTMLCanvasElement;
     const makeHaze = (color: string) => {
       const sprite = document.createElement("canvas");
       sprite.width = sprite.height = 256;
@@ -86,58 +85,147 @@ const clientColors = projects.map((project) => project.accent);
       return sprite;
     };
 
-    const pageHeight = () => Math.max(document.documentElement.scrollHeight, innerHeight);
-
-    // Stars gather in clumps along the band, with gaps between: this is what keeps it from looking like a pattern
-    const clumps = Array.from({ length: 26 }, () => ({
-      t: Math.random(),
-      weight: 0.4 + Math.random(),
-    }));
-    const alongBand = () => {
-      if (Math.random() < 0.35) return Math.random();
-      const clump = clumps[Math.floor(Math.random() * clumps.length)];
-      return (clump.t + gauss() * 0.018 * clump.weight + 1) % 1;
+    let colors = { star: "", far: "", dark: true };
+    let hazeSprite: HTMLCanvasElement;
+    const readColors = () => {
+      const dark = root.dataset.theme !== "light";
+      const css = getComputedStyle(root);
+      colors = {
+        dark,
+        star: css.getPropertyValue(dark ? "--color-frost" : "--color-prussian").trim(),
+        far: css.getPropertyValue(dark ? "--color-sky" : "--color-steel").trim(),
+      };
+      hazeSprite = makeHaze(css.getPropertyValue(dark ? "--color-prussian" : "--color-sky").trim());
     };
 
-    const scale = small ? 0.4 : 1;
-    const screens = pageHeight() / innerHeight;
-    const makeLayer = (depth: number, perScreen: number, make: () => Partial<Star>): Layer => ({
-      depth,
-      stars: Array.from({ length: Math.round(perScreen * screens * scale) }, () => ({
-        t: alongBand(),
-        off: gauss(),
-        speed: 4,
-        size: 1,
-        alpha: 0.5,
-        phase: Math.random() * Math.PI * 2,
-        rate: 0.4 + Math.random() * 1.2,
-        color: null,
-        ...make(),
-      })),
-    });
+    const pageHeight = () => Math.max(document.documentElement.scrollHeight, innerHeight);
 
-    const far = makeLayer(0.55, 760, () => ({
-      speed: 3 + Math.random() * 5,
-      size: 0.55 + Math.random() * 0.95,
-      alpha: 0.35 + Math.random() * 0.55,
-    }));
-    const near = makeLayer(1.15, 60, () => ({
-      speed: 10 + Math.random() * 28,
-      size: 1.2 + Math.random() * 1.7,
-      alpha: 0.55 + Math.random() * 0.45,
-      off: gauss() * 1.35,
-      color: Math.random() < 0.17 ? clients[Math.floor(Math.random() * clients.length)] : null,
-    }));
-    const hazes = Array.from({ length: Math.round(screens * 5) }, () => ({
-      t: Math.random(),
-      off: gauss() * 0.55,
-      size: 260 + Math.random() * 420,
-      alpha: 0.07 + Math.random() * 0.13,
-    }));
+    let width = innerWidth;
+    let height = innerHeight;
+    let bandWidth = Math.max(95, width * 0.11);
+    let page = pageHeight();
 
     // The band's center at a point along it: swings across the page in a long, uneven S
-    const bandX = (t: number, w: number) =>
-      w * (0.56 + 0.34 * Math.sin(t * 9.4 + 0.5) + 0.1 * Math.sin(t * 23 + 2));
+    const bandX = (t: number) =>
+      width * (0.56 + 0.34 * Math.sin(t * 9.4 + 0.5) + 0.1 * Math.sin(t * 23 + 2));
+    const span = (depth: number) => (page - height) * (still ? 1 : depth) + height + 200;
+
+    // Stars gather in clumps along the band, with dark gaps between: this is what keeps it from looking like a pattern
+    const clumps = Array.from({ length: Math.round((page / height) * 7) }, () => ({
+      t: Math.random(),
+      spread: 0.006 + Math.random() * 0.016,
+    }));
+    const alongBand = () => {
+      if (Math.random() < 0.14) return Math.random();
+      const clump = clumps[Math.floor(Math.random() * clumps.length)];
+      return (clump.t + gauss() * clump.spread + 1) % 1;
+    };
+    // Dense at the core, thinning toward the edges
+    const acrossBand = () => (Math.random() < 0.62 ? gauss() * 0.42 : gauss() * 1.15);
+
+    const makeLayer = (
+      depth: number,
+      perScreen: number,
+      look: () => Pick<Star, "size" | "alpha" | "speed" | "life" | "color">,
+    ): Layer => {
+      const spawn = (star: Star) => {
+        const t = alongBand();
+        const s = span(depth);
+        star.x = bandX(t) + acrossBand() * bandWidth;
+        star.y = t * s;
+        // Most stars roughly follow the band, either way along it; some cross it at any angle
+        const slope = Math.atan2(s * 0.001, bandX(t + 0.001) - bandX(t));
+        const crossing = Math.random() < 0.18;
+        star.heading = crossing
+          ? Math.random() * Math.PI * 2
+          : slope + gauss() * 0.55 + (Math.random() < 0.3 ? Math.PI : 0);
+        star.turn = 0.08 + Math.random() * 0.28;
+        star.age = 0;
+        star.phase = Math.random() * Math.PI * 2;
+        star.rate = 0.4 + Math.random() * 1.2;
+        Object.assign(star, look());
+      };
+      const stars = Array.from(
+        { length: Math.round(perScreen * (page / height) * (small ? 0.4 : 1)) },
+        () => {
+          const star = {} as Star;
+          spawn(star);
+          star.age = Math.random() * star.life; // Start mid-life, so the band is already there on arrival
+          return star;
+        },
+      );
+      return { depth, stars, spawn };
+    };
+
+    const far = makeLayer(0.55, 900, () => ({
+      speed: 3 + Math.random() * 6,
+      size: 0.5 + Math.random() * 0.8,
+      alpha: 0.3 + Math.random() * 0.55,
+      life: 18 + Math.random() * 40,
+      color: null,
+    }));
+    const near = makeLayer(1.15, 70, () => ({
+      speed: 9 + Math.random() * 30,
+      size: 1 + Math.random() * 1.5,
+      alpha: 0.55 + Math.random() * 0.45,
+      life: 9 + Math.random() * 20,
+      color: Math.random() < 0.17 ? clients[Math.floor(Math.random() * clients.length)] : null,
+    }));
+    // Haze follows the clumps, so the dark gaps stay dark
+    const hazes = clumps.map((clump) => ({
+      t: clump.t,
+      off: gauss() * 0.35,
+      size: 300 + Math.random() * 380,
+      alpha: 0.2 + Math.random() * 0.2,
+    }));
+
+    // Where text sits, in page coordinates: a coarse grid from 0 (keep clear) to 1 (open sky), so each star's lookup
+    // is instant. Rebuilt when the layout changes.
+    const CELL = 16;
+    let mask = new Uint8Array(0);
+    let cols = 0;
+    let rows = 0;
+    const buildMask = () => {
+      cols = Math.ceil(width / CELL) + 1;
+      rows = Math.ceil(page / CELL) + 1;
+      mask = new Uint8Array(cols * rows);
+      const mark = (r: DOMRect | DOMRectReadOnly, pad: number, value: number) => {
+        if (!r.width || !r.height) return;
+        const x0 = Math.max(0, Math.floor((r.left - pad) / CELL));
+        const x1 = Math.min(cols - 1, Math.floor((r.right + pad) / CELL));
+        const y0 = Math.max(0, Math.floor((r.top + scrollY - pad) / CELL));
+        const y1 = Math.min(rows - 1, Math.floor((r.bottom + scrollY + pad) / CELL));
+        for (let y = y0; y <= y1; y++) {
+          for (let x = x0; x <= x1; x++) mask[y * cols + x] = Math.max(mask[y * cols + x], value);
+        }
+      };
+      const area = document.querySelector("main");
+      if (!area) return;
+      const walker = document.createTreeWalker(area, NodeFilter.SHOW_TEXT);
+      const range = document.createRange();
+      for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+        if (!node.textContent?.trim() || node.parentElement?.closest("dialog, .deep, pre"))
+          continue;
+        range.selectNodeContents(node);
+        for (const r of range.getClientRects()) {
+          mark(r, 26, 1); // A soft edge around each line
+          mark(r, 6, 2); // Clear right at the text
+        }
+      }
+      for (const el of area.querySelectorAll<HTMLElement>(
+        ".btn, input, textarea, .none, [data-theme-toggle]",
+      )) {
+        if (el.closest("dialog, .deep")) continue;
+        mark(el.getBoundingClientRect(), 6, 2);
+      }
+    };
+    const visibility = (x: number, pageY: number) => {
+      const col = Math.floor(x / CELL);
+      const row = Math.floor(pageY / CELL);
+      if (col < 0 || col >= cols || row < 0 || row >= rows) return 1;
+      const value = mask[row * cols + col];
+      return value === 2 ? 0 : value === 1 ? 0.3 : 1;
+    };
 
     let pointerX = 0;
     let pointerY = 0;
@@ -150,12 +238,6 @@ const clientColors = projects.map((project) => project.accent);
       });
     }
 
-    let last = performance.now();
-    let width = 0;
-    let height = 0;
-    let bandWidth = 0;
-    let page = 0;
-
     const size = () => {
       const dpr = Math.min(devicePixelRatio || 1, 1.75);
       width = innerWidth;
@@ -165,28 +247,45 @@ const clientColors = projects.map((project) => project.accent);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       bandWidth = Math.max(95, width * 0.11);
       page = pageHeight();
+      buildMask();
     };
 
     const drawLayer = (layer: Layer, dt: number, time: number) => {
-      // A layer moving at a different speed from the page spans a different height, so it still fills the whole scroll
       const factor = still ? 1 : layer.depth;
-      const span = (page - height) * factor + height + 200;
-      const y0 = scrollY * factor;
+      const scroll = scrollY * factor;
+      ctx.fillStyle = layer === far ? colors.far : colors.star;
+      let current = ctx.fillStyle;
       for (const star of layer.stars) {
-        if (!still) star.t = (star.t + (star.speed * dt) / span) % 1;
-        const y = star.t * span - y0 - 100 + easedY * 26 * layer.depth;
+        if (!still) {
+          star.age += dt;
+          if (star.age > star.life) {
+            layer.spawn(star);
+          } else {
+            star.heading += Math.sin(time * 0.3 * star.rate + star.phase) * star.turn * dt;
+            star.x += Math.cos(star.heading) * star.speed * dt;
+            star.y += Math.sin(star.heading) * star.speed * dt;
+          }
+        }
+        const y = star.y - scroll - 100 + easedY * 26 * layer.depth;
         if (y < -8 || y > height + 8) continue;
-        const wobble = still ? 0 : Math.sin(time * 0.25 * star.rate + star.phase) * 7 * layer.depth;
-        const x = bandX(star.t, width) + star.off * bandWidth + wobble + easedX * 26 * layer.depth;
-        const twinkle = still ? 1 : 0.65 + 0.35 * Math.sin(time * star.rate + star.phase);
-        ctx.globalAlpha = star.alpha * twinkle * (colors.dark ? 1 : 0.8);
-        ctx.fillStyle = star.color ?? (layer === far ? colors.far : colors.star);
+        const x = star.x + easedX * 26 * layer.depth;
+        const clear = visibility(x, y + scrollY);
+        if (!clear) continue;
+        const fade = still ? 1 : Math.sqrt(Math.sin((Math.PI * star.age) / star.life));
+        const twinkle = still ? 1 : 0.7 + 0.3 * Math.sin(time * star.rate + star.phase);
+        ctx.globalAlpha = star.alpha * fade * twinkle * clear * (colors.dark ? 1 : 0.8);
+        const fill = star.color ?? (layer === far ? colors.far : colors.star);
+        if (fill !== current) {
+          ctx.fillStyle = fill;
+          current = fill;
+        }
         ctx.beginPath();
         ctx.arc(x, y, star.size, 0, Math.PI * 2);
         ctx.fill();
       }
     };
 
+    let last = performance.now();
     const draw = (now: number) => {
       const dt = Math.min(0.1, (now - last) / 1000);
       last = now;
@@ -195,17 +294,15 @@ const clientColors = projects.map((project) => project.accent);
       easedY += (pointerY - easedY) * 0.04;
       ctx.clearRect(0, 0, width, height);
 
-      // Haze first, on the far layer's depth, breathing very slowly
+      // Haze first, at the far layer's depth, breathing very slowly
+      const s = span(far.depth);
       const factor = still ? 1 : far.depth;
-      const span = (page - height) * factor + height + 200;
       for (const cloud of hazes) {
-        const y = cloud.t * span - scrollY * factor - 100;
+        const y = cloud.t * s - scrollY * factor - 100;
         if (y < -cloud.size || y > height + cloud.size) continue;
-        const x = bandX(cloud.t, width) + cloud.off * bandWidth;
-        ctx.globalAlpha =
-          cloud.alpha *
-          (colors.dark ? 1.5 : 0.8) *
-          (still ? 1 : 0.8 + 0.2 * Math.sin(time * 0.3 + cloud.t * 40));
+        const x = bandX(cloud.t) + cloud.off * bandWidth;
+        const pulse = still ? 1 : 0.8 + 0.2 * Math.sin(time * 0.3 + cloud.t * 40);
+        ctx.globalAlpha = cloud.alpha * (colors.dark ? 1 : 0.28) * pulse;
         ctx.drawImage(hazeSprite, x - cloud.size / 2, y - cloud.size / 2, cloud.size, cloud.size);
       }
 
@@ -222,10 +319,16 @@ const clientColors = projects.map((project) => project.accent);
     readColors();
     size();
     addEventListener("resize", size);
+    let pending = 0;
     new ResizeObserver(() => {
-      page = pageHeight();
-      if (still) draw(performance.now());
+      clearTimeout(pending);
+      pending = window.setTimeout(() => {
+        page = pageHeight();
+        buildMask();
+        if (still) draw(performance.now());
+      }, 200);
     }).observe(document.body);
+    void document.fonts?.ready.then(buildMask);
     new MutationObserver(() => {
       readColors();
       if (still) draw(performance.now());

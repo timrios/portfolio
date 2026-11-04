@@ -226,8 +226,8 @@ Mobile-first; write these directly in `@media` rules.
 | ------------------ | --------------------------------------------------------------------------------- |
 | **Collage**        | Each piece shifts up to 14px with the pointer, at its own depth, and settles back when the pointer leaves. Fine pointers only. |
 | **Client glow**    | Behind the collage, a soft blur of the featured clients' own colors (their `accent` in `projects.ts`), stronger in light (0.8) than dark (0.45) so it reads on white. It drifts slowly with the pointer, the deepest layer. |
-| **Star band**      | Behind every page, a band of tiny stars winds down the full page like the Milky Way, with empty sky on either side and clumps inside it. Two depths: a slow, dim far layer with soft haze, and a sparser near layer of larger stars that drift faster and scroll faster. About one near star in six carries a client's color. Stars twinkle and shift slightly with the pointer. Sky and frost in dark; Prussian and steel in light. Fewer stars on phones. |
-| **Client light**   | Behind each before/after, a soft blur of that client's color breathes (opacity and scale) over 9s, each out of step with the others. The hero's glow breathes too. |
+| **Star band**      | Behind every page, a band of tiny stars winds down the full page, dense at its core, thinning at its edges, in clumps with dark gaps between, with empty sky on either side. Two depths: a slow, dim far layer with soft haze, and a sparser near layer of larger stars that drift and scroll faster. Each star has its own heading and gently curving path, and fades in and out over its life, so the band keeps its shape while the motion inside it looks natural. About one near star in six carries a client's color. Stars fade out around text and small controls. Sky and frost in dark; Prussian and steel in light. Fewer stars on phones. A fine grain over the background keeps the haze from banding. |
+| **Client light**   | Behind each before/after, a blur of that client's color visibly breathes (opacity 0.3 to 0.95, scale 0.88 to 1.14) over 7s, each out of step with the others. The hero's glow breathes too. |
 | **Results**        | Each figure counts up from zero once, over 1.2s, when the band first comes into view. The final value is in the HTML, so screen readers and no-script see it. |
 | **Before/after**   | A range slider wipes between the old and new site (`clip-path`); arrow keys move it. Starts at 50%. |
 | **Theme toggle**   | Switches with a circular reveal from the button (View Transitions), 0.5s; instant where unsupported. |
@@ -250,7 +250,7 @@ instantly, the preview's line holds still, Reels start paused.
 
 - **Header:** wordmark, links, the theme toggle, and a "Text" pill button with the number.
 - **Footer:** name and city, email, text number, year.
-- **StarBand:** the star band; one fixed canvas behind every page, from the layout. Hidden in print.
+- **StarBand:** the star band; one fixed canvas and grain layer behind every page, from the layout. Hidden in print. Never named as space in copy: it's atmosphere, not a theme.
 - **HomeHero:** the short headline, what Tim does, the ask box, timing note; the client collage.
 - **AskBox:** a labeled field with typed examples and a "Get a free plan" button, posting to `/contact/?need=…`, which prefills the message.
 - **ResultsBand:** home: the featured results (`band` text in `projects.ts`), each naming its kind of business. Project
