@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Closing from "../components/Closing.astro";
+import LogoRow from "../components/LogoRow.astro";
 import { about } from "../data/about";
 ---
 
@@ -14,6 +15,10 @@ import { about } from "../data/about";
     </div>
   </header>
 
+  <div class="container">
+    <LogoRow heading={about.logosHeading} />
+  </div>
+
   <section class="container section block" aria-labelledby="background-heading">
     <div>
       <h2 id="background-heading">{about.backgroundHeading}</h2>
@@ -24,7 +29,7 @@ import { about } from "../data/about";
     <ol class="timeline">
       {about.background.map((item) => (
         <li>
-          <p class="mono when">{item.when}</p>
+          <p class="when">{item.when}</p>
           <div>
             <h3>{item.what}</h3>
             <p>{item.detail}</p>
@@ -60,17 +65,15 @@ import { about } from "../data/about";
   }
 
   .intro {
-    padding-block: var(--space-8) var(--space-9);
+    padding-block: var(--space-8);
   }
 
   h1 {
-    font-size: var(--text-display);
-    line-height: 0.88;
-    max-width: 14ch;
+    max-width: 16ch;
   }
 
   .text {
-    margin-top: var(--space-7);
+    margin-top: var(--space-6);
     max-width: var(--content-narrow);
   }
 
@@ -107,7 +110,8 @@ import { about } from "../data/about";
   }
 
   .when {
-    color: var(--text-muted);
+    font-weight: 600;
+    color: var(--accent);
   }
 
   .timeline h3,
@@ -126,14 +130,16 @@ import { about } from "../data/about";
     margin-top: 0.35rem;
   }
 
-  .principles {
-    display: grid;
-    gap: var(--space-6);
+  .principles li {
+    padding: var(--space-5);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-card);
+    background: var(--surface);
   }
 
-  .principles li {
-    padding-top: var(--space-5);
-    border-top: 1px solid var(--rule);
+  .principles {
+    display: grid;
+    gap: var(--space-4);
   }
 
   @media (min-width: 768px) {

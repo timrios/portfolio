@@ -58,6 +58,11 @@ const projectSchema = z.object({
   links: z.array(z.object({ label: z.string(), href: z.url() })),
   /** One or two sentences for the home page */
   summary: z.string(),
+  /**
+   * The client's logo, for the "Businesses I've worked with" row: a file in src/assets/images/ and the background it
+   * was designed for (light or dark). Shown as-is, never recolored.
+   */
+  logo: z.object({ src: z.string(), on: z.enum(["light", "dark"]) }),
   /** The one result that sums up the project, in bold beside its before and after */
   outcome: z.string(),
   /** What the business had before, in a few words, when there's no old site to show (null when there is) */
@@ -117,6 +122,7 @@ const all = z.array(projectSchema).parse([
     links: [{ label: "Instagram", href: "https://www.instagram.com/fanzimobilepetgrooming/" }],
     summary:
       "The logo, the treat bags and the van wrap came first. The website, the shop and the social media all grew out of the van customers already recognize on their street.",
+    logo: { src: "fanzi-pet/logo.webp", on: "light" },
     outcome: "Prices, booking and an address check, all on one page",
     beforeShort: null,
     screens: {
@@ -267,6 +273,7 @@ const all = z.array(projectSchema).parse([
     links: [{ label: "Instagram", href: "https://www.instagram.com/hairbychris_sa" }],
     summary:
       "From a booking-app page to a brand of his own. Thousands now find him on Google and Apple Maps while looking for any salon, and his revenue is up sharply year over year.",
+    logo: { src: "hair-by-christopher/logo.png", on: "dark" },
     outcome: "299 direction requests in five months",
     beforeShort: "A booking-app page, and nothing on Google",
     screens: {
@@ -395,6 +402,7 @@ const all = z.array(projectSchema).parse([
     links: [],
     summary:
       "The logo, the website and the marketing for a local gym. In 2012, its first year with them, the gym’s income doubled.",
+    logo: { src: "agsa-flyers/logo.png", on: "light" },
     outcome: "Income doubled in a year",
     beforeShort: null,
     screens: {
@@ -522,6 +530,7 @@ const all = z.array(projectSchema).parse([
     links: [],
     summary:
       "Off a restaurant-platform template and onto a site drawn from the restaurant itself: the logo, the fire and the dining room. In progress: online ordering comes next.",
+    logo: { src: "shawarma-way/logo.png", on: "light" },
     outcome: "The main photo loads almost twice as fast on phones",
     beforeShort: null,
     screens: {

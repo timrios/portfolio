@@ -7,6 +7,7 @@ const aboutSchema = z.object({
   description: z.string(),
   heading: z.string(),
   intro: z.array(z.string()).min(1),
+  logosHeading: z.string(),
   backgroundHeading: z.string(),
   resumeLink: z.string(),
   /** In date order: a real sequence, so it's shown as a timeline */
@@ -28,6 +29,7 @@ export const about = aboutSchema.parse({
     "In between, I spent four years at JPMorgan Chase, where I automated every recurring quality report in Power BI and cut the team’s reporting work by 80%. The habit of measuring stuck: every project here shows real numbers.",
     "I’m also finishing a degree in Cloud Computing, so what I build is fast, secure and set up properly behind the scenes, from hosting to email.",
   ],
+  logosHeading: "Businesses I’ve worked with",
   backgroundHeading: "Background",
   resumeLink: "Full resume",
   background: [

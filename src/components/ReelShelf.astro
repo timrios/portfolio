@@ -5,16 +5,29 @@
 import { reels, reelsSection } from "../data/reels";
 import { projects } from "../data/projects";
 
+interface Props {
+  /** Show only this project's Reels, without the section heading (inside a project page) */
+  projectId?: string;
+}
+
+const { projectId } = Astro.props;
 const clients = new Map(projects.map((project) => [project.id, project]));
+const shown = projectId ? reels.filter((reel) => reel.projectId === projectId) : reels;
+const Wrapper = projectId ? "div" : "section";
 ---
 
-<section class="container section" aria-labelledby="reels-heading">
-  <div class="head">
-    <h2 id="reels-heading">{reelsSection.heading}</h2>
-    <p class="lede">{reelsSection.intro}</p>
-  </div>
+<Wrapper
+  class:list={["reels", { container: !projectId, section: !projectId, inline: projectId }]}
+  aria-labelledby={projectId ? undefined : "reels-heading"}
+>
+  {!projectId && (
+    <div class="head">
+      <h2 id="reels-heading">{reelsSection.heading}</h2>
+      <p class="lede">{reelsSection.intro}</p>
+    </div>
+  )}
   <ul class="shelf">
-    {reels.map((reel) => (
+    {shown.map((reel) => (
       <li style={`--client: ${clients.get(reel.projectId)?.accent}`}>
         <div class="device">
           <video
@@ -48,7 +61,7 @@ const clients = new Map(projects.map((project) => [project.id, project]));
     </button>
     <p>{reelsSection.note}</p>
   </div>
-</section>
+</Wrapper>
 
 <style>
   .head {
@@ -58,6 +71,10 @@ const clients = new Map(projects.map((project) => [project.id, project]));
 
   .head h2 {
     max-width: 20ch;
+  }
+
+  .inline .shelf {
+    margin-top: var(--space-6);
   }
 
   .shelf {
@@ -176,7 +193,7 @@ const clients = new Map(projects.map((project) => [project.id, project]));
 
 <script>
   const videos = [...document.querySelectorAll<HTMLVideoElement>("[data-reel]")];
-  const toggle = document.querySelector<HTMLButtonElement>("[data-reels-toggle]");
+  const toggles = [...document.querySelectorAll<HTMLButtonElement>("[data-reels-toggle]")];
   let paused = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const visible = new Set<HTMLVideoElement>();
 
@@ -185,7 +202,7 @@ const clients = new Map(projects.map((project) => [project.id, project]));
       if (!paused && visible.has(video)) void video.play().catch(() => {});
       else video.pause();
     }
-    if (toggle) {
+    for (const toggle of toggles) {
       toggle.setAttribute("aria-pressed", String(paused));
       toggle.textContent = paused ? toggle.dataset.play! : toggle.dataset.pause!;
     }
@@ -204,9 +221,11 @@ const clients = new Map(projects.map((project) => [project.id, project]));
   );
   videos.forEach((video) => watcher.observe(video));
 
-  toggle?.addEventListener("click", () => {
-    paused = !paused;
-    sync();
-  });
+  for (const toggle of toggles) {
+    toggle.addEventListener("click", () => {
+      paused = !paused;
+      sync();
+    });
+  }
   sync();
 </script>

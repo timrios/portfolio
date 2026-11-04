@@ -1,10 +1,17 @@
 ---
+// A project page, ordered for a business owner: what the business is, the results, the before and after (with the
+// phone view), then what I did section by section, the client's words, and the next project.
 import type { GetStaticPaths } from "astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Img from "../../components/Img.astro";
 import Closing from "../../components/Closing.astro";
+import CompareSlider from "../../components/CompareSlider.astro";
 import ProjectPreview from "../../components/ProjectPreview.astro";
+import ResultsBand from "../../components/ResultsBand.astro";
+import ReelShelf from "../../components/ReelShelf.astro";
 import { projects, type Project } from "../../data/projects";
+import { visibleQuotes } from "../../data/quotes";
+import { reels } from "../../data/reels";
 import { site } from "../../data/site";
 
 export const getStaticPaths = (() =>
@@ -19,11 +26,17 @@ interface Props {
 }
 
 const { project, next } = Astro.props;
+const labels = site.projectLabels;
 // An archived site shows the original address it captured ("agsaflyers.com"), not web.archive.org
 const shownUrl =
   project.status === "past"
     ? new URL(project.liveUrl.replace(/^.*?\/(https?:\/\/)/, "$1")).host.replace(/^www\./, "")
-    : new URL(project.liveUrl).host;
+    : new URL(project.liveUrl).host.replace(/^www\./, "");
+const siteLabel = { live: labels.liveSite, "in-progress": labels.preview, past: labels.archived }[
+  project.status
+];
+const quote = visibleQuotes.find((q) => q.projectId === project.id);
+const hasReels = reels.some((reel) => reel.projectId === project.id);
 ---
 
 <BaseLayout
@@ -32,138 +45,109 @@ const shownUrl =
   image={project.screens.desktop.src}
 >
   <header class="intro container" style={`--client: ${project.accent}`}>
-    <p class="mono path">
-      work/{project.id}
-      {project.status === "in-progress" && (
-        <span class="status">{site.projectLabels.inProgress}</span>
-      )}
+    <p class="kind">
+      <span class="marker" aria-hidden="true"></span>
+      {project.kind}, {project.place}
+      {project.status === "in-progress" && <span class="status">{labels.inProgress}</span>}
     </p>
     <h1>{project.name}</h1>
-    <p class="lede">
-      {project.business}. {project.place}.
-    </p>
-    <dl class="facts">
-      <div>
-        <dt class="mono">What I did</dt>
-        <dd>{project.services.join(", ")}</dd>
-      </div>
-      <div>
-        <dt class="mono">
-          {
-            {
-              live: site.projectLabels.liveSite,
-              "in-progress": site.projectLabels.preview,
-              past: site.projectLabels.archived,
-            }[project.status]
-          }
-        </dt>
-        <dd>
-          <a href={project.liveUrl}>{shownUrl}</a>
-        </dd>
-      </div>
+    <p class="lede">{project.summary}</p>
+    <ul class="facts">
+      <li>
+        <span class="muted">{labels.whatIDid}:</span> {project.services.join(", ")}
+      </li>
+      <li>
+        <span class="muted">{siteLabel}:</span> <a href={project.liveUrl}>{shownUrl}</a>
+      </li>
       {project.links.map((link) => (
-        <div>
-          <dt class="mono">{link.label}</dt>
-          <dd>
-            <a href={link.href}>{new URL(link.href).pathname.replaceAll("/", "") || link.label}</a>
-          </dd>
-        </div>
+        <li>
+          <span class="muted">{link.label}:</span>{" "}
+          <a href={link.href}>{new URL(link.href).pathname.replaceAll("/", "") || link.label}</a>
+        </li>
       ))}
-    </dl>
+    </ul>
     <button type="button" class="btn btn--primary browse" data-open-preview={project.id}>
       {site.preview.open}
     </button>
     <ProjectPreview project={project} />
   </header>
 
-  <div class="screens container">
-    <div class="desktop">
-      <Img
-        src={project.screens.desktop.src}
-        alt={project.screens.desktop.alt}
-        sizes="(min-width: 1024px) 70vw, 100vw"
-        priority
-      />
-    </div>
-    <div class="phone">
-      <Img
-        src={project.screens.phone.src}
-        alt={project.screens.phone.alt}
-        sizes="(min-width: 1024px) 18vw, 40vw"
-        priority
-      />
-    </div>
-  </div>
+  <ResultsBand
+    items={project.results.items}
+    source={project.results.source}
+    label={project.results.heading}
+  />
 
-  <section class="container section block" aria-labelledby="before-heading">
-    <p class="mono label">Before</p>
-    <div>
+  <section class="container section" aria-labelledby="before-heading">
+    <div class="before-text">
       <h2 id="before-heading">{project.before.heading}</h2>
       <p class="body">{project.before.text}</p>
-      {project.before.image && (
-        <figure class="figure">
-          <Img
-            src={project.before.image.src}
-            alt={project.before.image.alt}
-            sizes="(min-width: 1024px) 55vw, 100vw"
-          />
-          {project.before.image.caption && (
-            <figcaption class="muted">{project.before.image.caption}</figcaption>
-          )}
-        </figure>
-      )}
+    </div>
+    <div class="compare">
+      <CompareSlider project={project} sizes="(min-width: 1024px) 60vw, 100vw" />
+      <figure class="phone">
+        <Img
+          src={project.screens.phone.src}
+          alt={project.screens.phone.alt}
+          sizes="(min-width: 1024px) 16vw, 40vw"
+        />
+        <figcaption>{labels.phoneView}</figcaption>
+      </figure>
     </div>
   </section>
 
   {project.sections.map((section, s) => (
     <section class="container section block" aria-labelledby={`section-${s}`}>
-      <p class="mono label">{section.service}</p>
-      <div>
-        <h2 id={`section-${s}`}>{section.heading}</h2>
-        <p class="body">{section.text}</p>
-        {section.points.length > 0 && (
-          <ul class="points">
-            {section.points.map((point) => (
-              <li>{point}</li>
-            ))}
-          </ul>
-        )}
-        {section.images.length > 0 && (
-          <div class="gallery">
-            {section.images.map((image) => (
-              <figure class:list={["figure", image.treatment, { wide: image.wide }]}>
-                <Img src={image.src} alt={image.alt} sizes="(min-width: 1024px) 35vw, 100vw" />
-                {image.caption && <figcaption class="muted">{image.caption}</figcaption>}
-              </figure>
-            ))}
-          </div>
-        )}
-      </div>
+      <p class="service">{section.service}</p>
+      <h2 id={`section-${s}`}>{section.heading}</h2>
+      <p class="body">{section.text}</p>
+      {section.points.length > 0 && (
+        <ul class="points">
+          {section.points.map((point) => (
+            <li>{point}</li>
+          ))}
+        </ul>
+      )}
+      {section.service === "Social media" && hasReels && <ReelShelf projectId={project.id} />}
+      {section.images.length > 0 && (
+        <div class="gallery">
+          {section.images.map((image) => (
+            <figure class:list={["figure", image.treatment, { wide: image.wide }]}>
+              <Img src={image.src} alt={image.alt} sizes="(min-width: 1024px) 38vw, 100vw" />
+              {image.caption && <figcaption>{image.caption}</figcaption>}
+            </figure>
+          ))}
+        </div>
+      )}
     </section>
   ))}
 
-  <section class="container section block" aria-labelledby="results-heading">
-    <p class="mono label">Results</p>
-    <div>
-      <h2 id="results-heading">{project.results.heading}</h2>
-      <dl class="results">
-        {project.results.items.map((item) => (
-          <div>
-            <dt>{item.figure}</dt>
-            <dd>{item.text}</dd>
-          </div>
-        ))}
-      </dl>
-      <p class="source muted">{project.results.source}</p>
-    </div>
-  </section>
+  {quote && (
+    <section class="container section" aria-label={`${quote.name}, ${quote.role}`}>
+      <figure class="quote">
+        {!quote.approved && <p class="draft">{site.home.draftLabel}</p>}
+        <blockquote>
+          <p>“{quote.text}”</p>
+        </blockquote>
+        <figcaption>
+          <strong>{quote.name}</strong> <span class="muted">{quote.role}</span>
+        </figcaption>
+      </figure>
+    </section>
+  )}
 
   {next.id !== project.id && (
-    <nav class="next container" aria-label="Next project" style={`--client: ${next.accent}`}>
+    <nav class="container section next" aria-label={labels.next} style={`--client: ${next.accent}`}>
       <a href={`/work/${next.id}/`}>
-        <span class="mono">Next project</span>
-        <span class="next-name">{next.name}</span>
-        <span class="muted">{next.kind}</span>
+        <span class="next-text">
+          <span class="muted">{labels.next}</span>
+          <span class="next-name">
+            <span class="marker" aria-hidden="true" />
+            {next.name}
+          </span>
+          <span class="muted">{next.outcome}</span>
+        </span>
+        <Img src={next.screens.desktop.src} alt="" sizes="(min-width: 1024px) 40vw, 100vw" />
       </a>
     </nav>
   )}
@@ -173,149 +157,156 @@ const shownUrl =
 
 <style>
   .intro {
-    padding-top: var(--space-8);
+    padding-block: var(--space-7) var(--space-8);
   }
 
-  .path {
+  .kind {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
     color: var(--text-muted);
+    font-size: var(--text-small);
   }
 
-  .path::before,
-  .next .mono::before {
-    content: "";
+  .marker {
     display: inline-block;
-    width: 0.55em;
-    height: 1.1em;
-    margin-right: 0.6em;
-    vertical-align: -0.2em;
+    width: 0.65em;
+    height: 0.65em;
+    border-radius: 2px;
     background: var(--client);
-  }
-
-  .browse {
-    margin-top: var(--space-6);
+    box-shadow: 0 0 0 1px var(--field-border);
   }
 
   .status {
-    display: inline-block;
-    margin-left: var(--space-3);
-    padding: 0 var(--space-2);
-    border: 1px solid var(--client);
-    color: var(--text);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-pill);
+    background: var(--band);
+    font-size: 0.8125rem;
+    font-weight: 600;
   }
 
   h1 {
-    margin-top: var(--space-4);
-    font-size: var(--text-display);
-    line-height: 0.88;
+    margin-top: var(--space-3);
   }
 
   .intro .lede {
-    margin-top: var(--space-5);
+    margin-top: var(--space-4);
   }
 
   .facts {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-5) var(--space-8);
-    margin-top: var(--space-7);
-    padding-top: var(--space-5);
-    border-top: 1px solid var(--rule);
+    align-items: baseline;
+    gap: var(--space-2) var(--space-6);
+    margin-top: var(--space-5);
+    padding: 0;
+    list-style: none;
+    font-size: var(--text-small);
   }
 
-  dt.mono {
-    color: var(--text-muted);
-  }
-
-  dd {
-    margin-top: var(--space-1);
-  }
-
-  dd a {
+  .facts a {
     display: inline-block;
     padding-block: var(--space-2);
-    text-decoration-color: var(--accent);
-    text-decoration-thickness: 2px;
+    color: var(--accent);
     text-underline-offset: 0.25em;
   }
 
-  .screens {
-    position: relative;
-    margin-top: var(--space-8);
-    padding-bottom: var(--space-8);
+  .browse {
+    margin-top: var(--space-5);
   }
 
-  .screens :global(img),
-  .figure :global(img) {
-    outline: 1px solid var(--rule);
-    border-radius: var(--radius-screen);
+  .before-text {
+    max-width: var(--content-narrow);
   }
 
-  .desktop {
-    width: 86%;
+  .compare {
+    display: grid;
+    gap: var(--space-6);
+    align-items: end;
+    margin-top: var(--space-7);
   }
 
   .phone {
-    position: absolute;
-    right: var(--gutter);
-    bottom: 0;
-    width: 22%;
+    max-width: 14rem;
   }
 
   .phone :global(img) {
+    width: 100%;
     aspect-ratio: 9 / 19.5;
     object-fit: cover;
     object-position: top;
-    box-shadow: 0 0 0 0.5rem var(--bg);
+    border-radius: 1.25rem;
+    box-shadow: var(--shadow);
   }
 
-  .block {
-    display: grid;
-    gap: var(--space-4);
-    padding-block: var(--space-9);
-    border-top: 1px solid var(--rule);
-  }
-
-  .label {
+  .phone figcaption,
+  .figure figcaption {
+    margin-top: var(--space-3);
+    font-size: var(--text-small);
     color: var(--text-muted);
   }
 
+  .block {
+    border-top: 1px solid var(--rule);
+  }
+
+  .service {
+    display: inline-block;
+    margin-bottom: var(--space-3);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-pill);
+    background: var(--band);
+    color: var(--text-muted);
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
   .body {
-    margin-top: var(--space-5);
+    margin-top: var(--space-4);
     max-width: var(--content-narrow);
     font-size: var(--text-lede);
   }
 
   .points {
+    display: grid;
+    gap: var(--space-3);
     margin-top: var(--space-6);
     padding: 0;
     list-style: none;
     max-width: var(--content-narrow);
   }
 
+  /* Each point gets a small accent dot: these are things done, set apart from the paragraph above */
   .points li {
-    padding-block: var(--space-3);
-    border-top: 1px solid var(--rule);
+    position: relative;
+    padding-left: var(--space-6);
     color: var(--text-muted);
   }
 
-  .figure {
-    margin-top: var(--space-7);
-  }
-
-  figcaption {
-    margin-top: var(--space-3);
-    font-size: var(--text-small);
+  .points li::before {
+    content: "";
+    position: absolute;
+    left: 0.25rem;
+    top: 0.55em;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: var(--accent);
   }
 
   .gallery {
     display: grid;
-    gap: 0 var(--space-5);
+    gap: var(--space-6) var(--space-5);
+    margin-top: var(--space-7);
   }
 
-  .gallery .figure :global(img) {
+  .figure :global(img) {
     width: 100%;
     aspect-ratio: 3 / 2;
     object-fit: cover;
+    border-radius: var(--radius-screen);
+    box-shadow: var(--shadow);
   }
 
   .gallery .wide {
@@ -326,89 +317,108 @@ const shownUrl =
     aspect-ratio: auto;
   }
 
-  /* Logos are shown whole; artwork drawn for light backgrounds gets a paper mat */
+  /* Logos are shown whole on the background they were designed for: Christopher's on ink, light-ground art on paper */
   .gallery .artwork :global(img),
   .gallery .artwork-on-light :global(img) {
     object-fit: contain;
     padding: var(--space-6);
-    background: var(--surface);
+    background: var(--color-ink);
   }
 
   .gallery .artwork-on-light :global(img) {
     background: var(--color-paper);
   }
 
-  .results {
-    display: grid;
-    gap: var(--space-5) var(--space-7);
-    margin-top: var(--space-7);
+  .quote {
+    max-width: 48rem;
+    padding: var(--space-7);
+    border-radius: var(--radius-card);
+    background: var(--band);
   }
 
-  .results div {
-    padding-top: var(--space-4);
-    border-top: 1px solid var(--rule);
+  .quote blockquote p {
+    font-size: clamp(1.25rem, 2vw, 1.6rem);
+    line-height: 1.4;
+    letter-spacing: -0.01em;
   }
 
-  .results dt {
-    font: 800 var(--text-2) / 1 var(--font-display);
-    font-variation-settings:
-      "opsz" 96,
-      "wdth" 75;
-    color: var(--accent);
+  .quote figcaption {
+    margin-top: var(--space-5);
   }
 
-  .results dd {
-    margin-top: var(--space-2);
-    color: var(--text-muted);
-  }
-
-  .source {
-    margin-top: var(--space-6);
-    font-size: var(--text-small);
-    max-width: var(--content-narrow);
+  .draft {
+    display: inline-block;
+    margin-bottom: var(--space-4);
+    padding: var(--space-1) var(--space-3);
+    border: 1px dashed var(--error);
+    border-radius: var(--radius-pill);
+    color: var(--error);
+    font-size: 0.8125rem;
+    font-weight: 600;
   }
 
   .next a {
     display: grid;
-    gap: var(--space-2);
-    padding-block: var(--space-8);
-    border-top: 1px solid var(--rule);
+    gap: var(--space-5);
+    align-items: center;
+    padding: var(--space-5);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-card);
     text-decoration: none;
+    transition:
+      box-shadow 0.25s,
+      transform 0.25s var(--ease-out);
   }
 
-  .next .mono {
-    color: var(--text-muted);
+  .next a:hover {
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+  }
+
+  .next-text {
+    display: grid;
+    gap: var(--space-2);
   }
 
   .next-name {
-    font: 800 var(--text-1) / 0.9 var(--font-display);
-    font-variation-settings:
-      "opsz" 96,
-      "wdth" 75;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--text-2);
+    font-weight: 650;
+    letter-spacing: -0.022em;
+    line-height: 1.1;
   }
 
-  .next a:hover .next-name {
-    color: var(--accent);
+  .next :global(img) {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top left;
+    border-radius: var(--radius-screen);
   }
 
   @media (min-width: 768px) {
     .gallery {
       grid-template-columns: repeat(2, 1fr);
     }
-
-    .results {
-      grid-template-columns: repeat(2, 1fr);
-    }
   }
 
   @media (min-width: 1024px) {
-    .block {
-      grid-template-columns: 3fr 9fr;
-      gap: var(--space-8);
+    .compare {
+      grid-template-columns: 1fr 12rem;
     }
 
-    .results {
-      grid-template-columns: repeat(3, 1fr);
+    .next a {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-8);
+      padding: var(--space-6);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .next a:hover {
+      transform: none;
     }
   }
 </style>

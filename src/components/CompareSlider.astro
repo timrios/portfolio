@@ -1,0 +1,182 @@
+---
+// Before and after for one project: a slider wipes between the old site and the new one (a real range input, so the
+// keyboard works). Without an old site, a short description stands in for "before". Used on the home page and on
+// project pages.
+import Img from "./Img.astro";
+import type { Project } from "../data/projects";
+import { site } from "../data/site";
+
+interface Props {
+  project: Project;
+  /** Rendered width hint for the images */
+  sizes: string;
+}
+
+const { project, sizes } = Astro.props;
+const before = project.before.image;
+const h = site.home;
+---
+
+{before ? (
+  <div class="frame" style="--split: 50%" data-compare>
+    <Img src={project.screens.desktop.src} alt={project.screens.desktop.alt} sizes={sizes} />
+    <div class="before-layer">
+      <Img src={before.src} alt={before.alt} sizes={sizes} />
+    </div>
+    <span class="tag tag-before" aria-hidden="true">
+      {h.beforeLabel}
+    </span>
+    <span class="tag tag-after" aria-hidden="true">
+      {h.afterLabel}
+    </span>
+    <span class="handle" aria-hidden="true" />
+    <input
+      type="range"
+      min="0"
+      max="100"
+      value="50"
+      aria-label={`${h.sliderLabel}: ${project.name}`}
+    />
+  </div>
+) : (
+  <div class="pair">
+    <p class="none">
+      <span class="tag static">{h.beforeLabel}</span>
+      {project.beforeShort}
+    </p>
+    <div class="frame">
+      <Img src={project.screens.desktop.src} alt={project.screens.desktop.alt} sizes={sizes} />
+      <span class="tag tag-after" aria-hidden="true">
+        {h.afterLabel}
+      </span>
+    </div>
+  </div>
+)}
+
+<style>
+  .frame {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-radius: var(--radius-screen);
+    box-shadow: var(--shadow);
+    background: var(--surface);
+  }
+
+  .frame :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top left;
+  }
+
+  /* The old site sits on top, cut away to the right of the split */
+  .before-layer {
+    position: absolute;
+    inset: 0;
+    clip-path: inset(0 calc(100% - var(--split)) 0 0);
+  }
+
+  /* The handle and tags sit on client screenshots in both looks, so they use fixed white and ink */
+  .handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--split);
+    width: 2px;
+    margin-left: -1px;
+    background: var(--color-white);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-black) 25%, transparent);
+    pointer-events: none;
+  }
+
+  .handle::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2.75rem;
+    height: 2.75rem;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: var(--color-white);
+    box-shadow: var(--shadow);
+    background-image:
+      linear-gradient(135deg, transparent 46%, var(--color-ink) 46% 54%, transparent 54%),
+      linear-gradient(45deg, transparent 46%, var(--color-ink) 46% 54%, transparent 54%);
+    background-size: 0.55rem 0.55rem;
+    background-repeat: no-repeat;
+    background-position:
+      38% 42%,
+      38% 58%;
+  }
+
+  /* The range input covers the frame invisibly: drag anywhere, or use the arrow keys */
+  input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: ew-resize;
+  }
+
+  .frame:has(input:focus-visible) {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+  }
+
+  .tag {
+    position: absolute;
+    top: var(--space-3);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-pill);
+    background: color-mix(in srgb, var(--color-ink) 72%, transparent);
+    color: var(--color-white);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    pointer-events: none;
+  }
+
+  .tag-before {
+    left: var(--space-3);
+  }
+
+  .tag-after {
+    right: var(--space-3);
+  }
+
+  .pair {
+    display: grid;
+    grid-template-columns: 2fr 5fr;
+    gap: var(--space-4);
+    align-items: center;
+  }
+
+  .none {
+    position: relative;
+    display: grid;
+    align-content: center;
+    gap: var(--space-3);
+    aspect-ratio: 4 / 5;
+    padding: var(--space-4);
+    border: 1px dashed var(--field-border);
+    border-radius: var(--radius-screen);
+    color: var(--text-muted);
+    font-size: var(--text-small);
+    text-align: center;
+  }
+
+  .tag.static {
+    position: static;
+    justify-self: center;
+  }
+</style>
+
+<script>
+  for (const frame of document.querySelectorAll<HTMLElement>("[data-compare]")) {
+    const input = frame.querySelector("input")!;
+    input.addEventListener("input", () => frame.style.setProperty("--split", `${input.value}%`));
+  }
+</script>

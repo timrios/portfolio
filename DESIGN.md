@@ -231,9 +231,17 @@ instantly, the preview's line holds still, Reels start paused.
 - **Header:** wordmark, links, the theme toggle, and a "Text" pill button with the number.
 - **Footer:** name and city, email, text number, year.
 - **HomeHero:** headline, business types, two buttons, timing note; the client collage.
-- **ResultsBand:** the featured results (`band` text in `projects.ts`), each naming its kind of business.
-- **BeforeAfter:** one row per project: the slider (or a "before" description when there's no old site), name, kind,
-  the outcome line, "See the project" and "Browse the site" (opens **ProjectPreview**).
+- **ResultsBand:** home: the featured results (`band` text in `projects.ts`), each naming its kind of business. Project
+  pages: that project's results and source. One row for up to four; more wrap in rows of three.
+- **BeforeAfter:** one row per project on the home page: the **CompareSlider**, name, kind, the outcome line, "Read the
+  story" and "Browse the site" (opens **ProjectPreview**).
+- **CompareSlider:** the before/after slider (or a "before" description when there's no old site); home and project pages.
+- **LogoRow:** "Businesses I've worked with": each client's real logo on the background it was designed for (white or
+  ink, in either look), linking to the project. On About.
+- **Project page:** kind and place with the client marker, name, summary, facts (what I did, the site, Instagram),
+  "Browse the site"; the results band with its source; the before story with the CompareSlider and the phone view;
+  each section with a service pill, text, points (accent dots) and gallery (Fanzi's social section shows its Reels);
+  the client's quote (when approved); the next project as a card with its screenshot; the closing band.
 - **Quotes:** client quotes from `quotes.ts`. Only `approved` quotes appear on the live site; drafts show in local
   development only, labeled "Draft, awaiting the client's OK".
 - **ReelShelf:** Reels in phone frames.

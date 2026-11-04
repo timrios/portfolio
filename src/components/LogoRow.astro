@@ -1,0 +1,93 @@
+---
+// "Businesses I've worked with": each client's real logo on the background it was designed for, linking to its
+// project. A quick trust signal, and proof of range.
+import Img from "./Img.astro";
+import { projects } from "../data/projects";
+
+interface Props {
+  heading: string;
+}
+
+const { heading } = Astro.props;
+---
+
+<section class="logos" aria-labelledby="logos-heading">
+  <h2 id="logos-heading" class="heading">
+    {heading}
+  </h2>
+  <ul>
+    {projects.map((project) => (
+      <li>
+        <a href={`/work/${project.id}/`} class:list={["tile", project.logo.on]}>
+          <Img src={project.logo.src} alt={project.name} sizes="12rem" />
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .heading {
+    font-size: var(--text-3);
+  }
+
+  ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+    padding: 0;
+    list-style: none;
+  }
+
+  .tile {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 3 / 2;
+    padding: var(--space-3);
+    border-radius: var(--radius-card);
+    border: 1px solid var(--rule);
+    transition:
+      transform 0.25s var(--ease-out),
+      box-shadow 0.25s;
+  }
+
+  /* Each logo sits on the background it was designed for, in either look */
+  .light {
+    background: var(--color-white);
+  }
+
+  .dark {
+    background: var(--color-ink);
+  }
+
+  /* The logo files carry their own margins, so the image fills the tile (positioned, so it can't stretch it) */
+  .tile {
+    position: relative;
+  }
+
+  .tile :global(img) {
+    position: absolute;
+    inset: var(--space-3);
+    width: calc(100% - 2 * var(--space-3));
+    height: calc(100% - 2 * var(--space-3));
+    object-fit: contain;
+  }
+
+  .tile:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+
+  @media (min-width: 768px) {
+    ul {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tile:hover {
+      transform: none;
+    }
+  }
+</style>

@@ -53,6 +53,9 @@ const siteSchema = z.object({
     liveSite: z.string(),
     preview: z.string(),
     archived: z.string(),
+    whatIDid: z.string(),
+    next: z.string(),
+    phoneView: z.string(),
   }),
   contact: z.object({
     title: z.string(),
@@ -68,6 +71,9 @@ const siteSchema = z.object({
     error: z.string(),
     nextHeading: z.string(),
     next: z.array(z.string()),
+    textPrompt: z.string(),
+    replyTime: z.string(),
+    emailPrompt: z.string(),
   }),
   notFound: z.object({
     title: z.string(),
@@ -136,6 +142,9 @@ export const site = siteSchema.parse({
     liveSite: "Live site",
     preview: "Preview",
     archived: "Archived site",
+    whatIDid: "What I did",
+    next: "Next project",
+    phoneView: "On a phone",
   },
   contact: {
     title: "Contact",
@@ -157,6 +166,9 @@ export const site = siteSchema.parse({
     sending: "Sending…",
     success: "Message sent. I'll reply by email to set up a time to talk.",
     error: "The message didn't send. Check your connection and try again, or email me at {email}.",
+    textPrompt: "Prefer to text? Send me a message:",
+    replyTime: "I reply within one business day, by text or email.",
+    emailPrompt: "Or email",
     nextHeading: "What happens next",
     next: [
       "I read your message and reply by email.",

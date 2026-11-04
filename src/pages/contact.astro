@@ -11,6 +11,11 @@ const errorText = c.error.replace("{email}", site.email);
     <div class="intro">
       <h1>{c.heading}</h1>
       <p class="lede">{c.intro}</p>
+      <a class="text-me" href={`sms:${site.phoneSms}`}>
+        <span class="muted">{c.textPrompt}</span>
+        <strong>{site.phone}</strong>
+      </a>
+      <p class="reply">{c.replyTime}</p>
 
       <h2 class="next-heading">{c.nextHeading}</h2>
       <ol class="next">
@@ -19,7 +24,7 @@ const errorText = c.error.replace("{email}", site.email);
         ))}
       </ol>
       <p class="direct muted">
-        Or email <a href={`mailto:${site.email}`}>{site.email}</a>
+        {c.emailPrompt} <a href={`mailto:${site.email}`}>{site.email}</a>
       </p>
     </div>
 
@@ -121,9 +126,35 @@ const errorText = c.error.replace("{email}", site.email);
   }
 
   h1 {
-    font-size: var(--text-display);
-    line-height: 0.88;
     max-width: 12ch;
+  }
+
+  /* Texting is the quickest way for most owners: offered before the form, as a large tap target */
+  .text-me {
+    display: inline-grid;
+    gap: var(--space-1);
+    margin-top: var(--space-6);
+    padding: var(--space-4) var(--space-5);
+    border-radius: var(--radius-card);
+    background: var(--band);
+    text-decoration: none;
+  }
+
+  .text-me strong {
+    font-size: var(--text-3);
+    font-weight: 650;
+    color: var(--accent);
+  }
+
+  .text-me:hover strong {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .reply {
+    margin-top: var(--space-4);
+    font-size: var(--text-small);
+    color: var(--text-muted);
   }
 
   .intro .lede {
