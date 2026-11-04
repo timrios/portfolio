@@ -91,8 +91,8 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/* No background here: html carries the black, so the print screen (behind everything) shows through */
 body {
-  background: var(--bg);
   color: var(--text);
   font-family: var(--font-body);
   font-size: var(--text-body);
