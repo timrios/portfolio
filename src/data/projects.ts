@@ -5,6 +5,21 @@ import { z } from "astro/zod";
 
 const service = z.enum(["Website", "Brand", "Social media", "Local search"]);
 const hex = z.string().regex(/^#[0-9A-F]{6}$/i);
+
+/** WCAG contrast ratio of a color against black, the page background */
+function contrastOnBlack(color: string) {
+  const [r, g, b] = [1, 3, 5].map((i) => {
+    const c = parseInt(color.slice(i, i + 2), 16) / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  return (0.2126 * r + 0.7152 * g + 0.0722 * b + 0.05) / 0.05;
+}
+
+// A client color fills the main button under black text and colors result figures, so it must reach 4.5:1
+const accentColor = hex.refine((color) => contrastOnBlack(color) >= 4.5, {
+  message:
+    "This client color is too dark on black (needs 4.5:1). Use the client's lighter brand tint (DESIGN.md → Borrowed accent).",
+});
 const image = z.object({
   /** File in src/assets/images/, e.g. "fanzi-pet/logo.webp" */
   src: z.string(),
@@ -39,7 +54,7 @@ const projectSchema = z.object({
    * The client's own brand color, used as the site's accent while this project is on screen ("borrowed color",
    * DESIGN.md → Color). Must reach 4.5:1 against black, since it also fills buttons with black text.
    */
-  accent: hex,
+  accent: accentColor,
   services: z.array(service).min(1),
   liveUrl: z.url(),
   links: z.array(z.object({ label: z.string(), href: z.url() })),

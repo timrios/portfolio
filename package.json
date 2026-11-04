@@ -13,7 +13,8 @@
     "typecheck": "astro check",
     "format": "prettier --write .",
     "check": "npm run typecheck && npm run build",
-    "shots": "node scripts/shots.mjs"
+    "shots": "node scripts/shots.mjs",
+    "project-screens": "node scripts/project-screens.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
