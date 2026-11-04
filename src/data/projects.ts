@@ -324,7 +324,7 @@ const all = z.array(projectSchema).parse([
     },
   },
   {
-    id: "shawarmaway",
+    id: "shawarma-way",
     published: true,
     status: "in-progress",
     name: "Shawarma Way",
@@ -339,12 +339,12 @@ const all = z.array(projectSchema).parse([
       "Off a restaurant-platform template and onto a site drawn from the restaurant itself: the logo, the fire and the dining room. In progress: online ordering comes next.",
     screens: {
       desktop: {
-        src: "shawarmaway/site-home-desktop.jpg",
+        src: "shawarma-way/site-home-desktop.jpg",
         alt: "The new Shawarma Way home page: dark charcoal, the headline “Shawarma over real fire.” and a shawarma spit in front of glowing embers",
         caption: null,
       },
       phone: {
-        src: "shawarmaway/site-home-phone.jpg",
+        src: "shawarma-way/site-home-phone.jpg",
         alt: "The new Shawarma Way home page on a phone",
         caption: null,
       },
@@ -379,7 +379,7 @@ const all = z.array(projectSchema).parse([
       heading: "Where Shawarma Way started",
       text: "A template from a restaurant-website platform, in a look borrowed from no one in particular: nothing came from the restaurant’s own logo, food or room. On phones an app prompt covered the page, and the pages disagreed with each other, with two phone numbers, two sets of hours and eleven overlapping menu categories.",
       image: {
-        src: "shawarmaway/old-site-home-desktop.jpg",
+        src: "shawarma-way/old-site-home-desktop.jpg",
         alt: "The earlier Shawarma Way website: a white template page with a large sandwich photo and the slogan “Taste the Shawarma Revolution!”",
         caption: "The earlier site, October 2026.",
       },
@@ -398,12 +398,12 @@ const all = z.array(projectSchema).parse([
         ],
         images: [
           {
-            src: "shawarmaway/site-menu-desktop.jpg",
+            src: "shawarma-way/site-menu-desktop.jpg",
             alt: "The new Shawarma Way menu page: a tall “Menu” headline on charcoal, then dishes and prices on a butcher-paper surface",
             caption: "The menu, on butcher paper. Food photos are AI placeholders.",
           },
           {
-            src: "shawarmaway/site-story-desktop.jpg",
+            src: "shawarma-way/site-story-desktop.jpg",
             alt: "The new Shawarma Way story page: “Our story” over a wood fire, and “We cook over wood” on a paper sheet",
             caption: "Our story. Photos are AI placeholders.",
           },
