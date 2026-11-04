@@ -4,6 +4,7 @@
 // project pages.
 import Img from "./Img.astro";
 import type { Project } from "../data/projects";
+import { projects } from "../data/projects";
 import { site } from "../data/site";
 
 interface Props {
@@ -15,45 +16,92 @@ interface Props {
 const { project, sizes } = Astro.props;
 const before = project.before.image;
 const h = site.home;
+// Each client's light breathes out of step with the others
+const delay = projects.findIndex((p) => p.id === project.id) * -2.3;
 ---
 
-{before ? (
-  <div class="frame" style="--split: 50%" data-compare>
-    <Img src={project.screens.desktop.src} alt={project.screens.desktop.alt} sizes={sizes} />
-    <div class="before-layer">
-      <Img src={before.src} alt={before.alt} sizes={sizes} />
-    </div>
-    <span class="tag tag-before" aria-hidden="true">
-      {h.beforeLabel}
-    </span>
-    <span class="tag tag-after" aria-hidden="true">
-      {h.afterLabel}
-    </span>
-    <span class="handle" aria-hidden="true" />
-    <input
-      type="range"
-      min="0"
-      max="100"
-      value="50"
-      aria-label={`${h.sliderLabel}: ${project.name}`}
-    />
-  </div>
-) : (
-  <div class="pair">
-    <p class="none">
-      <span class="tag static">{h.beforeLabel}</span>
-      {project.beforeShort}
-    </p>
-    <div class="frame">
+<div class="lit" style={`--client: ${project.accent}; --delay: ${delay}s`}>
+  <div class="light" aria-hidden="true"></div>
+
+  {before ? (
+    <div class="frame" style="--split: 50%" data-compare>
       <Img src={project.screens.desktop.src} alt={project.screens.desktop.alt} sizes={sizes} />
+      <div class="before-layer">
+        <Img src={before.src} alt={before.alt} sizes={sizes} />
+      </div>
+      <span class="tag tag-before" aria-hidden="true">
+        {h.beforeLabel}
+      </span>
       <span class="tag tag-after" aria-hidden="true">
         {h.afterLabel}
       </span>
+      <span class="handle" aria-hidden="true" />
+      <input
+        type="range"
+        min="0"
+        max="100"
+        value="50"
+        aria-label={`${h.sliderLabel}: ${project.name}`}
+      />
     </div>
-  </div>
-)}
+  ) : (
+    <div class="pair">
+      <p class="none">
+        <span class="tag static">{h.beforeLabel}</span>
+        {project.beforeShort}
+      </p>
+      <div class="frame">
+        <Img src={project.screens.desktop.src} alt={project.screens.desktop.alt} sizes={sizes} />
+        <span class="tag tag-after" aria-hidden="true">
+          {h.afterLabel}
+        </span>
+      </div>
+    </div>
+  )}
+</div>
 
 <style>
+  /* The client's color breathing behind the work */
+  .lit {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .light {
+    position: absolute;
+    z-index: -1;
+    inset: -22% -16%;
+    pointer-events: none;
+    filter: blur(70px);
+    background:
+      radial-gradient(45% 50% at 35% 40%, var(--client), transparent 72%),
+      radial-gradient(
+        35% 40% at 70% 65%,
+        color-mix(in srgb, var(--client) 70%, var(--accent)),
+        transparent 72%
+      );
+    opacity: 0.4;
+    animation: breathe 9s ease-in-out infinite alternate;
+    animation-delay: var(--delay);
+  }
+
+  @keyframes breathe {
+    from {
+      opacity: 0.22;
+      scale: 0.92;
+    }
+    to {
+      opacity: 0.62;
+      scale: 1.1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .light {
+      animation: none;
+    }
+  }
+
   .frame {
     position: relative;
     aspect-ratio: 16 / 10;

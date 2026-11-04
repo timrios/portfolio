@@ -100,6 +100,28 @@ const pieces = [
     pointer-events: none;
   }
 
+  /* The glow breathes (scale is its own property, so it doesn't fight the pointer's translate) */
+  .glow {
+    animation: hero-breathe 10s ease-in-out infinite alternate;
+  }
+
+  @keyframes hero-breathe {
+    from {
+      scale: 0.94;
+      filter: blur(72px) brightness(0.8);
+    }
+    to {
+      scale: 1.08;
+      filter: blur(72px) brightness(1.25);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .glow {
+      animation: none;
+    }
+  }
+
   :global([data-theme="dark"]) .glow {
     opacity: 0.45;
   }

@@ -2,6 +2,7 @@
 import { Font } from "astro:assets";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import StarBand from "../components/StarBand.astro";
 import { site } from "../data/site";
 import { imageUrl } from "../utils/images";
 import "../styles/global.css";
@@ -77,6 +78,7 @@ const personSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
   </head>
   <body>
+    <StarBand />
     <a class="skip-link" href="#main">
       Skip to content
     </a>

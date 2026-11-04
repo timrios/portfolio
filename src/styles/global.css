@@ -160,6 +160,7 @@
 }
 
 html {
+  overflow-x: clip; /* Glows may reach past the window's edge; clip keeps the pinned header working */
   background: var(--bg);
   scroll-padding-top: 6rem; /* Links to a section land below the pinned header */
   -webkit-text-size-adjust: 100%;

@@ -32,7 +32,7 @@ from what convinces a buyer.
    screen edge to edge.
 4. **Life, with a job.** Tim's review: compared with patrickgibbs.dev the site felt flat and stacked. So the site moves
    and answers: the opening asks what's wrong and types real owner problems; the slider shows the change; results count up; the process line draws itself. Each plays once or answers
-   the visitor. Only the one featured Reel loops, and it can be paused.
+   the visitor. The star band and client light are the two ambient layers that never stop; only the one featured Reel also loops, and it can be paused.
 5. **Dark first, light on request.** Both looks are complete; the site opens dark and remembers a visitor's switch.
 6. **Proof next to every claim.** Results name their business and, on project pages, their source and date.
 7. **Statement type.** Headlines are large enough to stand alone as the section's image.
@@ -226,6 +226,8 @@ Mobile-first; write these directly in `@media` rules.
 | ------------------ | --------------------------------------------------------------------------------- |
 | **Collage**        | Each piece shifts up to 14px with the pointer, at its own depth, and settles back when the pointer leaves. Fine pointers only. |
 | **Client glow**    | Behind the collage, a soft blur of the featured clients' own colors (their `accent` in `projects.ts`), stronger in light (0.8) than dark (0.45) so it reads on white. It drifts slowly with the pointer, the deepest layer. |
+| **Star band**      | Behind every page, a band of tiny stars winds down the full page like the Milky Way, with empty sky on either side and clumps inside it. Two depths: a slow, dim far layer with soft haze, and a sparser near layer of larger stars that drift faster and scroll faster. About one near star in six carries a client's color. Stars twinkle and shift slightly with the pointer. Sky and frost in dark; Prussian and steel in light. Fewer stars on phones. |
+| **Client light**   | Behind each before/after, a soft blur of that client's color breathes (opacity and scale) over 9s, each out of step with the others. The hero's glow breathes too. |
 | **Results**        | Each figure counts up from zero once, over 1.2s, when the band first comes into view. The final value is in the HTML, so screen readers and no-script see it. |
 | **Before/after**   | A range slider wipes between the old and new site (`clip-path`); arrow keys move it. Starts at 50%. |
 | **Theme toggle**   | Switches with a circular reveal from the button (View Transitions), 0.5s; instant where unsupported. |
@@ -241,20 +243,21 @@ Mobile-first; write these directly in `@media` rules.
 
 ### Reduced motion
 
-With `prefers-reduced-motion: reduce`: the ask box shows one static example, the process line is already drawn, no collage movement, figures appear at their value, the theme switches
+With `prefers-reduced-motion: reduce`: the star band holds still and moves with the page, client light doesn't breathe, the ask box shows one static example, the process line is already drawn, no collage movement, figures appear at their value, the theme switches
 instantly, the preview's line holds still, Reels start paused.
 
 ## Components
 
 - **Header:** wordmark, links, the theme toggle, and a "Text" pill button with the number.
 - **Footer:** name and city, email, text number, year.
+- **StarBand:** the star band; one fixed canvas behind every page, from the layout. Hidden in print.
 - **HomeHero:** the short headline, what Tim does, the ask box, timing note; the client collage.
 - **AskBox:** a labeled field with typed examples and a "Get a free plan" button, posting to `/contact/?need=…`, which prefills the message.
 - **ResultsBand:** home: the featured results (`band` text in `projects.ts`), each naming its kind of business. Project
   pages: that project's results and source. One row for up to four; more wrap in rows of three.
 - **BeforeAfter:** one row per project on the home page, alternating sides with no dividers: the **CompareSlider**, big name, kind, the outcome line, "Read the
   story" and "Browse the site" (opens **ProjectPreview**).
-- **CompareSlider:** the before/after slider (or a "before" description when there's no old site); home and project pages.
+- **CompareSlider:** the before/after slider (or a "before" description when there's no old site), with the client's light behind it; home and project pages.
 - **LogoRow:** "Businesses I've worked with": each client's real logo on the background it was designed for (white or
   ink, in either look), linking to the project. On About.
 - **Project page:** kind and place with the client marker, name, summary, facts (what I did, the site, Instagram),
