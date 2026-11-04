@@ -263,7 +263,6 @@ const all = z.array(projectSchema).parse([
             src: "hair-by-christopher/logo.png",
             alt: "The Hair By Christopher logo: “Hair by Christopher” in gold and white serif capitals with a tint brush, comb and scissors",
             caption: "The logo.",
-            treatment: "artwork",
           },
         ],
       },
