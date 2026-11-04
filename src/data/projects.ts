@@ -124,7 +124,7 @@ const all = z.array(projectSchema).parse([
       {
         service: "Brand",
         heading: "A van people recognize on their street",
-        text: "I designed the Fanzi logo, the treat bags and the van wrap: bright aqua, a white swoosh, and illustrated dogs splashing in bath bubbles. The wrap is what customers actually see, so it became the source for everything that came after.",
+        text: "I designed the Fanzi logo, the treat bags and the van wrap: bright aqua, a white swoosh, and three dogs splashing in bath bubbles. The dogs are real Fanzi customers. Owners entered their dogs’ photos in a Facebook contest, followers voted with likes and comments, and I designed the winners from their photos. The wrap is what people see on their street, so it became the source for everything that came after.",
         points: [],
         images: [
           {
@@ -140,8 +140,8 @@ const all = z.array(projectSchema).parse([
           },
           {
             src: "fanzi-pet/van-wrap-illustrated-dogs.png",
-            alt: "Detail of the van wrap: a Pomeranian, a pug and a shih tzu in a bow tie splashing out of a wave of bath water",
-            caption: "The wrap’s illustrated dogs.",
+            alt: "Detail of the van wrap: Foxy the Pomeranian, Tita the pug and Chewy the shih tzu in a bow tie, splashing out of a wave of bath water",
+            caption: "Foxy, Tita and Chewy, the contest winners, on the van.",
           },
           {
             src: "fanzi-pet/treat-bags-downtown-skyline.webp",
