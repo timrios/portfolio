@@ -28,6 +28,7 @@ const siteSchema = z.object({
     closingText: z.string(),
   }),
   footer: z.object({ about: z.string(), colorNote: z.string() }),
+  projectLabels: z.object({ inProgress: z.string(), liveSite: z.string(), preview: z.string() }),
   contact: z.object({
     title: z.string(),
     description: z.string(),
@@ -74,7 +75,7 @@ export const site = siteSchema.parse({
     projectsHint: "Choose a project to watch it build.",
     workHeading: "Every business gets its own look.",
     workIntro:
-      "A dog groomer and a hair stylist don’t share customers, so they shouldn’t share a look. Each project is designed from the business itself: its people, its place and its customers.",
+      "A dog groomer, a hair stylist and a shawarma restaurant don’t share customers, so they shouldn’t share a look. Each project is designed from the business itself: its people, its place and its customers.",
     servicesHeading: "One person for everything your customers see.",
     processHeading: "How working together goes.",
     processIntro:
@@ -88,6 +89,7 @@ export const site = siteSchema.parse({
     colorNote:
       "My own colors are black and paper. The accent color you see belongs to whichever client is on screen.",
   },
+  projectLabels: { inProgress: "In progress", liveSite: "Live site", preview: "Preview" },
   contact: {
     title: "Contact",
     description:

@@ -45,7 +45,11 @@ const servicesText = (project: Project) =>
                 aria-pressed={i === 0 ? "true" : "false"}
               >
                 <span class="mono path">{project.id}</span>
-                <span class="kind">{project.kind}</span>
+                <span class="kind">
+                  {project.kind}
+                  {project.status === "in-progress" &&
+                    `, ${site.projectLabels.inProgress.toLowerCase()}`}
+                </span>
               </button>
             </li>
           ))}

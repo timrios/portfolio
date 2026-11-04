@@ -2,6 +2,7 @@
 // One project in the home page's work list. The row borrows the client's brand color for its marker and link.
 import Img from "./Img.astro";
 import type { Project } from "../data/projects";
+import { site } from "../data/site";
 
 interface Props {
   project: Project;
@@ -14,7 +15,12 @@ const { project, eager = false } = Astro.props;
 
 <article class="row" style={`--accent: ${project.accent}`} aria-labelledby={`${project.id}-name`}>
   <div class="text">
-    <p class="mono path">{project.id}</p>
+    <p class="mono path">
+      {project.id}
+      {project.status === "in-progress" && (
+        <span class="status">{site.projectLabels.inProgress}</span>
+      )}
+    </p>
     <h3 id={`${project.id}-name`}>{project.name}</h3>
     <p class="business muted">
       {project.business}. {project.place}.
@@ -64,6 +70,15 @@ const { project, eager = false } = Astro.props;
     margin-right: 0.6em;
     vertical-align: -0.2em;
     background: var(--accent);
+  }
+
+  /* "In progress": an outlined tag in the client's color, so it reads as a state, not a link */
+  .status {
+    display: inline-block;
+    margin-left: var(--space-3);
+    padding: 0 var(--space-2);
+    border: 1px solid var(--accent);
+    color: var(--text);
   }
 
   h3 {

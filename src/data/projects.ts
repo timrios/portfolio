@@ -22,8 +22,13 @@ const image = z.object({
 const projectSchema = z.object({
   /** Kebab-case; also the page address (/work/<id>/) and the case-studies folder name */
   id: z.string().regex(/^[a-z0-9-]+$/),
-  /** false keeps a project off the site (e.g. not launched yet) */
+  /** false keeps a project off the site */
   published: z.boolean(),
+  /**
+   * live: the client's site is launched (liveUrl is the real domain). in-progress: shown before launch, marked
+   * "In progress", with liveUrl pointing to the development preview until the real address is live.
+   */
+  status: z.enum(["live", "in-progress"]),
   name: z.string(),
   /** Short label for lists: "Dog grooming" */
   kind: z.string(),
@@ -69,6 +74,7 @@ const all = z.array(projectSchema).parse([
   {
     id: "fanzi-pet",
     published: true,
+    status: "live",
     name: "Fanzi Pet",
     kind: "Dog grooming",
     business: "Mobile dog grooming in spa vans, plus handmade, all-natural dog treats",
@@ -205,6 +211,7 @@ const all = z.array(projectSchema).parse([
   {
     id: "hair-by-christopher",
     published: true,
+    status: "live",
     name: "Hair By Christopher",
     kind: "Hair stylist",
     business: "A master stylist and colorist working on his own, with 15 years behind the chair",
@@ -314,6 +321,107 @@ const all = z.array(projectSchema).parse([
       ],
       source:
         "Google Business Profile (June to October 2026), Apple Business Connect (November 2025 to October 2026), Google Analytics (July and August 2026 against 2025) and Google Search, as of November 2026.",
+    },
+  },
+  {
+    id: "shawarmaway",
+    published: true,
+    status: "in-progress",
+    name: "Shawarma Way",
+    kind: "Restaurant",
+    business: "A halal shawarma restaurant that cooks over a real wood fire",
+    place: "Irving, Texas",
+    accent: "#D9692A",
+    services: ["Website"],
+    liveUrl: "https://shawarmaway.myrrh-billion-34.workers.dev",
+    links: [],
+    summary:
+      "Off a restaurant-platform template and onto a site drawn from the restaurant itself: the logo, the fire and the dining room. In progress: online ordering comes next.",
+    screens: {
+      desktop: {
+        src: "shawarmaway/site-home-desktop.jpg",
+        alt: "The new Shawarma Way home page: dark charcoal, the headline “Shawarma over real fire.” and a shawarma spit in front of glowing embers",
+        caption: null,
+      },
+      phone: {
+        src: "shawarmaway/site-home-phone.jpg",
+        alt: "The new Shawarma Way home page on a phone",
+        caption: null,
+      },
+    },
+    code: `<section className={styles.hero} data-surface="char" aria-labelledby="hero-title">
+  <div className={\`container \${styles.top}\`}>
+    <KitchenStatus
+      hours={hours}
+      timeZone={timeZone}
+      openLabel={status.open}
+      closedLabel={status.closed}
+    />
+    <p className={styles.arabic} lang="ar" dir="rtl" aria-hidden="true">
+      {nameArabic}
+    </p>
+  </div>
+
+  <div className={\`container \${styles.content}\`}>
+    <h1 id="hero-title" className={styles.headline}>
+      {headline}
+    </h1>
+    <div className={styles.lede}>
+      {intro && <p className={styles.intro}>{intro}</p>}
+      <ButtonLink href={orderHref}>Order online</ButtonLink>
+    </div>
+  </div>
+</section>`,
+    pageTitle: "Shawarma Way: a new website for an Irving shawarma restaurant",
+    pageDescription:
+      "How Tim Rios is moving Shawarma Way off a restaurant-platform template onto a website drawn from the restaurant itself: the logo, the wood fire and the dining room.",
+    before: {
+      heading: "Where Shawarma Way started",
+      text: "A template from a restaurant-website platform, in a look borrowed from no one in particular: nothing came from the restaurant’s own logo, food or room. On phones an app prompt covered the page, and the pages disagreed with each other, with two phone numbers, two sets of hours and eleven overlapping menu categories.",
+      image: {
+        src: "shawarmaway/old-site-home-desktop.jpg",
+        alt: "The earlier Shawarma Way website: a white template page with a large sandwich photo and the slogan “Taste the Shawarma Revolution!”",
+        caption: "The earlier site, October 2026.",
+      },
+    },
+    sections: [
+      {
+        service: "Website",
+        heading: "Objects from the counter",
+        text: "The look comes from the restaurant itself: charcoal and brick red from the logo, ember and wood from the grill, slate and orange from the dining-room chairs. Dark pages with butcher-paper reading surfaces, tall menu-board headlines, the Arabic name in Kufi lettering, and a single ember glow behind the headline, which says what sets them apart: “Shawarma over real fire.”",
+        points: [
+          "The menu reorganized from eleven overlapping categories to eight, every duplicate removed, prices unchanged.",
+          "Every fact (phone, address, hours) kept in one place, so the site can’t contradict itself again. At launch, the menu, prices and hours come straight from the restaurant’s Square till.",
+          "Every old page address kept or rebuilt, including 21 search pages rewritten with honest copy, so the move loses no search rankings.",
+          "Coming next: online ordering and payments through Square, sent straight to the kitchen screen.",
+          "The photos on the preview are AI placeholders, marked as such, until the owner’s professional photo shoot.",
+        ],
+        images: [
+          {
+            src: "shawarmaway/site-menu-desktop.jpg",
+            alt: "The new Shawarma Way menu page: a tall “Menu” headline on charcoal, then dishes and prices on a butcher-paper surface",
+            caption: "The menu, on butcher paper. Food photos are AI placeholders.",
+          },
+          {
+            src: "shawarmaway/site-story-desktop.jpg",
+            alt: "The new Shawarma Way story page: “Our story” over a wood fire, and “We cook over wood” on a paper sheet",
+            caption: "Our story. Photos are AI placeholders.",
+          },
+        ],
+      },
+    ],
+    results: {
+      heading: "Before launch",
+      items: [
+        {
+          figure: "6.1 s → 3.4 s",
+          text: "until the main photo appears on a phone over slow 4G, after a pre-launch speed fix",
+        },
+        { figure: "100", text: "accessibility score on every page tested" },
+        { figure: "2 days", text: "from the first draft to every page redesigned" },
+      ],
+      source:
+        "Lighthouse and a pre-launch SEO audit of the preview, 3 November 2026. Search and order numbers will follow the launch.",
     },
   },
 ]);

@@ -228,6 +228,8 @@ With `prefers-reduced-motion: reduce`: no build (the site shows finished), no sm
 - **ServiceList:** four services, each with a proof link to the project it comes from, marked by a 2px accent rule.
 - **ProcessSteps:** five numbered steps; numbers in the display face, ash.
 - **Closing:** the "Tell me about your business" invitation with the main button.
+- **In-progress tag:** "In progress" in mono, outlined 1px in the client's color, beside the project id (work row
+  and project page); in the hero list it's added to the business kind. The project page labels its link "Preview".
 - **Img:** every image; builds WebP copies at several widths.
 - **Buttons:** `.btn--primary` (accent fill, black text), `.btn--ghost` (graphite edge).
 
