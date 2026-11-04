@@ -1,9 +1,10 @@
 ---
-// The steps of a project, numbered because they happen in this order
+// The steps of a project, numbered because they happen in this order. A line runs through the numbers and draws
+// itself once when it comes into view.
 import { process } from "../data/process";
 ---
 
-<ol class="steps">
+<ol class="steps" data-steps>
   {process.map((step) => (
     <li>
       <h3>{step.name}</h3>
@@ -14,26 +15,29 @@ import { process } from "../data/process";
 
 <style>
   .steps {
+    --drawn: 1;
     counter-reset: step;
+    position: relative;
     display: grid;
-    gap: var(--space-6);
+    gap: var(--space-7);
     padding: 0;
     list-style: none;
   }
 
   li {
     counter-increment: step;
-    display: grid;
-    grid-template-columns: 3.5rem 1fr;
-    column-gap: var(--space-4);
-    padding-top: var(--space-5);
-    border-top: 2px solid var(--text);
+    position: relative;
   }
 
   li::before {
     content: counter(step);
-    grid-row: span 2;
-    font: 650 var(--text-3) / 1.25 var(--font-display);
+    display: block;
+    margin-bottom: var(--space-4);
+    font: 720 var(--text-1) / 1 var(--font-display);
+    font-variation-settings:
+      "opsz" 96,
+      "wdth" 98;
+    letter-spacing: -0.03em;
     color: var(--accent);
   }
 
@@ -47,15 +51,38 @@ import { process } from "../data/process";
     .steps {
       grid-template-columns: repeat(5, 1fr);
       gap: var(--space-5);
+      padding-top: var(--space-5);
     }
 
-    li {
-      grid-template-columns: 1fr;
-    }
-
-    li::before {
-      grid-row: auto;
-      margin-bottom: var(--space-5);
+    /* The line: drawn along the top, left to right, from a hidden start the script sets */
+    .steps::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(var(--drawn));
+      transform-origin: left;
+      transition: transform 1.4s var(--ease-build);
     }
   }
 </style>
+
+<script>
+  const steps = document.querySelector<HTMLElement>("[data-steps]");
+  if (steps && matchMedia("(prefers-reduced-motion: no-preference)").matches) {
+    steps.style.setProperty("--drawn", "0");
+    const watcher = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          steps.style.setProperty("--drawn", "1");
+          watcher.disconnect();
+        }
+      },
+      { threshold: 0.4 },
+    );
+    watcher.observe(steps);
+  }
+</script>

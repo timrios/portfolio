@@ -1,0 +1,77 @@
+---
+// Work images resolve from blue pixels the first time they come into view. Anything marked data-pixels gets a canvas
+// of squares on top, which clear in a left-to-right scatter. Without JavaScript, or with reduced motion, images simply
+// show: the cover is only ever added by this script.
+---
+
+<script>
+  if (matchMedia("(prefers-reduced-motion: no-preference)").matches) {
+    const styles = getComputedStyle(document.documentElement);
+    const colors = ["--color-ink-deep", "--color-prussian", "--color-navy-band"].map((name) =>
+      styles.getPropertyValue(name).trim(),
+    );
+    const flash = styles.getPropertyValue("--color-sky").trim();
+    const cell = 22;
+    const duration = 1000;
+
+    const reveal = (
+      canvas: HTMLCanvasElement,
+      cells: { x: number; y: number; at: number; color: string }[],
+    ) => {
+      const ctx = canvas.getContext("2d")!;
+      const start = performance.now();
+      const step = (now: number) => {
+        const t = (now - start) / duration;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (const c of cells) {
+          if (t > c.at) continue;
+          // The last moment before a square clears, it flashes the bright blue
+          ctx.fillStyle = c.at - t < 0.07 ? flash : c.color;
+          ctx.fillRect(c.x, c.y, cell, cell);
+        }
+        if (t < 1) requestAnimationFrame(step);
+        else canvas.remove();
+      };
+      requestAnimationFrame(step);
+    };
+
+    const watcher = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          watcher.unobserve(entry.target);
+          const item = (entry.target as HTMLElement & { pixels?: () => void }).pixels;
+          item?.();
+        }
+      },
+      { threshold: 0.25 },
+    );
+
+    for (const el of document.querySelectorAll<HTMLElement & { pixels?: () => void }>(
+      "[data-pixels]",
+    )) {
+      const box = el.getBoundingClientRect();
+      if (!box.width || !box.height) continue;
+      if (getComputedStyle(el).position === "static") el.style.position = "relative";
+      const canvas = document.createElement("canvas");
+      canvas.setAttribute("aria-hidden", "true");
+      canvas.width = Math.ceil(box.width);
+      canvas.height = Math.ceil(box.height);
+      canvas.style.cssText =
+        "position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none;border-radius:inherit";
+      const ctx = canvas.getContext("2d")!;
+      const cells: { x: number; y: number; at: number; color: string }[] = [];
+      for (let y = 0; y < canvas.height; y += cell) {
+        for (let x = 0; x < canvas.width; x += cell) {
+          const color = colors[Math.floor(Math.random() * colors.length)];
+          cells.push({ x, y, color, at: 0.15 + (x / canvas.width) * 0.45 + Math.random() * 0.4 });
+          ctx.fillStyle = color;
+          ctx.fillRect(x, y, cell, cell);
+        }
+      }
+      el.appendChild(canvas);
+      el.pixels = () => reveal(canvas, cells);
+      watcher.observe(el);
+    }
+  }
+</script>

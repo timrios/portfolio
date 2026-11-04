@@ -2,6 +2,7 @@
 // The home page's opening: what the owner gets, then the clients' real work as a collage. Each piece sits at its own
 // depth and shifts with the pointer (fine pointers, motion allowed), inviting a closer look. Behind it, a soft glow in
 // the featured clients' own brand colors: the work lights the page.
+import AskBox from "./AskBox.astro";
 import Img from "./Img.astro";
 import { site } from "../data/site";
 import { projects } from "../data/projects";
@@ -38,20 +39,18 @@ const pieces = [
   <div class="words">
     <h1 id="hero-heading">{site.home.headline}</h1>
     <p class="lede">{site.home.lede}</p>
-    <div class="actions">
-      <a class="btn btn--primary" href={site.home.primaryAction.href}>
-        {site.home.primaryAction.label}
-      </a>
-      <a class="btn btn--ghost" href={`sms:${site.phoneSms}`}>
+    <AskBox />
+    <p class="timing">
+      {site.home.timing}{" "}
+      <a class="link" href={`sms:${site.phoneSms}`}>
         {site.home.textAction}
       </a>
-    </div>
-    <p class="timing">{site.home.timing}</p>
+    </p>
   </div>
   <div class="collage" role="group" aria-label={site.home.collageLabel} data-collage>
     <div class="glow piece" style={glow} data-depth="-0.8" aria-hidden="true"></div>
     {pieces.map((piece) => (
-      <div class:list={["piece", piece.class]} data-depth={piece.depth}>
+      <div class:list={["piece", piece.class]} data-depth={piece.depth} data-pixels>
         <Img src={piece.src} alt={piece.alt} sizes="(min-width: 1024px) 34vw, 80vw" priority />
       </div>
     ))}
@@ -68,13 +67,6 @@ const pieces = [
 
   .lede {
     margin-top: var(--space-5);
-  }
-
-  .actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-    margin-top: var(--space-6);
   }
 
   .timing {
@@ -112,13 +104,26 @@ const pieces = [
     opacity: 0.45;
   }
 
+  .piece {
+    border-radius: var(--radius-screen);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .glow {
+    overflow: visible;
+    box-shadow: none;
+  }
+
+  .d {
+    border-radius: 1rem;
+  }
+
   .piece :global(img) {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: top left;
-    border-radius: var(--radius-screen);
-    box-shadow: var(--shadow);
   }
 
   .a {
@@ -160,7 +165,7 @@ const pieces = [
   /* Wide screens: the text keeps the content column's left edge; the collage runs wider, toward the window's edge */
   @media (min-width: 1024px) {
     .hero {
-      grid-template-columns: 5fr 7fr;
+      grid-template-columns: 1fr 1fr;
       gap: var(--space-8);
       max-width: none;
       padding-left: max(var(--gutter), calc((100vw - var(--content-max)) / 2 + var(--gutter)));

@@ -1,4 +1,4 @@
-// Reels shown on the home page as silent previews. The clips are short web copies in public/media/reels/ (made from
+// Reels shown as silent previews, one at a time (the first is featured). The clips are short web copies in public/media/reels/ (made from
 // the finished Reels in ~/Movies/<Client>/); the full Reels, with sound, live on the client's Instagram.
 import { z } from "astro/zod";
 
@@ -7,7 +7,8 @@ const reelSchema = z.object({
   /** Project the Reel was made for (projects.ts id) */
   projectId: z.string(),
   title: z.string(),
-  caption: z.string(),
+  /** What the Reel is and how it was made, shown beside it */
+  story: z.string(),
   /** Made with AI: labeled on the site as it is on Instagram (openly magical scenes only, never real pets or people) */
   ai: z.boolean(),
   /** File names in public/media/reels/ */
@@ -20,20 +21,19 @@ const reelSchema = z.object({
 export const reelsSection = z
   .object({
     heading: z.string(),
-    intro: z.string(),
     note: z.string(),
     pause: z.string(),
     play: z.string(),
     aiLabel: z.string(),
+    pickLabel: z.string(),
   })
   .parse({
     heading: "The website is only half of it. Here’s what customers see every week.",
-    intro:
-      "Reels for Fanzi Pet, cut from real visits the groomers film, in the style of the van wrap.",
-    note: "Silent previews. The full Reels, with sound, are on Fanzi’s Instagram.",
+    note: "A silent preview. The full Reels, with sound, are on Fanzi’s Instagram.",
     pause: "Pause the Reels",
     play: "Play the Reels",
     aiLabel: "AI",
+    pickLabel: "Choose a Reel to watch",
   });
 
 export const reels = z.array(reelSchema).parse([
@@ -41,7 +41,8 @@ export const reels = z.array(reelSchema).parse([
     id: "gizmo-pug-tips",
     projectId: "fanzi-pet",
     title: "Gizmo’s pug-care tips",
-    caption: "Filmed by the groomer, in her own words",
+    story:
+      "A full visit filmed by the groomer, cut into three tips for pug and bulldog owners, in her own words.",
     ai: false,
     video: "gizmo-pug-tips.mp4",
     poster: "gizmo-pug-tips.jpg",
@@ -51,7 +52,8 @@ export const reels = z.array(reelSchema).parse([
     id: "duncan-deshed",
     projectId: "fanzi-pet",
     title: "Mr. Duncan’s de-shed",
-    caption: "Three steps, filmed on smart glasses",
+    story:
+      "Filmed first-person on smart glasses in the groomer’s own voice, told as three steps that sell the de-shed add-on.",
     ai: false,
     video: "duncan-deshed.mp4",
     poster: "duncan-deshed.jpg",
@@ -61,7 +63,8 @@ export const reels = z.array(reelSchema).parse([
     id: "halloween-spell",
     projectId: "fanzi-pet",
     title: "The Halloween spell",
-    caption: "Openly magical, labeled as AI",
+    story:
+      "Openly magical AI scenes in Fanzi’s colors, ending on the real logo carved into a glowing jack-o’-lantern. Labeled as AI.",
     ai: true,
     video: "halloween-spell.mp4",
     poster: "halloween-spell.jpg",
@@ -71,7 +74,7 @@ export const reels = z.array(reelSchema).parse([
     id: "doodle-before-after",
     projectId: "fanzi-pet",
     title: "A doodle, before and after",
-    caption: "Four stills, one groom",
+    story: "Four stills of one groom, from shaggy to finished, cut into a Reel.",
     ai: false,
     video: "doodle-before-after.mp4",
     poster: "doodle-before-after.jpg",

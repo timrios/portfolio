@@ -30,12 +30,13 @@ from what convinces a buyer.
    keep their own colors and are what the eye goes to.
 3. **Room to breathe.** Normal-width type at moderate sizes, wide margins, generous section spacing. Nothing fills the
    screen edge to edge.
-4. **Effects with a job.** Every effect explains something or answers the visitor: the before/after slider shows the
-   change, the numbers count up once to draw the eye to results, the collage responds to the pointer to invite a closer
-   look, the theme switch shows what changed. Nothing loops on its own except Reels, which can be paused.
-5. **The visitor chooses light or dark.** Both looks are complete; the site starts in the device's own setting and
-   remembers a choice.
+4. **Life, with a job.** Tim's review: compared with patrickgibbs.dev the site felt flat and stacked. So the site moves
+   and answers: the opening asks what's wrong and types real owner problems; work resolves from blue pixels as it comes
+   into view; the slider shows the change; results count up; the process line draws itself. Each plays once or answers
+   the visitor. Only the one featured Reel loops, and it can be paused.
+5. **Dark first, light on request.** Both looks are complete; the site opens dark and remembers a visitor's switch.
 6. **Proof next to every claim.** Results name their business and, on project pages, their source and date.
+7. **Statement type.** Headlines are large enough to stand alone as the section's image.
 
 ## Brand
 
@@ -51,8 +52,8 @@ trustworthy and fitting for someone who builds, deep and muted rather than brigh
 becomes a family of three shades, each with a job: **deep ink** carries whole sections (the header once scrolled,
 results, closing, footer), **Prussian** does buttons and links, **blueprint** tints the page and pale panels.
 
-Two complete looks. `html[data-theme]` holds the visitor's choice; with none, the device setting decides
-(`prefers-color-scheme`). An inline script in the head applies it before the page paints. The dark look is built from
+Two complete looks, **dark by default** (Tim, 2026-11-04). `html[data-theme]` holds the look; an inline script in the
+head applies the visitor's saved choice, else dark, before the page paints. The dark look is built from
 the same hue (deep navy), not a neutral gray, so both looks are one brand.
 
 ### Palette
@@ -145,9 +146,9 @@ condensed 800 shouted. Self-hosted through Astro's font API.
 
 | Token           | Size                          | Use                          |
 | --------------- | ----------------------------- | ---------------------------- |
-| `--text-display`| `clamp(2.5rem, 4.6vw, 4rem)`  | Page titles, home headline   |
-| `--text-1`      | `clamp(2.2rem, 3.6vw, 3rem)`  | Result figures               |
-| `--text-2`      | `clamp(1.9rem, 3vw, 2.6rem)`  | Section headings             |
+| `--text-display`| `clamp(3rem, 5.8vw, 5.5rem)`  | Page titles, home headline   |
+| `--text-1`      | `clamp(2.6rem, 4.4vw, 3.75rem)` | Result figures, step numbers |
+| `--text-2`      | `clamp(2.3rem, 4.6vw, 4.25rem)` | Section headings, owner problems, project names |
 | `--text-3`      | 1.25rem                       | Card and step titles         |
 | `--text-lede`   | 1.1875rem                     | Intros                       |
 | `--text-body`   | 1.0625rem                     | Body                         |
@@ -167,18 +168,20 @@ condensed 800 shouted. Self-hosted through Astro's font API.
 ```
 Home (desktop)
 ┌──────────────────────────────────────────────────────────────┐
-│ timrios.dev       Work  How it works  About  [toggle] [Text]  │
-│ More customers for your           ┌ collage: client sites,  ┐ │
-│ business, starting with how it    │ a phone, the vans;      │ │
-│ looks online.                     │ shifts with the pointer │ │
-│ business types, two buttons, timing note                    │ │
-├──── Results band: four numbers, each tied to a kind of business ┤
-├──── Before and after: a slider per project │ name, outcome, links ┤
-├──── What clients say (approved quotes only) ──────────────────┤
-├──── Reels: phones on a shelf, one pause button ───────────────┤
-├──── Sound familiar?: four owner problems, what Tim does ──────┤
-├──── How it works: numbered steps, timing ─────────────────────┤
-├──── Closing band: heading, free plan, text number ────────────┤
+│ timrios.dev       Work  How it works  About  [Text] [toggle]  │
+│ More customers for        ┌ collage: client sites, a phone,  ┐│
+│ your business.            │ the vans; resolves from pixels;  ││
+│ what I do                 │ shifts with the pointer          ││
+│ [what's holding you back? ▌ typing…][Get a free plan] Text   ││
+├──── Results band ─────────────────────────────────────────────┤
+│ Before and after (huge)                                       │
+│ [slider ........]  name, outcome, links                       │
+│    name, outcome, links  [........ slider]   staggered, no lines │
+├──── Quotes (approved only) ───────────────────────────────────┤
+│ one big phone, playing │ heading, its story, stills to switch │
+├──── Sound familiar? deep band: huge problem │ what I do ──────┤
+│ From first text to live site: 1──2──3──4──5 drawn line        │
+├──── Closing band ─────────────────────────────────────────────┤
 └──── Footer ───────────────────────────────────────────────────┘
 ```
 
@@ -228,7 +231,10 @@ Mobile-first; write these directly in `@media` rules.
 | **Before/after**   | A range slider wipes between the old and new site (`clip-path`); arrow keys move it. Starts at 50%. |
 | **Theme toggle**   | Switches with a circular reveal from the button (View Transitions), 0.5s; instant where unsupported. |
 | **Preview window** | Opens the client's live site; the build line sweeps over its code while it loads. |
-| **Reels**          | Silent loops, play only while visible, one pause button.                          |
+| **Reels**          | One featured silent loop, large, plays only while visible; stills switch it; a pause button stops it. Paused under reduced motion. |
+| **Ask box**        | The field's placeholder types real owner problems, one letter at a time, and stops once the visitor focuses it. What they type (or nothing) goes to the contact form, prefilled. |
+| **Pixel reveal**   | Work images (`data-pixels`) start hidden under a grid of blue squares, which clear in a left-to-right scatter over about 1s when the image first comes into view. Once only. |
+| **Process line**   | The line through the steps draws left to right once, 1.4s, when it comes into view. |
 | **Buttons**        | Hover darkens the accent slightly; ghost buttons gain a stronger edge.            |
 | **Links**          | A 2px accent bar under the text that fills in behind it on hover (text turns `--on-accent`). |
 | **Cards**          | Soft ink-tinted shadow, no border; lift 3px on hover.                             |
@@ -237,17 +243,19 @@ Mobile-first; write these directly in `@media` rules.
 
 ### Reduced motion
 
-With `prefers-reduced-motion: reduce`: no collage movement, figures appear at their value, the theme switches
+With `prefers-reduced-motion: reduce`: no pixel reveal, the ask box shows one static example, the process line is already drawn, no collage movement, figures appear at their value, the theme switches
 instantly, the preview's line holds still, Reels start paused.
 
 ## Components
 
 - **Header:** wordmark, links, the theme toggle, and a "Text" pill button with the number.
 - **Footer:** name and city, email, text number, year.
-- **HomeHero:** headline, business types, two buttons, timing note; the client collage.
+- **HomeHero:** the short headline, what Tim does, the ask box, timing note; the client collage.
+- **AskBox:** a labeled field with typed examples and a "Get a free plan" button, posting to `/contact/?need=…`, which prefills the message.
+- **PixelReveal:** the script behind `data-pixels`; loaded by the layout.
 - **ResultsBand:** home: the featured results (`band` text in `projects.ts`), each naming its kind of business. Project
   pages: that project's results and source. One row for up to four; more wrap in rows of three.
-- **BeforeAfter:** one row per project on the home page: the **CompareSlider**, name, kind, the outcome line, "Read the
+- **BeforeAfter:** one row per project on the home page, alternating sides with no dividers: the **CompareSlider**, big name, kind, the outcome line, "Read the
   story" and "Browse the site" (opens **ProjectPreview**).
 - **CompareSlider:** the before/after slider (or a "before" description when there's no old site); home and project pages.
 - **LogoRow:** "Businesses I've worked with": each client's real logo on the background it was designed for (white or
@@ -258,9 +266,9 @@ instantly, the preview's line holds still, Reels start paused.
   the client's quote (when approved); the next project as a card with its screenshot; the closing band.
 - **Quotes:** client quotes from `quotes.ts`. Only `approved` quotes appear on the live site; drafts show in local
   development only, labeled "Draft, awaiting the client's OK".
-- **ReelShelf:** Reels in phone frames.
-- **ServiceList** ("Sound familiar?"): each service as the owner's problem, what Tim does, and a proof link.
-- **ProcessSteps:** numbered steps, numbers in the accent.
+- **FeaturedReel:** one Reel, emphasized: a large phone playing it, its story beside it, stills to switch to the others, a pause button. Home and project pages.
+- **ServiceList** ("Sound familiar?"): a deep band of huge statements, each the owner's problem with what Tim does and a proof link beside it; the problem turns accent on hover.
+- **ProcessSteps:** a timeline: large numbers in the accent on a line that draws itself.
 - **Closing:** heading, free-plan button, text button.
 - **ProjectPreview:** the preview window.
 - **ThemeToggle:** a pill switch; `aria-pressed` reflects dark.

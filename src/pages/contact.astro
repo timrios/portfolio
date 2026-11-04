@@ -351,6 +351,11 @@ const errorText = c.error.replace("{email}", site.email);
   const status = form.querySelector<HTMLElement>("[data-status]")!;
   const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
 
+  // A problem typed into the home page's question arrives here, already written in the message
+  const need = new URLSearchParams(location.search).get("need");
+  const message = form.querySelector<HTMLTextAreaElement>('textarea[name="message"]');
+  if (need && message) message.value = need;
+
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     button.disabled = true;

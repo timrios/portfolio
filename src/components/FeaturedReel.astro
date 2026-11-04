@@ -1,0 +1,284 @@
+---
+// One Reel, emphasized: a large phone playing it, its story beside it, and stills to switch to the others. Only the
+// chosen clip loads and plays, only while on screen; a button pauses it, and it starts paused under reduced motion.
+import { reels, reelsSection } from "../data/reels";
+
+interface Props {
+  /** Show only this project's Reels, without the section heading (inside a project page) */
+  projectId?: string;
+}
+
+const { projectId } = Astro.props;
+const shown = projectId ? reels.filter((reel) => reel.projectId === projectId) : reels;
+const first = shown[0];
+---
+
+{first && (
+  <div
+    class:list={["reel", { container: !projectId, section: !projectId, inline: projectId }]}
+    data-reel-box
+  >
+    <div class="phone">
+      <video
+        src={`/media/reels/${first.video}`}
+        poster={`/media/reels/${first.poster}`}
+        muted
+        loop
+        playsinline
+        preload="none"
+        aria-label={first.alt}
+        data-reel
+      />
+    </div>
+    <div class="words">
+      {!projectId && <h2>{reelsSection.heading}</h2>}
+      <p class="title" data-reel-title>
+        {first.title}
+      </p>
+      <p class="story" data-reel-story>
+        {first.story}
+      </p>
+      <ul class="stills" aria-label={reelsSection.pickLabel}>
+        {shown.map((reel, i) => (
+          <li>
+            <button
+              type="button"
+              aria-pressed={i === 0 ? "true" : "false"}
+              data-reel-pick
+              data-video={`/media/reels/${reel.video}`}
+              data-poster={`/media/reels/${reel.poster}`}
+              data-title={reel.title}
+              data-story={reel.story}
+              data-alt={reel.alt}
+            >
+              <img
+                src={`/media/reels/${reel.poster}`}
+                alt=""
+                loading="lazy"
+                width="432"
+                height="768"
+              />
+              <span class="visually-hidden">{reel.title}</span>
+              {reel.ai && <span class="tag">{reelsSection.aiLabel}</span>}
+            </button>
+          </li>
+        ))}
+      </ul>
+      <div class="controls">
+        <button
+          type="button"
+          class="pause"
+          aria-pressed="false"
+          data-reels-toggle
+          data-pause={reelsSection.pause}
+          data-play={reelsSection.play}
+        >
+          {reelsSection.pause}
+        </button>
+        <p>{reelsSection.note}</p>
+      </div>
+    </div>
+  </div>
+)}
+
+<style>
+  .reel {
+    display: grid;
+    gap: var(--space-7);
+    align-items: center;
+  }
+
+  .inline {
+    margin-top: var(--space-7);
+  }
+
+  .phone {
+    position: relative;
+    justify-self: center;
+    width: min(78vw, 24rem);
+    aspect-ratio: 9 / 16;
+    padding: var(--space-2);
+    border-radius: 2.25rem;
+    background: var(--surface);
+    box-shadow:
+      var(--shadow),
+      0 0 0 1px var(--rule),
+      0 0 7rem -1rem color-mix(in srgb, var(--accent) 45%, transparent);
+  }
+
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1.8rem;
+  }
+
+  .title {
+    margin-top: var(--space-5);
+    font-size: var(--text-3);
+    font-weight: 650;
+    letter-spacing: -0.01em;
+  }
+
+  .inline .title {
+    margin-top: 0;
+  }
+
+  .story {
+    margin-top: var(--space-2);
+    max-width: var(--content-narrow);
+    color: var(--text-muted);
+    font-size: var(--text-lede);
+  }
+
+  .stills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+    padding: 0;
+    list-style: none;
+  }
+
+  .stills button {
+    position: relative;
+    display: block;
+    width: 4.5rem;
+    padding: 0;
+    overflow: hidden;
+    cursor: pointer;
+    border: 0;
+    border-radius: var(--radius-screen);
+    background: none;
+    opacity: 0.65;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    transition:
+      opacity 0.2s,
+      outline-color 0.2s;
+  }
+
+  .stills img {
+    width: 100%;
+    height: auto;
+  }
+
+  .stills button:hover,
+  .stills button[aria-pressed="true"] {
+    opacity: 1;
+  }
+
+  .stills button[aria-pressed="true"],
+  .stills button:focus-visible {
+    outline-color: var(--accent);
+  }
+
+  .tag {
+    position: absolute;
+    right: var(--space-1);
+    bottom: var(--space-1);
+    padding: 0 var(--space-1);
+    border-radius: 3px;
+    background: var(--color-ink);
+    color: var(--color-white);
+    font-size: 0.6875rem;
+    font-weight: 600;
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-5);
+    margin-top: var(--space-5);
+    font-size: var(--text-small);
+    color: var(--text-muted);
+  }
+
+  .pause {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--text);
+    font: 600 var(--text-small) / 1 var(--font-body);
+    cursor: pointer;
+  }
+
+  .pause::before {
+    content: "";
+    width: 0.7rem;
+    height: 0.8rem;
+    background: linear-gradient(90deg, var(--accent) 35%, transparent 35% 65%, var(--accent) 65%);
+  }
+
+  .pause[aria-pressed="true"]::before {
+    background: var(--accent);
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+  }
+
+  @media (min-width: 1024px) {
+    .reel {
+      grid-template-columns: 5fr 7fr;
+      gap: var(--space-9);
+    }
+
+    .inline {
+      grid-template-columns: 2fr 3fr;
+    }
+
+    .phone {
+      width: 100%;
+      max-width: 24rem;
+    }
+  }
+</style>
+
+<script>
+  const box = document.querySelector<HTMLElement>("[data-reel-box]");
+  const video = box?.querySelector<HTMLVideoElement>("[data-reel]");
+  if (box && video) {
+    const toggle = box.querySelector<HTMLButtonElement>("[data-reels-toggle]")!;
+    const title = box.querySelector<HTMLElement>("[data-reel-title]")!;
+    const story = box.querySelector<HTMLElement>("[data-reel-story]")!;
+    const picks = [...box.querySelectorAll<HTMLButtonElement>("[data-reel-pick]")];
+    let paused = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let visible = false;
+
+    const sync = () => {
+      if (!paused && visible) void video.play().catch(() => {});
+      else video.pause();
+      toggle.setAttribute("aria-pressed", String(paused));
+      toggle.textContent = paused ? toggle.dataset.play! : toggle.dataset.pause!;
+    };
+
+    new IntersectionObserver(
+      (entries) => {
+        visible = entries.some((entry) => entry.isIntersecting);
+        sync();
+      },
+      { threshold: 0.4 },
+    ).observe(video);
+
+    toggle.addEventListener("click", () => {
+      paused = !paused;
+      sync();
+    });
+
+    for (const pick of picks) {
+      pick.addEventListener("click", () => {
+        video.src = pick.dataset.video!;
+        video.poster = pick.dataset.poster!;
+        video.setAttribute("aria-label", pick.dataset.alt!);
+        title.textContent = pick.dataset.title!;
+        story.textContent = pick.dataset.story!;
+        for (const other of picks) other.setAttribute("aria-pressed", String(other === pick));
+        sync();
+      });
+    }
+    sync();
+  }
+</script>

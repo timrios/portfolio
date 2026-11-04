@@ -45,21 +45,30 @@ const { project } = Astro.props;
 <style>
   .row {
     display: grid;
-    gap: var(--space-5) var(--space-8);
+    gap: var(--space-5) var(--space-9);
     align-items: center;
-    padding-block: var(--space-7);
-    border-top: 1px solid var(--rule);
+    padding-block: var(--space-8);
+  }
+
+  h3 {
+    font-size: var(--text-2);
+    font-weight: 720;
+    font-variation-settings:
+      "opsz" 96,
+      "wdth" 98;
+    letter-spacing: -0.032em;
+    line-height: 1.02;
   }
 
   .marker {
     display: inline-block;
-    width: 0.6em;
-    height: 0.6em;
-    margin-right: 0.45em;
+    width: 0.32em;
+    height: 0.32em;
+    margin-right: 0.3em;
     border-radius: 2px;
     background: var(--client);
     box-shadow: 0 0 0 1px var(--field-border);
-    vertical-align: 0.05em;
+    vertical-align: 0.14em;
   }
 
   .status {
@@ -114,9 +123,19 @@ const { project } = Astro.props;
     cursor: pointer;
   }
 
+  /* Alternate sides, so the work zigzags down the page instead of stacking */
   @media (min-width: 1024px) {
     .row {
       grid-template-columns: 7fr 5fr;
+      padding-block: var(--space-9);
+    }
+
+    .row:nth-of-type(even) {
+      grid-template-columns: 5fr 7fr;
+    }
+
+    .row:nth-of-type(even) .compare {
+      order: 2;
     }
   }
 </style>

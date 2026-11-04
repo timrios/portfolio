@@ -1,0 +1,124 @@
+---
+// The opening asks the owner what's wrong. The field types real problems by itself until the visitor focuses it;
+// whatever they write goes to the contact form, prefilled, so they never type it twice.
+import { site } from "../data/site";
+
+const { ask } = site.home;
+---
+
+<form
+  class="ask"
+  action="/contact/"
+  method="get"
+  data-ask
+  data-examples={JSON.stringify(ask.examples)}
+>
+  <label for="ask-need">{ask.label}</label>
+  <div class="row">
+    <input id="ask-need" name="need" type="text" autocomplete="off" placeholder={ask.examples[0]} />
+    <button class="btn btn--primary" type="submit">
+      {ask.submit}
+    </button>
+  </div>
+</form>
+
+<style>
+  .ask {
+    margin-top: var(--space-6);
+    max-width: 36rem;
+  }
+
+  label {
+    display: block;
+    margin-bottom: var(--space-3);
+    font-weight: 600;
+  }
+
+  .row {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  input {
+    width: 100%;
+    min-height: 56px;
+    padding: 0 var(--space-5);
+    font: 400 var(--text-body) / 1.3 var(--font-body);
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--field-border);
+    border-radius: var(--radius-pill);
+  }
+
+  input::placeholder {
+    color: var(--text-muted);
+    opacity: 1;
+  }
+
+  input:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  .btn {
+    min-height: 56px;
+    white-space: nowrap;
+  }
+
+  /* From small tablets up, the button sits inside the field's pill */
+  @media (min-width: 640px) {
+    .row {
+      position: relative;
+      display: block;
+    }
+
+    input {
+      padding-right: 12rem;
+    }
+
+    .btn {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      min-height: 46px;
+    }
+  }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("[data-ask]");
+  const input = form?.querySelector("input");
+  if (form && input && matchMedia("(prefers-reduced-motion: no-preference)").matches) {
+    const examples: string[] = JSON.parse(form.dataset.examples!);
+    const original = input.placeholder;
+    let stopped = false;
+    let index = 0;
+    let length = 0;
+    let deleting = false;
+
+    const tick = () => {
+      if (stopped) return;
+      const text = examples[index];
+      length += deleting ? -1 : 1;
+      input.placeholder = text.slice(0, length);
+      let wait = deleting ? 22 : 48;
+      if (!deleting && length === text.length) {
+        deleting = true;
+        wait = 1800;
+      } else if (deleting && length === 0) {
+        deleting = false;
+        index = (index + 1) % examples.length;
+        wait = 350;
+      }
+      setTimeout(tick, wait);
+    };
+
+    // Once the visitor is in the field, it holds still for them
+    input.addEventListener("focus", () => {
+      stopped = true;
+      input.placeholder = original;
+    });
+    input.placeholder = "";
+    setTimeout(tick, 900);
+  }
+</script>
