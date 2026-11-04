@@ -69,6 +69,7 @@ export const site = siteSchema.parse({
   navigation: [
     { label: "Work", href: "/#work" },
     { label: "How it works", href: "/#how-it-works" },
+    { label: "About", href: "/about/" },
     { label: "Contact", href: "/contact/" },
   ],
   home: {

@@ -1,0 +1,141 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Closing from "../components/Closing.astro";
+import { about } from "../data/about";
+---
+
+<BaseLayout title={about.title} description={about.description} image="social/home.jpg">
+  <header class="intro container">
+    <h1>{about.heading}</h1>
+    <div class="text">
+      {about.intro.map((paragraph, i) => (
+        <p class:list={{ lede: i === 0 }}>{paragraph}</p>
+      ))}
+    </div>
+  </header>
+
+  <section class="container section block" aria-labelledby="background-heading">
+    <h2 id="background-heading">{about.backgroundHeading}</h2>
+    <ol class="timeline">
+      {about.background.map((item) => (
+        <li>
+          <p class="mono when">{item.when}</p>
+          <div>
+            <h3>{item.what}</h3>
+            <p>{item.detail}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="container section block" aria-labelledby="principles-heading">
+    <h2 id="principles-heading">{about.principlesHeading}</h2>
+    <ul class="principles">
+      {about.principles.map((principle) => (
+        <li>
+          <h3>{principle.name}</h3>
+          <p>{principle.text}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <Closing />
+</BaseLayout>
+
+<style>
+  .intro {
+    padding-block: var(--space-8) var(--space-9);
+  }
+
+  h1 {
+    font-size: var(--text-display);
+    line-height: 0.88;
+    max-width: 14ch;
+  }
+
+  .text {
+    margin-top: var(--space-7);
+    max-width: var(--content-narrow);
+  }
+
+  .text p + p {
+    margin-top: var(--space-4);
+  }
+
+  .text .lede {
+    color: var(--text);
+  }
+
+  .text p:not(.lede) {
+    color: var(--text-muted);
+  }
+
+  .block {
+    display: grid;
+    gap: var(--space-6);
+    padding-block: var(--space-9);
+    border-top: 1px solid var(--rule);
+  }
+
+  .timeline,
+  .principles {
+    padding: 0;
+    list-style: none;
+  }
+
+  .timeline li {
+    display: grid;
+    gap: var(--space-2) var(--space-6);
+    padding-block: var(--space-5);
+    border-top: 1px solid var(--rule);
+  }
+
+  .when {
+    color: var(--text-muted);
+  }
+
+  .timeline h3,
+  .principles h3 {
+    font-size: var(--text-3);
+  }
+
+  .timeline p,
+  .principles p {
+    margin-top: var(--space-2);
+    color: var(--text-muted);
+    max-width: var(--content-narrow);
+  }
+
+  .timeline .when {
+    margin-top: 0.35rem;
+  }
+
+  .principles {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .principles li {
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--rule);
+  }
+
+  @media (min-width: 768px) {
+    .timeline li {
+      grid-template-columns: 9rem 1fr;
+    }
+
+    .principles {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .block {
+      grid-template-columns: 3fr 9fr;
+      gap: var(--space-8);
+    }
+  }
+</style>
