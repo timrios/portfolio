@@ -1,0 +1,228 @@
+---
+// Every project as a large card. The screenshot opens the preview window with the live site; the text links to the
+// full story. Each card carries its client's color only as the small marker beside its name.
+import Img from "./Img.astro";
+import ProjectPreview from "./ProjectPreview.astro";
+import type { Project } from "../data/projects";
+import { site } from "../data/site";
+
+interface Props {
+  projects: Project[];
+}
+
+const { projects } = Astro.props;
+---
+
+<ul class="grid">
+  {projects.map((project, i) => (
+    <li class="card" style={`--client: ${project.accent}`}>
+      <button
+        class="shot"
+        type="button"
+        data-open-preview={project.id}
+        aria-label={`${site.preview.open}: ${project.name}`}
+      >
+        <Img
+          src={project.screens.desktop.src}
+          alt=""
+          sizes="(min-width: 1024px) 45vw, 100vw"
+          loading={i < 2 ? "eager" : "lazy"}
+        />
+        <span class="cue" aria-hidden="true">
+          {site.preview.open}
+        </span>
+      </button>
+      <div class="text">
+        <p class="mono path">
+          {project.id}
+          {project.status === "in-progress" && (
+            <span class="tag">{site.projectLabels.inProgress}</span>
+          )}
+        </p>
+        <h3>{project.name}</h3>
+        <p class="business">
+          {project.kind}, {project.place}
+        </p>
+        <p class="summary">{project.summary}</p>
+        <ul class="mono services" aria-label="What I did">
+          {project.services.map((service) => (
+            <li>{service}</li>
+          ))}
+        </ul>
+        <p class="links">
+          <a href={`/work/${project.id}/`}>{site.preview.story}</a>
+          <button type="button" class="open" data-open-preview={project.id}>
+            {site.preview.open}
+          </button>
+        </p>
+      </div>
+      <ProjectPreview project={project} />
+    </li>
+  ))}
+</ul>
+
+<style>
+  .grid {
+    display: grid;
+    gap: var(--space-9) var(--space-8);
+    padding: 0;
+    list-style: none;
+  }
+
+  .shot {
+    all: unset;
+    position: relative;
+    display: block;
+    width: 100%;
+    cursor: pointer;
+    border-radius: var(--radius-screen);
+    outline: 1px solid var(--rule);
+    overflow: hidden;
+  }
+
+  .shot :global(img) {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top left;
+    transition: transform 0.6s var(--ease-out);
+  }
+
+  /* On hover or keyboard focus: Tim's ink frames the screenshot and names what a click does */
+  .cue {
+    position: absolute;
+    left: var(--space-4);
+    bottom: var(--space-4);
+    padding: var(--space-2) var(--space-3);
+    background: var(--accent);
+    color: var(--on-accent);
+    font-weight: 600;
+    font-size: var(--text-small);
+    opacity: 0;
+    transform: translateY(0.4rem);
+    transition:
+      opacity 0.25s,
+      transform 0.25s var(--ease-out);
+  }
+
+  .shot:hover,
+  .shot:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .shot:hover .cue,
+  .shot:focus-visible .cue {
+    opacity: 1;
+    transform: none;
+  }
+
+  .shot:hover :global(img) {
+    transform: scale(1.015);
+  }
+
+  .text {
+    margin-top: var(--space-5);
+  }
+
+  .path {
+    color: var(--text-muted);
+  }
+
+  .path::before {
+    content: "";
+    display: inline-block;
+    width: 0.55em;
+    height: 1.1em;
+    margin-right: 0.6em;
+    vertical-align: -0.2em;
+    background: var(--client);
+  }
+
+  .tag {
+    margin-left: var(--space-3);
+    padding: 0 var(--space-2);
+    border: 1px solid var(--client);
+    color: var(--text);
+  }
+
+  h3 {
+    margin-top: var(--space-2);
+    font-size: var(--text-2);
+    font-weight: 800;
+    font-variation-settings:
+      "opsz" 96,
+      "wdth" 75;
+    line-height: 0.95;
+  }
+
+  .business {
+    margin-top: var(--space-2);
+    font-size: var(--text-small);
+    color: var(--text-muted);
+  }
+
+  .summary {
+    margin-top: var(--space-4);
+    max-width: var(--content-narrow);
+  }
+
+  .services {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-5);
+    margin-top: var(--space-4);
+    padding: 0;
+    list-style: none;
+    color: var(--text-muted);
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-6);
+    margin-top: var(--space-4);
+  }
+
+  .links a,
+  .open {
+    all: unset;
+    cursor: pointer;
+    display: inline-block;
+    padding-block: var(--space-3);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.3em;
+  }
+
+  .links a:hover,
+  .open:hover {
+    color: var(--accent);
+  }
+
+  .links a:focus-visible,
+  .open:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  @media (min-width: 1024px) {
+    .grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* A gentle stagger, so the grid reads as a spread rather than a table */
+    .card:nth-child(even) {
+      margin-top: var(--space-10);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .shot :global(img),
+    .cue {
+      transition: none;
+    }
+  }
+</style>

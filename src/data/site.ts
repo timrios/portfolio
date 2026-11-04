@@ -17,8 +17,7 @@ const siteSchema = z.object({
     lede: z.string(),
     primaryAction: z.object({ label: z.string(), href: z.string() }),
     secondaryAction: z.object({ label: z.string(), href: z.string() }),
-    projectsLabel: z.string(),
-    projectsHint: z.string(),
+    portraitAlt: z.string(),
     workHeading: z.string(),
     workIntro: z.string(),
     servicesHeading: z.string(),
@@ -28,6 +27,16 @@ const siteSchema = z.object({
     closingText: z.string(),
   }),
   footer: z.object({ about: z.string(), colorNote: z.string() }),
+  preview: z.object({
+    open: z.string(),
+    story: z.string(),
+    visit: z.string(),
+    desktop: z.string(),
+    phone: z.string(),
+    close: z.string(),
+    screenshotNote: z.string(),
+    loading: z.string(),
+  }),
   projectLabels: z.object({
     inProgress: z.string(),
     liveSite: z.string(),
@@ -74,14 +83,13 @@ export const site = siteSchema.parse({
   ],
   home: {
     headline: "I make local businesses look as good as they are.",
-    lede: "Websites, logos, packaging, vehicle wraps and social media, designed together so every part of your business looks like it belongs.",
+    lede: "Websites, logos, packaging, vehicle wraps and social media for local businesses, designed together so every part of the business looks like it belongs.",
     primaryAction: { label: "Start a project", href: "/contact/" },
     secondaryAction: { label: "See the work", href: "#work" },
-    projectsLabel: "Projects",
-    projectsHint: "Choose a project to watch it build.",
+    portraitAlt: "Tim Rios, smiling and looking down, printed as a halftone in black ink on yellow",
     workHeading: "Every business gets its own look.",
     workIntro:
-      "A dog groomer, a hair stylist, a gymnastics gym and a shawarma restaurant don’t share customers, so they shouldn’t share a look. Each project is designed from the business itself: its people, its place and its customers.",
+      "A dog groomer, a hair stylist, a gymnastics gym and a shawarma restaurant don’t share customers, so they shouldn’t share a look. Open any project to browse the real site.",
     servicesHeading: "One person for everything your customers see.",
     processHeading: "How working together goes.",
     processIntro:
@@ -93,7 +101,17 @@ export const site = siteSchema.parse({
   footer: {
     about: "Websites, brands and social media for local businesses. Based in {city}.",
     colorNote:
-      "My own colors are black and paper. The accent color you see belongs to whichever client is on screen.",
+      "The yellow is process yellow, one of the four inks a print shop runs: the highlighter on a proof, and the cursor in a code editor.",
+  },
+  preview: {
+    open: "Browse the site",
+    story: "Read the story",
+    visit: "Visit the site",
+    desktop: "Desktop",
+    phone: "Phone",
+    close: "Close",
+    screenshotNote: "A full-page capture: this site can’t be shown inside another page.",
+    loading: "Loading the site…",
   },
   projectLabels: {
     inProgress: "In progress",

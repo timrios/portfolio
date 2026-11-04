@@ -3,6 +3,7 @@ import type { GetStaticPaths } from "astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Img from "../../components/Img.astro";
 import Closing from "../../components/Closing.astro";
+import ProjectPreview from "../../components/ProjectPreview.astro";
 import { projects, type Project } from "../../data/projects";
 import { site } from "../../data/site";
 
@@ -29,9 +30,8 @@ const shownUrl =
   title={project.pageTitle}
   description={project.pageDescription}
   image={project.screens.desktop.src}
-  accent={project.accent}
 >
-  <header class="intro container">
+  <header class="intro container" style={`--client: ${project.accent}`}>
     <p class="mono path">
       work/{project.id}
       {project.status === "in-progress" && (
@@ -70,6 +70,10 @@ const shownUrl =
         </div>
       ))}
     </dl>
+    <button type="button" class="btn btn--primary browse" data-open-preview={project.id}>
+      {site.preview.open}
+    </button>
+    <ProjectPreview project={project} />
   </header>
 
   <div class="screens container">
@@ -155,7 +159,7 @@ const shownUrl =
   </section>
 
   {next.id !== project.id && (
-    <nav class="next container" aria-label="Next project" style={`--accent: ${next.accent}`}>
+    <nav class="next container" aria-label="Next project" style={`--client: ${next.accent}`}>
       <a href={`/work/${next.id}/`}>
         <span class="mono">Next project</span>
         <span class="next-name">{next.name}</span>
@@ -184,14 +188,18 @@ const shownUrl =
     height: 1.1em;
     margin-right: 0.6em;
     vertical-align: -0.2em;
-    background: var(--accent);
+    background: var(--client);
+  }
+
+  .browse {
+    margin-top: var(--space-6);
   }
 
   .status {
     display: inline-block;
     margin-left: var(--space-3);
     padding: 0 var(--space-2);
-    border: 1px solid var(--accent);
+    border: 1px solid var(--client);
     color: var(--text);
   }
 

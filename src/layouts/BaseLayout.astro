@@ -2,6 +2,7 @@
 import { Font } from "astro:assets";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import PrintScreen from "../components/PrintScreen.astro";
 import { site } from "../data/site";
 import { imageUrl } from "../utils/images";
 import "../styles/global.css";
@@ -12,15 +13,13 @@ interface Props {
   description: string;
   /** Social preview image, a path in src/assets/images/ */
   image: string;
-  /** A project's brand color: the page's borrowed accent (DESIGN.md → Color) */
-  accent?: string;
   /** Keep a page out of search results (thank-you, 404) */
   noindex?: boolean;
   /** The home page's title is already complete */
   fullTitle?: boolean;
 }
 
-const { title, description, image, accent, noindex = false, fullTitle = false } = Astro.props;
+const { title, description, image, noindex = false, fullTitle = false } = Astro.props;
 
 const pageTitle = fullTitle ? title : `${title} | ${site.name}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -69,7 +68,8 @@ const personSchema = {
 
     <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
   </head>
-  <body style={accent ? `--accent: ${accent}` : undefined}>
+  <body>
+    <PrintScreen />
     <a class="skip-link" href="#main">
       Skip to content
     </a>

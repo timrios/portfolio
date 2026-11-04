@@ -3,6 +3,7 @@
   /* Palette */
   --color-black: #000000;
   --color-paper: #f2eee6;
+  --color-proof-yellow: #ffe14d;
   --color-ash: #9c978f;
   --color-graphite: #26241f;
   --color-soot: #0a0a09;
@@ -23,8 +24,8 @@
   --field-border: var(--color-pewter);
   --code: var(--color-smoke);
   --error: var(--color-flare);
-  /* The borrowed accent: paper by default; a project's own brand color while that project is on screen */
-  --accent: var(--color-paper);
+  /* Tim's own ink (DESIGN.md → Principles 1). Client colors never replace it; they appear only as small markers. */
+  --accent: var(--color-proof-yellow);
   --on-accent: var(--color-black);
   --focus: var(--accent);
 
@@ -202,7 +203,7 @@ p {
   white-space: nowrap;
 }
 
-/* Buttons: square-cornered, the primary filled with the borrowed accent */
+/* Buttons: square-cornered, the primary filled with Tim's ink */
 .btn {
   display: inline-flex;
   align-items: center;

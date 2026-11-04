@@ -1,0 +1,377 @@
+---
+// The preview window: a client's real site inside a large window over the page, so a visitor can browse it without
+// leaving (Tim's idea, from Awwwards' previews). Nothing loads until the window opens (the frame gets its address
+// then; it must not be marked lazy, or the browser never loads it while it's hidden behind the sweep). While the site loads, the
+// build line sweeps down over a real excerpt of its code. Sites that refuse to be framed show full-page captures.
+// Open it with any element carrying data-open-preview="<project id>".
+import Img from "./Img.astro";
+import type { Project } from "../data/projects";
+import { site } from "../data/site";
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const p = site.preview;
+// An archived site shows the address it captured, not web.archive.org
+const address = project.previewUrl ?? project.liveUrl;
+const host = new URL(
+  project.status === "past" ? address.replace(/^.*?\/(https?:\/\/)/, "$1") : address,
+).host.replace(/^www\./, "");
+---
+
+<dialog
+  class="preview"
+  id={`preview-${project.id}`}
+  aria-labelledby={`preview-${project.id}-title`}
+  data-preview
+>
+  <div class="bar">
+    <p class="title" id={`preview-${project.id}-title`} style={`--client: ${project.accent}`}>
+      <span class="marker" aria-hidden="true"></span>
+      <strong>{project.name}</strong>
+      <span class="mono host">{host}</span>
+    </p>
+    <div class="views" role="group" aria-label="Show the site as">
+      <button type="button" aria-pressed="true" data-view="desktop">
+        {p.desktop}
+      </button>
+      <button type="button" aria-pressed="false" data-view="phone">
+        {p.phone}
+      </button>
+    </div>
+    <div class="links">
+      <a href={`/work/${project.id}/`}>{p.story}</a>
+      <a href={project.liveUrl} target="_blank" rel="noopener">
+        {p.visit}
+      </a>
+      <button type="button" class="close" data-close>
+        {p.close}
+      </button>
+    </div>
+  </div>
+
+  <div class="stage" data-stage data-view="desktop">
+    <div class="frame" data-frame>
+      <pre aria-hidden="true">{project.code}</pre>
+      {project.previewUrl ? (
+        <iframe title={`${project.name} website`} data-src={project.previewUrl} />
+      ) : (
+        project.fullScreens && (
+          <div
+            class="shots"
+            tabindex="0"
+            role="region"
+            aria-label={`${project.name} home page, full length`}
+          >
+            <Img
+              class="shot-desktop"
+              src={project.fullScreens.desktop}
+              alt={`The whole ${project.name} home page`}
+              sizes="90vw"
+              loading="lazy"
+            />
+            <Img
+              class="shot-phone"
+              src={project.fullScreens.phone}
+              alt={`The whole ${project.name} home page on a phone`}
+              sizes="390px"
+              loading="lazy"
+            />
+          </div>
+        )
+      )}
+      <div class="line" aria-hidden="true"></div>
+      <p class="status visually-hidden" role="status" data-status></p>
+    </div>
+    {!project.previewUrl && <p class="note">{p.screenshotNote}</p>}
+  </div>
+</dialog>
+
+<style>
+  .preview {
+    width: min(96vw, 90rem);
+    height: min(92vh, 60rem);
+    max-width: none;
+    max-height: none;
+    margin: auto;
+    padding: 0;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-screen);
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  .preview[open] {
+    display: grid;
+    grid-template-rows: auto 1fr;
+  }
+
+  .preview::backdrop {
+    background: color-mix(in srgb, var(--color-black) 82%, transparent);
+  }
+
+  :global(html:has(dialog[data-preview][open])) {
+    overflow: hidden;
+  }
+
+  .bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3) var(--space-6);
+    padding: var(--space-3) var(--space-5);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-right: auto;
+  }
+
+  .marker {
+    width: 0.55em;
+    height: 1.1em;
+    background: var(--client);
+  }
+
+  .host {
+    color: var(--text-muted);
+  }
+
+  .views {
+    display: flex;
+    border: 1px solid var(--field-border);
+  }
+
+  .views button,
+  .close {
+    all: unset;
+    box-sizing: border-box;
+    min-height: 44px;
+    padding: 0 var(--space-4);
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: var(--text-small);
+    color: var(--text-muted);
+  }
+
+  .views button[aria-pressed="true"] {
+    background: var(--text);
+    color: var(--bg);
+  }
+
+  .views button:focus-visible,
+  .close:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  .links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    font-size: var(--text-small);
+  }
+
+  .links a {
+    display: inline-block;
+    padding-block: var(--space-3);
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.3em;
+  }
+
+  .close {
+    color: var(--text);
+    box-shadow: inset 0 0 0 1px var(--field-border);
+  }
+
+  .stage {
+    position: relative;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    justify-items: center;
+    min-height: 0;
+    padding: var(--space-4);
+  }
+
+  .frame {
+    --hide: 0%;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--surface);
+    outline: 1px solid var(--rule);
+    border-radius: var(--radius-screen);
+  }
+
+  .stage[data-view="phone"] .frame {
+    width: min(100%, 24.375rem);
+    border-radius: 1.5rem;
+  }
+
+  pre {
+    position: absolute;
+    inset: 0;
+    padding: var(--space-5);
+    font: 0.8125rem/1.8 var(--font-mono);
+    color: var(--code);
+    white-space: pre;
+    overflow: hidden;
+  }
+
+  iframe,
+  .shots {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: var(--surface);
+    clip-path: inset(0 0 var(--hide) 0);
+  }
+
+  .shots {
+    overflow-y: auto;
+  }
+
+  .shots :global(img) {
+    width: 100%;
+  }
+
+  .stage[data-view="desktop"] .shots :global(.shot-phone),
+  .stage[data-view="phone"] .shots :global(.shot-desktop) {
+    display: none;
+  }
+
+  /* While the site loads it's hidden above the line, which sweeps down over the code, then reveals it */
+  .frame[data-loading] {
+    --hide: 100%;
+  }
+
+  .line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 2px;
+    background: var(--accent);
+    box-shadow: 0 0 1.75rem 0.2rem var(--accent);
+    opacity: 0;
+  }
+
+  .frame[data-loading] .line {
+    opacity: 1;
+    animation: sweep 1.6s var(--ease-build) infinite;
+  }
+
+  @keyframes sweep {
+    from {
+      top: 0;
+    }
+    to {
+      top: 100%;
+    }
+  }
+
+  .note {
+    margin-top: var(--space-3);
+    font-size: var(--text-small);
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 767px) {
+    .preview {
+      width: 100vw;
+      height: 100dvh;
+      border: 0;
+      border-radius: 0;
+    }
+
+    .views,
+    .host {
+      display: none;
+    }
+
+    .bar {
+      padding: var(--space-2) var(--space-4);
+    }
+
+    .stage {
+      padding: 0;
+    }
+
+    .stage[data-view] .frame {
+      width: 100%;
+      border-radius: 0;
+      outline: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .frame[data-loading] .line {
+      animation: none;
+      top: 50%;
+    }
+  }
+</style>
+
+<script>
+  import { site } from "../data/site";
+
+  const phoneScreen = matchMedia("(max-width: 767px)");
+
+  function open(id: string) {
+    const dialog = document.querySelector<HTMLDialogElement>(`#preview-${id}`);
+    if (!dialog) return;
+    const frame = dialog.querySelector<HTMLElement>("[data-frame]")!;
+    const status = dialog.querySelector<HTMLElement>("[data-status]")!;
+    const iframe = dialog.querySelector<HTMLIFrameElement>("iframe[data-src]");
+    if (phoneScreen.matches) show(dialog, "phone");
+    dialog.showModal();
+    if (iframe && !iframe.src) {
+      frame.setAttribute("data-loading", "");
+      status.textContent = site.preview.loading;
+      iframe.addEventListener(
+        "load",
+        () => {
+          frame.removeAttribute("data-loading");
+          status.textContent = "";
+        },
+        { once: true },
+      );
+      iframe.src = iframe.dataset.src!;
+    }
+  }
+
+  function show(dialog: HTMLDialogElement, view: string) {
+    dialog.querySelector<HTMLElement>("[data-stage]")!.dataset.view = view;
+    for (const button of dialog.querySelectorAll<HTMLButtonElement>("[data-view]")) {
+      button.setAttribute("aria-pressed", String(button.dataset.view === view));
+    }
+  }
+
+  for (const trigger of document.querySelectorAll<HTMLElement>("[data-open-preview]")) {
+    trigger.addEventListener("click", (event) => {
+      event.preventDefault();
+      open(trigger.dataset.openPreview!);
+    });
+  }
+
+  for (const dialog of document.querySelectorAll<HTMLDialogElement>("dialog[data-preview]")) {
+    dialog.querySelector("[data-close]")?.addEventListener("click", () => dialog.close());
+    // A click on the dimmed backdrop (the dialog element itself, outside its content) closes it
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+    for (const button of dialog.querySelectorAll<HTMLButtonElement>("[data-view]")) {
+      button.addEventListener("click", () => show(dialog, button.dataset.view!));
+    }
+  }
+</script>

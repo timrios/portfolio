@@ -10,7 +10,7 @@ const published = new Map(projects.map((project) => [project.id, project]));
   {services.map((service) => {
     const project = published.get(service.proof.projectId);
     return (
-      <li style={project ? `--accent: ${project.accent}` : undefined}>
+      <li style={project ? `--client: ${project.accent}` : undefined}>
         <h3>{service.name}</h3>
         <p>{service.text}</p>
         {project && (
@@ -46,7 +46,7 @@ const published = new Map(projects.map((project) => [project.id, project]));
     display: block;
     margin-top: var(--space-5);
     padding-left: var(--space-4);
-    border-left: 2px solid var(--accent);
+    border-left: 2px solid var(--client);
     font-size: var(--text-small);
     text-decoration: none;
   }

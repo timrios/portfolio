@@ -1,7 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import BuildHero from "../components/BuildHero.astro";
-import ProjectRow from "../components/ProjectRow.astro";
+import Hero from "../components/Hero.astro";
+import WorkGrid from "../components/WorkGrid.astro";
+import ReelShelf from "../components/ReelShelf.astro";
 import ServiceList from "../components/ServiceList.astro";
 import ProcessSteps from "../components/ProcessSteps.astro";
 import Closing from "../components/Closing.astro";
@@ -14,19 +15,18 @@ import { projects } from "../data/projects";
   fullTitle
   description={site.description}
   image="social/home.jpg"
-  accent={projects[0]?.accent}
 >
-  <BuildHero projects={projects} />
+  <Hero />
 
   <section id="work" class="container section" aria-labelledby="work-heading">
     <div class="section-head">
       <h2 id="work-heading">{site.home.workHeading}</h2>
       <p class="lede">{site.home.workIntro}</p>
     </div>
-    {projects.map((project, i) => (
-      <ProjectRow project={project} eager={i === 0} />
-    ))}
+    <WorkGrid projects={projects} />
   </section>
+
+  <ReelShelf />
 
   <section class="container section" aria-labelledby="services-heading">
     <div class="section-head">

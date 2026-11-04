@@ -15,10 +15,10 @@ function contrastOnBlack(color: string) {
   return (0.2126 * r + 0.7152 * g + 0.0722 * b + 0.05) / 0.05;
 }
 
-// A client color fills the main button under black text and colors result figures, so it must reach 4.5:1
+// A client color marks the client's name on black, so it must stay clearly visible: 4.5:1
 const accentColor = hex.refine((color) => contrastOnBlack(color) >= 4.5, {
   message:
-    "This client color is too dark on black (needs 4.5:1). Use the client's lighter brand tint (DESIGN.md → Borrowed accent).",
+    "This client color is too dark on black (needs 4.5:1). Use the client's lighter brand tint (DESIGN.md → Client colors).",
 });
 const image = z.object({
   /** File in src/assets/images/, e.g. "fanzi-pet/logo.webp" */
@@ -51,10 +51,7 @@ const projectSchema = z.object({
   /** One line: what the business is */
   business: z.string(),
   place: z.string(),
-  /**
-   * The client's own brand color, used as the site's accent while this project is on screen ("borrowed color",
-   * DESIGN.md → Color). Must reach 4.5:1 against black, since it also fills buttons with black text.
-   */
+  /** The client's own brand color, shown only as a small marker beside its name (DESIGN.md → Client colors) */
   accent: accentColor,
   services: z.array(service).min(1),
   liveUrl: z.url(),
@@ -62,7 +59,14 @@ const projectSchema = z.object({
   /** One or two sentences for the home page */
   summary: z.string(),
   screens: z.object({ desktop: image, phone: image }),
-  /** A real excerpt of the site's code, shown behind the build animation. Decorative. */
+  /**
+   * The address the preview window opens, showing the client's live site. null when the site refuses to be shown
+   * inside another page (its security headers); the window then scrolls `fullScreens` instead.
+   */
+  previewUrl: z.url().nullable(),
+  /** Full-page screenshots for the preview window, when previewUrl is null */
+  fullScreens: z.object({ desktop: z.string(), phone: z.string() }).nullable(),
+  /** A real excerpt of the site's code, shown behind the build line while the preview window loads. Decorative. */
   code: z.string(),
   pageTitle: z.string(),
   pageDescription: z.string(),
@@ -112,6 +116,11 @@ const all = z.array(projectSchema).parse([
         alt: "The Fanzi Pet home page on a phone",
         caption: null,
       },
+    },
+    previewUrl: null,
+    fullScreens: {
+      desktop: "fanzi-pet/site-full-desktop.jpg",
+      phone: "fanzi-pet/site-full-phone.jpg",
     },
     code: `<section class="hero hero-band section--ink">
   <div class="container hero-split">
@@ -250,6 +259,8 @@ const all = z.array(projectSchema).parse([
         caption: null,
       },
     },
+    previewUrl: "https://christophercolors.com/",
+    fullScreens: null,
     code: `<div class="ehp-flex-hero has-layout-preset-storytelling">
   <div class="ehp-flex-hero__content-container">
     <h2 class="ehp-flex-hero__heading">DISCOVER YOUR NEW LOOK</h2>
@@ -366,6 +377,8 @@ const all = z.array(projectSchema).parse([
         caption: null,
       },
     },
+    previewUrl: "https://web.archive.org/web/20230129031712if_/http://agsaflyers.com/",
+    fullScreens: null,
     code: `<div class="boldgrid-section background-fixed color1-background-color">
   <div class="container">
     <div class="row">
@@ -488,6 +501,8 @@ const all = z.array(projectSchema).parse([
         caption: null,
       },
     },
+    previewUrl: "https://shawarmaway.myrrh-billion-34.workers.dev/",
+    fullScreens: null,
     code: `<section className={styles.hero} data-surface="char" aria-labelledby="hero-title">
   <div className={\`container \${styles.top}\`}>
     <KitchenStatus

@@ -1,11 +1,16 @@
 ---
 import { site } from "../data/site";
+
+// The wordmark's dot is printed in Tim's ink
+const [name, tld] = site.domain.split(".");
 ---
 
 <header class="header container">
   <!-- Plain wordmark until the logo is designed (README → Not started) -->
   <a class="wordmark" href="/">
-    {site.domain}
+    {name}
+    <span class="dot">.</span>
+    {tld}
   </a>
   <nav aria-label="Main">
     <ul>
@@ -35,6 +40,10 @@ import { site } from "../data/site";
     letter-spacing: 0.01em;
     text-decoration: none;
     padding-block: var(--space-3);
+  }
+
+  .dot {
+    color: var(--accent);
   }
 
   ul {

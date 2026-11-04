@@ -15,7 +15,8 @@
     "check": "npm run typecheck && npm run build",
     "shots": "node scripts/shots.mjs",
     "project-screens": "node scripts/project-screens.mjs",
-    "resume-pdf": "node --env-file-if-exists=.env scripts/resume-pdf.mjs"
+    "resume-pdf": "node --env-file-if-exists=.env scripts/resume-pdf.mjs",
+    "halftone": "node scripts/halftone.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
