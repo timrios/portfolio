@@ -32,9 +32,11 @@ const sizes = {
   "desktop-1920": { viewport: { width: 1920, height: 1080 } },
 };
 
-// The sitemap lists the canonical domain; swap it for the server being checked.
-// Astro writes the page list to sitemap-0.xml (sitemap-index.xml only points to it)
-const sitemap = await (await fetch(`${base}/sitemap-0.xml`)).text();
+// The sitemap lists the canonical domain; swap it for the server being checked. Next.js serves /sitemap.xml;
+// Astro's sitemap integration writes the page list to /sitemap-0.xml (and only builds it, so use `astro preview`).
+let response = await fetch(`${base}/sitemap.xml`);
+if (!response.ok) response = await fetch(`${base}/sitemap-0.xml`);
+const sitemap = await response.text();
 const paths = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)]
   .map(([, loc]) => new URL(loc).pathname)
   .filter((path) => !only || only.includes(path));
