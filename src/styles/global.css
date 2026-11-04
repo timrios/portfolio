@@ -1,42 +1,59 @@
-/* Design tokens from DESIGN.md. Change DESIGN.md first, then this file, then components. */
+/* Design tokens from DESIGN.md. Change DESIGN.md first, then this file, then components.
+   Light is the default; html[data-theme="dark"] switches every semantic token. A script in the page head sets
+   data-theme before the page paints, from the visitor's saved choice or else their device setting. */
 :root {
-  /* Palette */
-  --color-black: #000000;
+  /* Palette: light */
+  --color-white: #ffffff;
+  --color-mist: #f3f4f6;
+  --color-ink: #111418;
+  --color-slate: #5a626d;
+  --color-haze: #e3e6ea;
+  --color-steel: #8a929c;
+  --color-cobalt: #2747d8;
+  --color-brick: #b42318;
+  /* Palette: dark */
+  --color-graphite: #111317;
+  --color-carbon: #171a1f;
+  --color-charcoal: #1b1e24;
+  --color-frost: #eceef1;
+  --color-pewter: #9aa1ac;
+  --color-seam: #262a31;
+  --color-iron: #6b7280;
+  --color-periwinkle: #8fa8ff;
+  --color-night: #0c0f14;
+  --color-coral: #ff8a7a;
+  /* Both looks and print */
   --color-paper: #f2eee6;
-  --color-proof-yellow: #ffe14d;
-  --color-ash: #9c978f;
-  --color-graphite: #26241f;
-  --color-soot: #0a0a09;
-  --color-smoke: #4a4741;
-  --color-pewter: #6b675f;
-  --color-flare: #ff8a7a;
-  /* Print only (the resume PDF): plain black on white */
+  --color-black: #000000;
   --color-print-white: #ffffff;
   --color-print-gray: #333333;
 
-  /* Semantic */
-  --bg: var(--color-black);
-  --surface: var(--color-soot);
-  --text: var(--color-paper);
-  --text-muted: var(--color-ash);
-  --rule: var(--color-graphite);
-  /* Form field and checkbox edges: 3.7:1 on black, enough to see where to type (WCAG 1.4.11) */
-  --field-border: var(--color-pewter);
-  --code: var(--color-smoke);
-  --error: var(--color-flare);
-  /* Tim's own ink (DESIGN.md → Principles 1). Client colors never replace it; they appear only as small markers. */
-  --accent: var(--color-proof-yellow);
-  --on-accent: var(--color-black);
+  /* Semantic: light */
+  color-scheme: light;
+  --bg: var(--color-white);
+  --band: var(--color-mist);
+  --surface: var(--color-white);
+  --text: var(--color-ink);
+  --text-muted: var(--color-slate);
+  --rule: var(--color-haze);
+  --field-border: var(--color-steel);
+  --accent: var(--color-cobalt);
+  --on-accent: var(--color-white);
   --focus: var(--accent);
+  --error: var(--color-brick);
+  --code: var(--color-slate);
+  --shadow:
+    0 1px 2px color-mix(in srgb, var(--color-ink) 6%, transparent),
+    0 12px 32px -12px color-mix(in srgb, var(--color-ink) 18%, transparent);
 
   /* Type */
   --font-display: var(--font-bricolage);
   --font-body: var(--font-bricolage);
   --font-mono: var(--font-fragment-mono);
-  --text-display: clamp(3.25rem, 8.2vw, 9rem);
-  --text-1: clamp(2.75rem, 6.4vw, 6.5rem);
-  --text-2: clamp(2.125rem, 4.2vw, 3.75rem);
-  --text-3: 1.5rem;
+  --text-display: clamp(2.5rem, 4.6vw, 4rem);
+  --text-1: clamp(2.2rem, 3.6vw, 3rem);
+  --text-2: clamp(1.9rem, 3vw, 2.6rem);
+  --text-3: 1.25rem;
   --text-lede: 1.1875rem;
   --text-body: 1.0625rem;
   --text-small: 0.9375rem;
@@ -54,24 +71,41 @@
   --space-9: 4.5rem;
   --space-10: 7rem;
   --gutter: 1.25rem;
-  --section: clamp(4.5rem, 10vw, 8.5rem);
-  --content-max: 90rem;
+  --section: clamp(4rem, 8vw, 6rem);
+  --content-max: 76rem;
   --content-narrow: 38rem;
 
   /* Shape */
-  --radius-none: 0;
-  --radius-screen: 3px;
+  --radius-pill: 999px;
+  --radius-card: 12px;
+  --radius-screen: 8px;
 
   /* Motion */
   --ease-build: cubic-bezier(0.65, 0, 0.35, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --duration-build: 2.6s;
-  --duration-accent: 0.6s;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: var(--color-graphite);
+  --band: var(--color-carbon);
+  --surface: var(--color-charcoal);
+  --text: var(--color-frost);
+  --text-muted: var(--color-pewter);
+  --rule: var(--color-seam);
+  --field-border: var(--color-iron);
+  --accent: var(--color-periwinkle);
+  --on-accent: var(--color-night);
+  --error: var(--color-coral);
+  --code: var(--color-pewter);
+  --shadow:
+    0 1px 2px color-mix(in srgb, var(--color-black) 40%, transparent),
+    0 18px 40px -16px color-mix(in srgb, var(--color-black) 70%, transparent);
 }
 
 @media (min-width: 768px) {
   :root {
-    --gutter: 2.5rem;
+    --gutter: 2rem;
   }
 }
 
@@ -87,11 +121,9 @@
 
 html {
   background: var(--bg);
-  color-scheme: dark;
   -webkit-text-size-adjust: 100%;
 }
 
-/* No background here: html carries the black, so the print screen (behind everything) shows through */
 body {
   color: var(--text);
   font-family: var(--font-body);
@@ -117,32 +149,27 @@ h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 650;
   font-variation-settings:
-    "opsz" 96,
-    "wdth" 75;
-  letter-spacing: -0.012em;
+    "opsz" 64,
+    "wdth" 100;
+  letter-spacing: -0.022em;
+  line-height: 1.08;
   text-wrap: balance;
 }
 
 h1 {
-  font-size: var(--text-1);
-  line-height: 0.9;
+  font-size: var(--text-display);
 }
 
 h2 {
   font-size: var(--text-2);
-  line-height: 0.95;
 }
 
 h3 {
   font-size: var(--text-3);
-  font-weight: 700;
-  font-variation-settings:
-    "opsz" 32,
-    "wdth" 85;
-  letter-spacing: 0;
-  line-height: 1.15;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
 }
 
 p {
@@ -203,20 +230,21 @@ p {
   white-space: nowrap;
 }
 
-/* Buttons: square-cornered, the primary filled with Tim's ink */
+/* Buttons: rounded pills, the primary filled with the accent */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 44px;
-  padding: var(--space-3) var(--space-5);
+  gap: var(--space-2);
+  min-height: 48px;
+  padding: 0 var(--space-5);
   font: 600 1rem/1.2 var(--font-body);
   text-decoration: none;
   border: 0;
-  border-radius: var(--radius-none);
+  border-radius: var(--radius-pill);
   cursor: pointer;
   transition:
-    background-color var(--duration-accent),
+    background-color 0.2s,
     box-shadow 0.2s;
 }
 
@@ -226,22 +254,27 @@ p {
 }
 
 .btn--primary:hover {
-  box-shadow: inset 0 0 0 999px color-mix(in srgb, var(--color-black) 12%, transparent);
+  background: color-mix(in srgb, var(--accent) 88%, var(--text));
 }
 
 .btn--ghost {
   background: transparent;
   color: var(--text);
-  box-shadow: inset 0 0 0 1px var(--rule);
+  box-shadow: inset 0 0 0 1px var(--field-border);
 }
 
 .btn--ghost:hover {
-  box-shadow: inset 0 0 0 1px var(--text-muted);
+  box-shadow: inset 0 0 0 1.5px var(--text);
+}
+
+/* A band of color across the page (results, closing) */
+.band {
+  background: var(--band);
 }
 
 /* Printing the resume (or saving it as PDF): plain paper, and only the resume itself */
 @media print {
-  /* The site is a dark page (color-scheme: dark), which would also darken the paper margins */
+  /* In the dark look the page is dark (color-scheme: dark), which would also darken the paper margins */
   html:has(.resume) {
     color-scheme: light;
   }

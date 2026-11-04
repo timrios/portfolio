@@ -1,7 +1,9 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Hero from "../components/Hero.astro";
-import WorkGrid from "../components/WorkGrid.astro";
+import HomeHero from "../components/HomeHero.astro";
+import ResultsBand from "../components/ResultsBand.astro";
+import BeforeAfter from "../components/BeforeAfter.astro";
+import Quotes from "../components/Quotes.astro";
 import ReelShelf from "../components/ReelShelf.astro";
 import ServiceList from "../components/ServiceList.astro";
 import ProcessSteps from "../components/ProcessSteps.astro";
@@ -11,21 +13,25 @@ import { projects } from "../data/projects";
 ---
 
 <BaseLayout
-  title={`${site.name}: websites and brands for local businesses`}
+  title={`${site.name}: websites and brands for San Antonio businesses`}
   fullTitle
   description={site.description}
   image="social/home.jpg"
 >
-  <Hero />
+  <HomeHero />
+  <ResultsBand />
 
   <section id="work" class="container section" aria-labelledby="work-heading">
     <div class="section-head">
       <h2 id="work-heading">{site.home.workHeading}</h2>
       <p class="lede">{site.home.workIntro}</p>
     </div>
-    <WorkGrid projects={projects} />
+    {projects.map((project) => (
+      <BeforeAfter project={project} />
+    ))}
   </section>
 
+  <Quotes />
   <ReelShelf />
 
   <section class="container section" aria-labelledby="services-heading">
@@ -49,17 +55,13 @@ import { projects } from "../data/projects";
 <style>
   .section-head {
     display: grid;
-    gap: var(--space-5);
-    margin-bottom: var(--space-8);
-  }
-
-  .section-head h2 {
-    max-width: 16ch;
+    gap: var(--space-4);
+    margin-bottom: var(--space-7);
   }
 
   @media (min-width: 1024px) {
     .section-head {
-      grid-template-columns: 7fr 5fr;
+      grid-template-columns: 1fr 1fr;
       align-items: end;
     }
   }

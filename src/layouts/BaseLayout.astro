@@ -2,7 +2,6 @@
 import { Font } from "astro:assets";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import PrintScreen from "../components/PrintScreen.astro";
 import { site } from "../data/site";
 import { imageUrl } from "../utils/images";
 import "../styles/global.css";
@@ -46,12 +45,27 @@ const personSchema = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Before anything paints: the visitor's saved look, else their device setting (DESIGN.md → Color) -->
     <script is:inline>
-      document.documentElement.classList.add("js");
+      (() => {
+        const root = document.documentElement;
+        root.classList.add("js");
+        let saved = null;
+        try {
+          saved = localStorage.getItem("theme");
+        } catch {}
+        root.dataset.theme =
+          saved === "light" || saved === "dark"
+            ? saved
+            : matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+      })();
     </script>
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111317" media="(prefers-color-scheme: dark)" />
     {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
     <link rel="sitemap" href="/sitemap-index.xml" />
 
@@ -69,7 +83,6 @@ const personSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
   </head>
   <body>
-    <PrintScreen />
     <a class="skip-link" href="#main">
       Skip to content
     </a>

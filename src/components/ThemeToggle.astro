@@ -1,0 +1,116 @@
+---
+// Light or dark, the visitor's choice. The page head already applied a saved choice (or the device setting) before
+// painting; this button switches and remembers. Where the browser supports it, the new look spreads in a circle from
+// the button.
+import { site } from "../data/site";
+---
+
+<button
+  type="button"
+  class="toggle"
+  aria-pressed="false"
+  data-theme-toggle
+  data-to-light={site.theme.toLight}
+  data-to-dark={site.theme.toDark}
+>
+  <span class="visually-hidden" data-theme-label>
+    {site.theme.toDark}
+  </span>
+  <span class="track" aria-hidden="true">
+    <span class="knob"></span>
+  </span>
+</button>
+
+<style>
+  .toggle {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-grid;
+    place-items: center;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .track {
+    position: relative;
+    width: 2.75rem;
+    height: 1.5rem;
+    border-radius: var(--radius-pill);
+    box-shadow: inset 0 0 0 1px var(--field-border);
+  }
+
+  /* The knob is the sun (light) or a crescent moon (dark), drawn with a shadow */
+  .knob {
+    position: absolute;
+    top: 0.25rem;
+    left: 0.3rem;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: var(--text);
+    transition:
+      transform 0.3s var(--ease-out),
+      box-shadow 0.3s;
+  }
+
+  .toggle[aria-pressed="true"] .knob {
+    transform: translateX(1.15rem);
+    background: transparent;
+    box-shadow: inset -0.3rem -0.15rem 0 0 var(--text);
+  }
+
+  .toggle:focus-visible .track {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+</style>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
+  const label = button?.querySelector<HTMLElement>("[data-theme-label]");
+  const root = document.documentElement;
+
+  const reflect = () => {
+    if (!button || !label) return;
+    const dark = root.dataset.theme === "dark";
+    button.setAttribute("aria-pressed", String(dark));
+    label.textContent = dark ? button.dataset.toLight! : button.dataset.toDark!;
+  };
+
+  button?.addEventListener("click", () => {
+    const next = root.dataset.theme === "dark" ? "light" : "dark";
+    const apply = () => {
+      root.dataset.theme = next;
+      localStorage.setItem("theme", next);
+      reflect();
+    };
+    const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!document.startViewTransition || still) return apply();
+    // The new look grows in a circle from the button
+    const box = button.getBoundingClientRect();
+    const x = box.left + box.width / 2;
+    const y = box.top + box.height / 2;
+    const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    document.startViewTransition(apply).ready.then(() => {
+      root.animate(
+        { clipPath: [`circle(0 at ${x}px ${y}px)`, `circle(${r}px at ${x}px ${y}px)`] },
+        {
+          duration: 500,
+          easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+          pseudoElement: "::view-transition-new(root)",
+        },
+      );
+    });
+  });
+  reflect();
+</script>
+
+<style is:global>
+  /* The circle replaces the browser's default cross-fade */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+</style>

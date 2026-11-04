@@ -1,0 +1,92 @@
+---
+// What clients say, word for word. Only approved quotes reach the live site; drafts appear only while developing
+// locally, clearly labeled (see quotes.ts). With nothing to show, the section isn't rendered at all.
+import { visibleQuotes } from "../data/quotes";
+import { projects } from "../data/projects";
+import { site } from "../data/site";
+
+const clients = new Map(projects.map((project) => [project.id, project]));
+---
+
+{visibleQuotes.length > 0 && (
+  <section class="container section" aria-labelledby="quotes-heading">
+    <h2 id="quotes-heading">{site.home.quotesHeading}</h2>
+    <ul class="quotes">
+      {visibleQuotes.map((quote) => (
+        <li style={`--client: ${clients.get(quote.projectId)?.accent}`}>
+          <figure>
+            {!quote.approved && <p class="draft">{site.home.draftLabel}</p>}
+            <blockquote>
+              <p>“{quote.text}”</p>
+            </blockquote>
+            <figcaption>
+              <span class="marker" aria-hidden="true" />
+              <strong>{quote.name}</strong>
+              <span class="muted">{quote.role}</span>
+            </figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
+
+<style>
+  .quotes {
+    display: grid;
+    gap: var(--space-5);
+    margin-top: var(--space-7);
+    padding: 0;
+    list-style: none;
+  }
+
+  figure {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding: var(--space-6);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-card);
+    background: var(--surface);
+  }
+
+  blockquote p {
+    font-size: 1.3125rem;
+    line-height: 1.45;
+    letter-spacing: -0.01em;
+  }
+
+  figcaption {
+    margin-top: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+    font-size: var(--text-small);
+  }
+
+  .marker {
+    width: 0.6em;
+    height: 0.6em;
+    border-radius: 2px;
+    background: var(--client);
+    box-shadow: 0 0 0 1px var(--field-border);
+  }
+
+  .draft {
+    align-self: flex-start;
+    padding: var(--space-1) var(--space-3);
+    border: 1px dashed var(--error);
+    border-radius: var(--radius-pill);
+    color: var(--error);
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  @media (min-width: 1024px) {
+    .quotes {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

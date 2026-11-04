@@ -1,0 +1,97 @@
+---
+// The featured results from projects.ts (those with a `band` line), each naming the kind of business. The figures
+// count up once when the band comes into view; the final value is in the HTML for screen readers and no-script.
+import { projects } from "../data/projects";
+import { site } from "../data/site";
+
+const featured = projects
+  .flatMap((project) => project.results.items)
+  .flatMap((item) => (item.band ? [{ figure: item.figure, ...item.band }] : []))
+  .sort((a, b) => a.order - b.order);
+---
+
+<section class="band results" aria-label={site.home.resultsLabel}>
+  <ul class="container">
+    {featured.map((item) => (
+      <li>
+        <b data-count={item.figure} aria-label={item.figure}>
+          {item.figure}
+        </b>
+        <span>{item.text}</span>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .results {
+    padding-block: var(--space-8);
+  }
+
+  ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6) var(--space-5);
+    list-style: none;
+  }
+
+  b {
+    display: block;
+    font-weight: 650;
+    font-size: var(--text-1);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  span {
+    display: block;
+    margin-top: var(--space-2);
+    font-size: var(--text-small);
+    color: var(--text-muted);
+    max-width: 16rem;
+  }
+
+  @media (min-width: 1024px) {
+    ul {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>
+
+<script>
+  // Splits "+100%" or "3,749" or "8 days" into prefix, number and suffix, and counts the number up over 1.2s
+  const figures = [...document.querySelectorAll<HTMLElement>("[data-count]")];
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const count = (el: HTMLElement) => {
+    const full = el.dataset.count!;
+    const match = full.match(/^([^\d]*)([\d,]+)(.*)$/);
+    if (!match) return;
+    const [, before, digits, after] = match;
+    const target = Number(digits.replace(/,/g, ""));
+    const grouped = digits.includes(",");
+    const start = performance.now();
+    const step = (now: number) => {
+      const t = Math.min(1, (now - start) / 1200);
+      const value = Math.round(target * (1 - Math.pow(1 - t, 3)));
+      el.textContent = before + (grouped ? value.toLocaleString("en-US") : String(value)) + after;
+      if (t < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  if (!still && figures.length) {
+    // Start from zero (the aria-label keeps the real figure for screen readers while it counts)
+    for (const el of figures) el.textContent = el.dataset.count!.replace(/[\d,]+/, "0");
+    const watcher = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          count(entry.target as HTMLElement);
+          watcher.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.6 },
+    );
+    figures.forEach((figure) => watcher.observe(figure));
+  }
+</script>

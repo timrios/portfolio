@@ -58,6 +58,10 @@ const projectSchema = z.object({
   links: z.array(z.object({ label: z.string(), href: z.url() })),
   /** One or two sentences for the home page */
   summary: z.string(),
+  /** The one result that sums up the project, in bold beside its before and after */
+  outcome: z.string(),
+  /** What the business had before, in a few words, when there's no old site to show (null when there is) */
+  beforeShort: z.string().nullable(),
   screens: z.object({ desktop: image, phone: image }),
   /**
    * The address the preview window opens, showing the client's live site. null when the site refuses to be shown
@@ -82,7 +86,15 @@ const projectSchema = z.object({
   ),
   results: z.object({
     heading: z.string(),
-    items: z.array(z.object({ figure: z.string(), text: z.string() })),
+    items: z.array(
+      z.object({
+        figure: z.string(),
+        text: z.string(),
+        /** Shown in the home page's results band when set: the result told for any owner, naming the kind of business,
+         * and its place in the band (1 first) */
+        band: z.object({ text: z.string(), order: z.number().int() }).nullable().default(null),
+      }),
+    ),
     /** Where the numbers come from and when they were read */
     source: z.string(),
   }),
@@ -105,6 +117,8 @@ const all = z.array(projectSchema).parse([
     links: [{ label: "Instagram", href: "https://www.instagram.com/fanzimobilepetgrooming/" }],
     summary:
       "The logo, the treat bags and the van wrap came first. The website, the shop and the social media all grew out of the van customers already recognize on their street.",
+    outcome: "Prices, booking and an address check, all on one page",
+    beforeShort: null,
     screens: {
       desktop: {
         src: "fanzi-pet/site-home-desktop.jpg",
@@ -228,7 +242,13 @@ const all = z.array(projectSchema).parse([
     ],
     results: {
       heading: "So far",
-      items: [{ figure: "8 days", text: "from the project’s start to the new site going live" }],
+      items: [
+        {
+          figure: "8 days",
+          text: "from the project’s start to the new site going live",
+          band: { text: "from project start to a live site for a mobile groomer", order: 4 },
+        },
+      ],
       source:
         "Results so far, November 2026. Post and search numbers will be added as they come in.",
     },
@@ -247,6 +267,8 @@ const all = z.array(projectSchema).parse([
     links: [{ label: "Instagram", href: "https://www.instagram.com/hairbychris_sa" }],
     summary:
       "From a booking-app page to a brand of his own. Thousands now find him on Google and Apple Maps while looking for any salon, and his revenue is up sharply year over year.",
+    outcome: "299 direction requests in five months",
+    beforeShort: "A booking-app page, and nothing on Google",
     screens: {
       desktop: {
         src: "hair-by-christopher/site-home-desktop.jpg",
@@ -333,13 +355,21 @@ const all = z.array(projectSchema).parse([
     results: {
       heading: "Results",
       items: [
-        { figure: "3,749", text: "people viewed his Google profile in five months" },
+        {
+          figure: "3,749",
+          text: "people viewed his Google profile in five months",
+          band: { text: "people found a solo stylist on Google in five months", order: 2 },
+        },
         { figure: "299", text: "asked Google for directions to his chair, and 31 called" },
         {
           figure: "333",
           text: "tapped his place in Apple Maps in a year, two thirds of them searching for a salon, not for him",
         },
-        { figure: "+72%", text: "website visitors this summer compared with last summer" },
+        {
+          figure: "+72%",
+          text: "website visitors this summer compared with last summer",
+          band: { text: "more website visitors for that stylist, year over year", order: 3 },
+        },
         {
           figure: "5.0",
           text: "stars from 121 Google reviews, the only perfect rating in downtown stylist results",
@@ -365,6 +395,8 @@ const all = z.array(projectSchema).parse([
     links: [],
     summary:
       "The logo, the website and the marketing for a local gym. In 2012, its first year with them, the gym’s income doubled.",
+    outcome: "Income doubled in a year",
+    beforeShort: null,
     screens: {
       desktop: {
         src: "agsa-flyers/site-home-desktop.jpg",
@@ -468,6 +500,7 @@ const all = z.array(projectSchema).parse([
         {
           figure: "+100%",
           text: "the gym’s income in 2012, through the new website, marketing and search",
+          band: { text: "income in a year for a gymnastics gym", order: 1 },
         },
         { figure: "14 years", text: "the site served the gym, from 2012 to 2026" },
       ],
@@ -489,6 +522,8 @@ const all = z.array(projectSchema).parse([
     links: [],
     summary:
       "Off a restaurant-platform template and onto a site drawn from the restaurant itself: the logo, the fire and the dining room. In progress: online ordering comes next.",
+    outcome: "The main photo loads almost twice as fast on phones",
+    beforeShort: null,
     screens: {
       desktop: {
         src: "shawarma-way/site-home-desktop.jpg",

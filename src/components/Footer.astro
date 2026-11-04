@@ -4,15 +4,14 @@ import { site } from "../data/site";
 
 <footer class="footer">
   <div class="container inner">
-    <div>
-      <a class="email" href={`mailto:${site.email}`}>
-        {site.email}
-      </a>
-      <p class="muted">{site.footer.about.replace("{city}", `${site.city}, Texas`)}</p>
-    </div>
-    <p class="muted note">{site.footer.colorNote}</p>
-    <p class="muted mono">
-      © {new Date().getFullYear()} {site.name}
+    <p>
+      <strong>{site.name}</strong>
+      <span class="muted">{site.footer.about.replace("{city}", `${site.city}, Texas`)}</span>
+    </p>
+    <p class="contact">
+      <a href={`mailto:${site.email}`}>{site.email}</a>
+      <a href={`sms:${site.phoneSms}`}>{site.phone}</a>
+      <span class="muted">© {new Date().getFullYear()}</span>
     </p>
   </div>
 </footer>
@@ -20,37 +19,28 @@ import { site } from "../data/site";
 <style>
   .footer {
     border-top: 1px solid var(--rule);
-    padding-block: var(--space-8);
+    padding-block: var(--space-7) var(--space-8);
+    font-size: var(--text-small);
   }
 
   .inner {
-    display: grid;
-    gap: var(--space-5);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-3) var(--space-6);
   }
 
-  .email {
-    font: 800 var(--text-2) / 1 var(--font-display);
-    font-variation-settings:
-      "opsz" 96,
-      "wdth" 75;
-    text-decoration: none;
-    overflow-wrap: anywhere;
+  .inner p {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    align-items: center;
   }
 
-  .email:hover {
-    color: var(--accent);
-  }
-
-  .footer p {
-    margin-top: var(--space-2);
-    font-size: var(--text-small);
-    max-width: var(--content-narrow);
-  }
-
-  @media (min-width: 1024px) {
-    .inner {
-      grid-template-columns: 2fr 1fr auto;
-      align-items: end;
-    }
+  .contact a {
+    display: inline-block;
+    padding-block: var(--space-2);
+    text-decoration-color: var(--accent);
+    text-underline-offset: 0.25em;
   }
 </style>

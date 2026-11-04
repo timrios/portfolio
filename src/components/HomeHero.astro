@@ -1,0 +1,170 @@
+---
+// The home page's opening: what the owner gets, then the clients' real work as a collage. Each piece sits at its own
+// depth and shifts with the pointer (fine pointers, motion allowed), inviting a closer look.
+import Img from "./Img.astro";
+import { site } from "../data/site";
+
+const pieces = [
+  { src: "fanzi-pet/site-home-desktop.jpg", alt: "The Fanzi Pet website", depth: 0.5, class: "a" },
+  {
+    src: "shawarma-way/site-home-desktop.jpg",
+    alt: "The Shawarma Way website",
+    depth: 0.8,
+    class: "b",
+  },
+  {
+    src: "fanzi-pet/vans-side-by-side.webp",
+    alt: "Fanzi Pet’s two wrapped vans",
+    depth: 1.1,
+    class: "c",
+  },
+  {
+    src: "hair-by-christopher/site-home-phone.jpg",
+    alt: "Hair By Christopher’s website on a phone",
+    depth: 1.4,
+    class: "d",
+  },
+];
+---
+
+<section class="hero container" aria-labelledby="hero-heading">
+  <div class="words">
+    <h1 id="hero-heading">{site.home.headline}</h1>
+    <p class="lede">{site.home.lede}</p>
+    <div class="actions">
+      <a class="btn btn--primary" href={site.home.primaryAction.href}>
+        {site.home.primaryAction.label}
+      </a>
+      <a class="btn btn--ghost" href={`sms:${site.phoneSms}`}>
+        {site.home.textAction}
+      </a>
+    </div>
+    <p class="timing">{site.home.timing}</p>
+  </div>
+  <div class="collage" role="group" aria-label={site.home.collageLabel} data-collage>
+    {pieces.map((piece) => (
+      <div class:list={["piece", piece.class]} data-depth={piece.depth}>
+        <Img src={piece.src} alt={piece.alt} sizes="(min-width: 1024px) 34vw, 80vw" priority />
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .hero {
+    display: grid;
+    gap: var(--space-8);
+    align-items: center;
+    padding-block: var(--space-8) var(--space-9);
+  }
+
+  .lede {
+    margin-top: var(--space-5);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+
+  .timing {
+    margin-top: var(--space-4);
+    font-size: var(--text-small);
+    color: var(--text-muted);
+  }
+
+  .collage {
+    position: relative;
+    aspect-ratio: 1 / 0.92;
+  }
+
+  .piece {
+    position: absolute;
+    transform: translate(var(--x, 0), var(--y, 0));
+    transition: transform 0.5s var(--ease-out);
+  }
+
+  .piece :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top left;
+    border-radius: var(--radius-screen);
+    box-shadow: var(--shadow);
+  }
+
+  .a {
+    width: 74%;
+    aspect-ratio: 16 / 10;
+    left: 0;
+    top: 4%;
+  }
+
+  .b {
+    width: 56%;
+    aspect-ratio: 16 / 10;
+    right: 0;
+    top: 34%;
+  }
+
+  .c {
+    width: 40%;
+    aspect-ratio: 4 / 3;
+    right: 6%;
+    bottom: 0;
+  }
+
+  .c :global(img) {
+    object-position: center;
+  }
+
+  .d {
+    width: 22%;
+    aspect-ratio: 9 / 19.5;
+    left: 8%;
+    bottom: 0;
+  }
+
+  .d :global(img) {
+    border-radius: 1rem;
+  }
+
+  @media (min-width: 1024px) {
+    .hero {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-9);
+      min-height: calc(100vh - 5rem);
+      padding-block: var(--space-6) var(--space-9);
+    }
+  }
+</style>
+
+<script>
+  const collage = document.querySelector<HTMLElement>("[data-collage]");
+  const moves = matchMedia("(pointer: fine) and (prefers-reduced-motion: no-preference)").matches;
+  if (collage && moves) {
+    const pieces = [...collage.querySelectorAll<HTMLElement>("[data-depth]")];
+    let frame = 0;
+    addEventListener("pointermove", (event) => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        // -1 to 1 across the window; each piece moves up to 14px times its depth
+        const dx = (event.clientX / innerWidth - 0.5) * 2;
+        const dy = (event.clientY / innerHeight - 0.5) * 2;
+        for (const piece of pieces) {
+          const depth = Number(piece.dataset.depth);
+          piece.style.setProperty("--x", `${(dx * 10 * depth).toFixed(1)}px`);
+          piece.style.setProperty("--y", `${(dy * 10 * depth).toFixed(1)}px`);
+        }
+      });
+    });
+    document.documentElement.addEventListener("pointerleave", () => {
+      for (const piece of pieces) {
+        piece.style.removeProperty("--x");
+        piece.style.removeProperty("--y");
+      }
+    });
+  }
+</script>
