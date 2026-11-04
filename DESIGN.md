@@ -31,8 +31,7 @@ from what convinces a buyer.
 3. **Room to breathe.** Normal-width type at moderate sizes, wide margins, generous section spacing. Nothing fills the
    screen edge to edge.
 4. **Life, with a job.** Tim's review: compared with patrickgibbs.dev the site felt flat and stacked. So the site moves
-   and answers: the opening asks what's wrong and types real owner problems; work resolves from blue pixels as it comes
-   into view; the slider shows the change; results count up; the process line draws itself. Each plays once or answers
+   and answers: the opening asks what's wrong and types real owner problems; the slider shows the change; results count up; the process line draws itself. Each plays once or answers
    the visitor. Only the one featured Reel loops, and it can be paused.
 5. **Dark first, light on request.** Both looks are complete; the site opens dark and remembers a visitor's switch.
 6. **Proof next to every claim.** Results name their business and, on project pages, their source and date.
@@ -170,7 +169,7 @@ Home (desktop)
 ┌──────────────────────────────────────────────────────────────┐
 │ timrios.dev       Work  How it works  About  [Text] [toggle]  │
 │ More customers for        ┌ collage: client sites, a phone,  ┐│
-│ your business.            │ the vans; resolves from pixels;  ││
+│ your business.            │ the vans;                        ││
 │ what I do                 │ shifts with the pointer          ││
 │ [what's holding you back? ▌ typing…][Get a free plan] Text   ││
 ├──── Results band ─────────────────────────────────────────────┤
@@ -233,7 +232,6 @@ Mobile-first; write these directly in `@media` rules.
 | **Preview window** | Opens the client's live site; the build line sweeps over its code while it loads. |
 | **Reels**          | One featured silent loop, large, plays only while visible; stills switch it; a pause button stops it. Paused under reduced motion. |
 | **Ask box**        | The field's placeholder types real owner problems, one letter at a time, and stops once the visitor focuses it. What they type (or nothing) goes to the contact form, prefilled. |
-| **Pixel reveal**   | Work images (`data-pixels`) start hidden under a grid of blue squares, which clear in a left-to-right scatter over about 1s when the image first comes into view. Once only. |
 | **Process line**   | The line through the steps draws left to right once, 1.4s, when it comes into view. |
 | **Buttons**        | Hover darkens the accent slightly; ghost buttons gain a stronger edge.            |
 | **Links**          | A 2px accent bar under the text that fills in behind it on hover (text turns `--on-accent`). |
@@ -243,7 +241,7 @@ Mobile-first; write these directly in `@media` rules.
 
 ### Reduced motion
 
-With `prefers-reduced-motion: reduce`: no pixel reveal, the ask box shows one static example, the process line is already drawn, no collage movement, figures appear at their value, the theme switches
+With `prefers-reduced-motion: reduce`: the ask box shows one static example, the process line is already drawn, no collage movement, figures appear at their value, the theme switches
 instantly, the preview's line holds still, Reels start paused.
 
 ## Components
@@ -252,7 +250,6 @@ instantly, the preview's line holds still, Reels start paused.
 - **Footer:** name and city, email, text number, year.
 - **HomeHero:** the short headline, what Tim does, the ask box, timing note; the client collage.
 - **AskBox:** a labeled field with typed examples and a "Get a free plan" button, posting to `/contact/?need=…`, which prefills the message.
-- **PixelReveal:** the script behind `data-pixels`; loaded by the layout.
 - **ResultsBand:** home: the featured results (`band` text in `projects.ts`), each naming its kind of business. Project
   pages: that project's results and source. One row for up to four; more wrap in rows of three.
 - **BeforeAfter:** one row per project on the home page, alternating sides with no dividers: the **CompareSlider**, big name, kind, the outcome line, "Read the

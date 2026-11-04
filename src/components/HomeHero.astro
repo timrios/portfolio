@@ -50,7 +50,7 @@ const pieces = [
   <div class="collage" role="group" aria-label={site.home.collageLabel} data-collage>
     <div class="glow piece" style={glow} data-depth="-0.8" aria-hidden="true"></div>
     {pieces.map((piece) => (
-      <div class:list={["piece", piece.class]} data-depth={piece.depth} data-pixels>
+      <div class:list={["piece", piece.class]} data-depth={piece.depth}>
         <Img src={piece.src} alt={piece.alt} sizes="(min-width: 1024px) 34vw, 80vw" priority />
       </div>
     ))}
