@@ -149,6 +149,9 @@ condensed 800 shouted. Self-hosted through Astro's font API.
 
 - **Content width:** `--content-max` 76rem; `--content-narrow` 38rem. **Gutters:** 1.25rem phones, 2rem from `md`.
 - **Section spacing:** `--section`, `clamp(4rem, 8vw, 6rem)`.
+- **Hero (from `lg`):** text 5 parts, collage 7 parts. The text keeps the content column's left edge; the collage
+  runs wider, toward the right edge of the window. The hero is sized to its content (not the full window height), so
+  the results band shows at the bottom of the first screen on a typical laptop.
 
 ```
 Home (desktop)
@@ -209,6 +212,7 @@ Mobile-first; write these directly in `@media` rules.
 | Element            | Behavior                                                                          |
 | ------------------ | --------------------------------------------------------------------------------- |
 | **Collage**        | Each piece shifts up to 14px with the pointer, at its own depth, and settles back when the pointer leaves. Fine pointers only. |
+| **Client glow**    | Behind the collage, a soft blur of the featured clients' own colors (their `accent` in `projects.ts`), stronger in light (0.8) than dark (0.45) so it reads on white. It drifts slowly with the pointer, the deepest layer. |
 | **Results**        | Each figure counts up from zero once, over 1.2s, when the band first comes into view. The final value is in the HTML, so screen readers and no-script see it. |
 | **Before/after**   | A range slider wipes between the old and new site (`clip-path`); arrow keys move it. Starts at 50%. |
 | **Theme toggle**   | Switches with a circular reveal from the button (View Transitions), 0.5s; instant where unsupported. |

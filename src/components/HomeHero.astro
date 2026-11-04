@@ -1,8 +1,15 @@
 ---
 // The home page's opening: what the owner gets, then the clients' real work as a collage. Each piece sits at its own
-// depth and shifts with the pointer (fine pointers, motion allowed), inviting a closer look.
+// depth and shifts with the pointer (fine pointers, motion allowed), inviting a closer look. Behind it, a soft glow in
+// the featured clients' own brand colors: the work lights the page.
 import Img from "./Img.astro";
 import { site } from "../data/site";
+import { projects } from "../data/projects";
+
+// The clients whose work is in the collage lend their colors to the glow
+const color = (id: string) =>
+  projects.find((project) => project.id === id)?.accent ?? "transparent";
+const glow = `--glow-1: ${color("fanzi-pet")}; --glow-2: ${color("shawarma-way")}; --glow-3: ${color("hair-by-christopher")}`;
 
 const pieces = [
   { src: "fanzi-pet/site-home-desktop.jpg", alt: "The Fanzi Pet website", depth: 0.5, class: "a" },
@@ -42,6 +49,7 @@ const pieces = [
     <p class="timing">{site.home.timing}</p>
   </div>
   <div class="collage" role="group" aria-label={site.home.collageLabel} data-collage>
+    <div class="glow piece" style={glow} data-depth="-0.8" aria-hidden="true"></div>
     {pieces.map((piece) => (
       <div class:list={["piece", piece.class]} data-depth={piece.depth}>
         <Img src={piece.src} alt={piece.alt} sizes="(min-width: 1024px) 34vw, 80vw" priority />
@@ -55,7 +63,7 @@ const pieces = [
     display: grid;
     gap: var(--space-8);
     align-items: center;
-    padding-block: var(--space-8) var(--space-9);
+    padding-block: var(--space-6) var(--space-8);
   }
 
   .lede {
@@ -77,13 +85,31 @@ const pieces = [
 
   .collage {
     position: relative;
-    aspect-ratio: 1 / 0.92;
+    isolation: isolate;
+    aspect-ratio: 1 / 0.86;
   }
 
   .piece {
     position: absolute;
     transform: translate(var(--x, 0), var(--y, 0));
     transition: transform 0.5s var(--ease-out);
+  }
+
+  /* The clients' colors as soft light behind the work; stronger in light so it reads on white */
+  .glow {
+    inset: -16% -10% -12% -8%;
+    z-index: -1;
+    opacity: 0.8;
+    filter: blur(72px);
+    background:
+      radial-gradient(42% 46% at 30% 30%, var(--glow-1), transparent 70%),
+      radial-gradient(36% 42% at 78% 55%, var(--glow-2), transparent 70%),
+      radial-gradient(32% 36% at 38% 86%, var(--glow-3), transparent 70%);
+    pointer-events: none;
+  }
+
+  :global([data-theme="dark"]) .glow {
+    opacity: 0.45;
   }
 
   .piece :global(img) {
@@ -96,23 +122,23 @@ const pieces = [
   }
 
   .a {
-    width: 74%;
+    width: 72%;
     aspect-ratio: 16 / 10;
     left: 0;
-    top: 4%;
+    top: 2%;
   }
 
   .b {
-    width: 56%;
+    width: 54%;
     aspect-ratio: 16 / 10;
     right: 0;
-    top: 34%;
+    top: 32%;
   }
 
   .c {
-    width: 40%;
+    width: 38%;
     aspect-ratio: 4 / 3;
-    right: 6%;
+    right: 8%;
     bottom: 0;
   }
 
@@ -121,7 +147,7 @@ const pieces = [
   }
 
   .d {
-    width: 22%;
+    width: 21%;
     aspect-ratio: 9 / 19.5;
     left: 8%;
     bottom: 0;
@@ -131,12 +157,14 @@ const pieces = [
     border-radius: 1rem;
   }
 
+  /* Wide screens: the text keeps the content column's left edge; the collage runs wider, toward the window's edge */
   @media (min-width: 1024px) {
     .hero {
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-9);
-      min-height: calc(100vh - 5rem);
-      padding-block: var(--space-6) var(--space-9);
+      grid-template-columns: 5fr 7fr;
+      gap: var(--space-8);
+      max-width: none;
+      padding-left: max(var(--gutter), calc((100vw - var(--content-max)) / 2 + var(--gutter)));
+      padding-right: max(var(--gutter), calc((100vw - var(--content-max)) / 4));
     }
   }
 </style>
