@@ -26,7 +26,7 @@ from what convinces a buyer.
 
 1. **Results first.** The first screen says what the owner gets (more customers) and shows real work; the next shows
    real numbers, each tied to the kind of business it came from.
-2. **The work brings the color.** Tim's frame is an olive family (see Color), quiet enough that client sites, logos and photos
+2. **The work brings the color.** Tim's frame is a Prussian blue family (see Color), quiet enough that client sites, logos and photos
    keep their own colors and are what the eye goes to.
 3. **Room to breathe.** Normal-width type at moderate sizes, wide margins, generous section spacing. Nothing fills the
    screen edge to edge.
@@ -45,39 +45,40 @@ from what convinces a buyer.
 
 ## Color
 
-**Olive** (Tim, 2026-11-04). A single accent on white read as a website-builder default, and purple has become an
-AI-design tell. Like Fanzi's teal, one hue becomes a family of three shades, each with a job: the **deep moss** carries
-whole sections (results, closing, footer), the **olive** does buttons and links, the **sage** tints the page and
-pale panels. Earthy, warm and local (Hill Country), and unlike any client's colors (teal, gold, red, ember).
+**Prussian blue** (2026-11-04). A single accent on white read as a website-builder default; purple has become an
+AI-design tell; olive read as a wellness site. Prussian blue is the printer's ink and the blueprint blue: crafted,
+trustworthy and fitting for someone who builds, deep and muted rather than bright web blue. Like Fanzi's teal, one hue
+becomes a family of three shades, each with a job: **deep ink** carries whole sections (the header once scrolled,
+results, closing, footer), **Prussian** does buttons and links, **blueprint** tints the page and pale panels.
 
 Two complete looks. `html[data-theme]` holds the visitor's choice; with none, the device setting decides
 (`prefers-color-scheme`). An inline script in the head applies it before the page paints. The dark look is built from
-the same hue (very deep moss), not a neutral gray, so both looks are one brand.
+the same hue (deep navy), not a neutral gray, so both looks are one brand.
 
 ### Palette
 
-| Token                  | Hex       | Name        | Use                                            |
-| ---------------------- | --------- | ----------- | ---------------------------------------------- |
-| `--color-moss-deep`    | `#1E2416` | Deep moss   | Deep bands in light; cards in dark             |
-| `--color-olive`        | `#55651F` | Olive       | Accent in light: buttons, links, focus         |
-| `--color-sage`         | `#EEF1DF` | Sage        | Pale panels, tags (light)                      |
-| `--color-sage-mist`    | `#F9FAF4` | Sage mist   | Page (light)                                   |
-| `--color-white`        | `#FFFFFF` | White       | Cards (light)                                  |
-| `--color-ink`          | `#1C2016` | Ink         | Text (light); handle and tags on screenshots   |
-| `--color-lichen`       | `#586049` | Lichen      | Secondary text (light)                         |
-| `--color-reed`         | `#878D76` | Reed        | Field edges (light)                            |
-| `--color-brick`        | `#B42318` | Brick       | Errors (light)                                 |
-| `--color-moss-night`   | `#13170D` | Moss night  | Page (dark)                                    |
-| `--color-moss-card`    | `#1C2114` | Moss card   | Cards and fields (dark)                        |
-| `--color-moss-band`    | `#2A3218` | Moss band   | Deep bands (dark)                              |
-| `--color-chartreuse`   | `#B9CC6A` | Chartreuse  | Accent in dark and inside deep bands           |
-| `--color-linen`        | `#EEF1E6` | Linen       | Text (dark)                                    |
-| `--color-dry-grass`    | `#B0B79E` | Dry grass   | Secondary text (dark)                          |
-| `--color-bark`         | `#6E765C` | Bark        | Field edges (dark)                             |
-| `--color-lichen-light` | `#C4CBB3` | Pale lichen | Secondary text inside deep bands               |
-| `--color-fern`         | `#7D8566` | Fern        | Field edges inside deep bands                  |
-| `--color-coral`        | `#FF8A7A` | Coral       | Errors (dark)                                  |
-| `--color-paper`        | `#F2EEE6` | Paper       | Mat behind client artwork drawn for light backgrounds |
+| Token                    | Hex       | Name           | Use                                            |
+| ------------------------ | --------- | -------------- | ---------------------------------------------- |
+| `--color-ink-deep`       | `#0E2433` | Deep ink       | Deep bands in light                            |
+| `--color-prussian`       | `#1F5C8A` | Prussian       | Accent in light: buttons, links, focus         |
+| `--color-blueprint`      | `#E4EEF5` | Blueprint      | Pale panels, tags (light)                      |
+| `--color-blueprint-mist` | `#F6F9FB` | Blueprint mist | Page (light)                                   |
+| `--color-white`          | `#FFFFFF` | White          | Cards (light)                                  |
+| `--color-ink`            | `#0F1B26` | Ink            | Text (light); handle and tags on screenshots   |
+| `--color-steel`          | `#4F6070` | Steel          | Secondary text (light)                         |
+| `--color-slate`          | `#7F8E9C` | Slate          | Field edges (light)                            |
+| `--color-brick`          | `#B42318` | Brick          | Errors (light)                                 |
+| `--color-navy-night`     | `#0A1822` | Navy night     | Page (dark)                                    |
+| `--color-navy-card`      | `#102331` | Navy card      | Cards and fields (dark)                        |
+| `--color-navy-band`      | `#15314A` | Navy band      | Deep bands (dark)                              |
+| `--color-sky`            | `#8EC3EA` | Sky            | Accent in dark and inside deep bands           |
+| `--color-frost`          | `#EAF1F7` | Frost          | Text (dark)                                    |
+| `--color-mist-gray`      | `#A9BACB` | Mist gray      | Secondary text (dark)                          |
+| `--color-harbor`         | `#5F7387` | Harbor         | Field edges (dark)                             |
+| `--color-steel-light`    | `#B9C8D6` | Pale steel     | Secondary text inside deep bands               |
+| `--color-dusk`           | `#6E8499` | Dusk           | Field edges inside deep bands                  |
+| `--color-coral`          | `#FF8A7A` | Coral          | Errors (dark)                                  |
+| `--color-paper`          | `#F2EEE6` | Paper          | Mat behind client artwork drawn for light backgrounds |
 | `--color-black`, `--color-print-white`, `--color-print-gray` | | Print | Resume print only |
 
 ### Semantic tokens
@@ -85,22 +86,22 @@ the same hue (very deep moss), not a neutral gray, so both looks are one brand.
 Components use these, never the palette tokens directly (exceptions: the paper mat, the print colors, and the
 slider's handle and tags, which sit on client screenshots).
 
-| Token            | Light      | Dark       | Inside `.deep` bands | Use                          |
-| ---------------- | ---------- | ---------- | -------------------- | ---------------------------- |
-| `--bg`           | sage mist  | moss night | deep moss (dark: moss band) | Page / band background |
-| `--band`         | sage       | moss card  |                      | Pale panels, tags            |
-| `--surface`      | white      | moss card  |                      | Cards, preview window, fields |
-| `--text`         | ink        | linen      | white / linen        | Text                         |
-| `--text-muted`   | lichen     | dry grass  | pale lichen          | Secondary text               |
-| `--rule`         | olive 14%  | chartreuse 14% | chartreuse 18%   | Hairlines (decorative)       |
-| `--field-border` | reed       | bark       | fern                 | Field and toggle edges (3:1) |
-| `--accent`       | olive      | chartreuse | chartreuse           | Buttons, links, focus        |
-| `--on-accent`    | white      | deep moss  | deep moss            | Text on the accent           |
-| `--error`        | brick      | coral      |                      | Errors                       |
-| `--shadow`       | moss-tinted, soft | black, deeper |               | Cards and screenshots        |
+| Token            | Light          | Dark        | Inside `.on-deep` | Use                           |
+| ---------------- | -------------- | ----------- | ----------------- | ----------------------------- |
+| `--bg`           | blueprint mist | navy night  | deep ink (dark: navy band) | Page / band background |
+| `--band`         | blueprint      | navy card   |                   | Pale panels, tags             |
+| `--surface`      | white          | navy card   |                   | Cards, preview window, fields |
+| `--text`         | ink            | frost       | white / frost     | Text                          |
+| `--text-muted`   | steel          | mist gray   | pale steel        | Secondary text                |
+| `--rule`         | Prussian 14%   | sky 14%     | sky 18%           | Hairlines (decorative)        |
+| `--field-border` | slate          | harbor      | dusk              | Field and toggle edges (3:1)  |
+| `--accent`       | Prussian       | sky         | sky               | Buttons, links, focus         |
+| `--on-accent`    | white          | deep ink    | deep ink          | Text on the accent            |
+| `--error`        | brick          | coral       |                   | Errors                        |
+| `--shadow`       | ink-tinted, soft | black, deeper |               | Cards and screenshots         |
 
-`.deep` is a class for whole sections in the deep shade (results band, closing, footer): it switches the tokens above
-for everything inside, and adds a soft glow of the olive.
+`.on-deep` switches the tokens above for everything inside a deep-ink surface (the scrolled header, results band,
+closing, footer). `.deep` adds a soft glow of the Prussian blue inside the band (not the header).
 
 ### Client colors
 
@@ -111,19 +112,19 @@ Each project's `accent` in `projects.ts` appears only as the small square marker
 
 | Text / element  | On                   | Ratio |
 | --------------- | -------------------- | ----- |
-| ink             | sage mist / sage / white | 15.8 / 14.4 / 16.6 |
-| lichen          | sage mist / sage / white | 6.3 / 5.7 / 6.6 |
-| olive (links)   | sage mist / sage / white | 6.1 / 5.6 / 6.4 |
-| white on olive  | button               | 6.4   |
-| reed edge       | sage mist / sage     | 3.3 / 3.0 |
-| white / pale lichen / chartreuse | deep moss | 15.9 / 9.5 / 9.0 |
-| fern edge       | deep moss            | 4.1   |
-| linen           | moss night / moss card / moss band | 15.9 / 14.4 / 11.7 |
-| dry grass       | moss night / moss card / moss band | 8.8 / 7.9 / 6.5 |
-| chartreuse      | moss night / moss card / moss band | 10.3 / 9.3 / 7.6 |
-| deep moss on chartreuse | button (dark) | 9.0   |
-| bark edge       | moss night / moss card | 3.8 / 3.5 |
-| brick / coral   | light page / dark page | 6.3 / 7.9 |
+| ink             | blueprint mist / blueprint / white | 16.5 / 14.8 / 17.4 |
+| steel           | blueprint mist / blueprint / white | 6.1 / 5.5 / 6.5 |
+| Prussian (links) | blueprint mist / blueprint / white | 6.7 / 6.0 / 7.1 |
+| white on Prussian | button             | 7.1   |
+| slate edge      | blueprint mist / white | 3.2 / 3.4 (never on blueprint panels: 2.9) |
+| white / pale steel / sky | deep ink    | 15.9 / 9.3 / 8.5 |
+| dusk edge       | deep ink             | 4.1   |
+| frost           | navy night / navy card / navy band | 15.8 / 14.1 / 11.7 |
+| mist gray       | navy night / navy card / navy band | 9.1 / 8.1 / 6.7 |
+| sky             | navy night / navy card / navy band | 9.6 / 8.5 / 7.1 |
+| deep ink on sky | button (dark)        | 8.5   |
+| harbor edge     | navy night / navy card | 3.7 / 3.3 |
+| brick / coral   | light page / dark page | 6.2 / 7.9 |
 
 ## Typography
 
@@ -230,7 +231,8 @@ Mobile-first; write these directly in `@media` rules.
 | **Reels**          | Silent loops, play only while visible, one pause button.                          |
 | **Buttons**        | Hover darkens the accent slightly; ghost buttons gain a stronger edge.            |
 | **Links**          | A 2px accent bar under the text that fills in behind it on hover (text turns `--on-accent`). |
-| **Cards**          | Soft moss-tinted shadow, no border; lift 3px on hover.                            |
+| **Cards**          | Soft ink-tinted shadow, no border; lift 3px on hover.                             |
+| **Header**         | Pinned to the top. At the top of the page it sits on the page; once scrolled 16px it switches to the deep-ink surface (`.on-deep`) with a shadow, 0.3s, so the menu and the text number always stand out. |
 | **Primary button** | A soft glow of the accent beneath it.                                             |
 
 ### Reduced motion

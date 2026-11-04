@@ -2,25 +2,25 @@
    Light is the default; html[data-theme="dark"] switches every semantic token. A script in the page head sets
    data-theme before the page paints, from the visitor's saved choice or else their device setting. */
 :root {
-  /* Palette: the olive family (DESIGN.md → Color) */
-  --color-moss-deep: #1e2416;
-  --color-olive: #55651f;
-  --color-sage: #eef1df;
-  --color-sage-mist: #f9faf4;
+  /* Palette: the Prussian blue family (DESIGN.md → Color) */
+  --color-ink-deep: #0e2433;
+  --color-prussian: #1f5c8a;
+  --color-blueprint: #e4eef5;
+  --color-blueprint-mist: #f6f9fb;
   --color-white: #ffffff;
-  --color-ink: #1c2016;
-  --color-lichen: #586049;
-  --color-reed: #878d76;
+  --color-ink: #0f1b26;
+  --color-steel: #4f6070;
+  --color-slate: #7f8e9c;
   --color-brick: #b42318;
-  --color-moss-night: #13170d;
-  --color-moss-card: #1c2114;
-  --color-moss-band: #2a3218;
-  --color-chartreuse: #b9cc6a;
-  --color-linen: #eef1e6;
-  --color-dry-grass: #b0b79e;
-  --color-bark: #6e765c;
-  --color-lichen-light: #c4cbb3;
-  --color-fern: #7d8566;
+  --color-navy-night: #0a1822;
+  --color-navy-card: #102331;
+  --color-navy-band: #15314a;
+  --color-sky: #8ec3ea;
+  --color-frost: #eaf1f7;
+  --color-mist-gray: #a9bacb;
+  --color-harbor: #5f7387;
+  --color-steel-light: #b9c8d6;
+  --color-dusk: #6e8499;
   --color-coral: #ff8a7a;
   /* Client artwork mat and print */
   --color-paper: #f2eee6;
@@ -30,22 +30,22 @@
 
   /* Semantic: light */
   color-scheme: light;
-  --bg: var(--color-sage-mist);
-  --deep-bg: var(--color-moss-deep);
-  --band: var(--color-sage);
+  --bg: var(--color-blueprint-mist);
+  --deep-bg: var(--color-ink-deep);
+  --band: var(--color-blueprint);
   --surface: var(--color-white);
   --text: var(--color-ink);
-  --text-muted: var(--color-lichen);
-  --rule: color-mix(in srgb, var(--color-olive) 14%, transparent);
-  --field-border: var(--color-reed);
-  --accent: var(--color-olive);
+  --text-muted: var(--color-steel);
+  --rule: color-mix(in srgb, var(--color-prussian) 14%, transparent);
+  --field-border: var(--color-slate);
+  --accent: var(--color-prussian);
   --on-accent: var(--color-white);
   --focus: var(--accent);
   --error: var(--color-brick);
-  --code: var(--color-lichen);
+  --code: var(--color-steel);
   --shadow:
-    0 1px 2px color-mix(in srgb, var(--color-moss-deep) 6%, transparent),
-    0 14px 30px -14px color-mix(in srgb, var(--color-moss-deep) 30%, transparent);
+    0 1px 2px color-mix(in srgb, var(--color-ink-deep) 6%, transparent),
+    0 14px 30px -14px color-mix(in srgb, var(--color-ink-deep) 30%, transparent);
 
   /* Type */
   --font-display: var(--font-bricolage);
@@ -88,43 +88,46 @@
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: var(--color-moss-night);
-  --deep-bg: var(--color-moss-band);
-  --band: var(--color-moss-card);
-  --surface: var(--color-moss-card);
-  --text: var(--color-linen);
-  --text-muted: var(--color-dry-grass);
-  --rule: color-mix(in srgb, var(--color-chartreuse) 14%, transparent);
-  --field-border: var(--color-bark);
-  --accent: var(--color-chartreuse);
-  --on-accent: var(--color-moss-deep);
+  --bg: var(--color-navy-night);
+  --deep-bg: var(--color-navy-band);
+  --band: var(--color-navy-card);
+  --surface: var(--color-navy-card);
+  --text: var(--color-frost);
+  --text-muted: var(--color-mist-gray);
+  --rule: color-mix(in srgb, var(--color-sky) 14%, transparent);
+  --field-border: var(--color-harbor);
+  --accent: var(--color-sky);
+  --on-accent: var(--color-ink-deep);
   --error: var(--color-coral);
-  --code: var(--color-dry-grass);
+  --code: var(--color-mist-gray);
   --shadow:
     0 1px 2px color-mix(in srgb, var(--color-black) 40%, transparent),
     0 18px 40px -16px color-mix(in srgb, var(--color-black) 70%, transparent);
 }
 
-/* A whole section in the deep shade (results, closing, footer): every token inside switches to read on deep moss,
-   and a soft glow of the olive gives the band depth */
+/* A deep-ink surface (the scrolled header, results, closing, footer): every token inside switches to read on it */
+.on-deep {
+  background: var(--deep-bg);
+  color: var(--color-white);
+  --text: var(--color-white);
+  --text-muted: var(--color-steel-light);
+  --rule: color-mix(in srgb, var(--color-sky) 18%, transparent);
+  --field-border: var(--color-dusk);
+  --accent: var(--color-sky);
+  --on-accent: var(--color-ink-deep);
+  --focus: var(--accent);
+}
+
+:root[data-theme="dark"] .on-deep {
+  --text: var(--color-frost);
+  color: var(--color-frost);
+}
+
+/* A whole band on that surface, with a soft glow of the Prussian blue for depth */
 .deep {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background: var(--deep-bg);
-  color: var(--color-white);
-  --text: var(--color-white);
-  --text-muted: var(--color-lichen-light);
-  --rule: color-mix(in srgb, var(--color-chartreuse) 18%, transparent);
-  --field-border: var(--color-fern);
-  --accent: var(--color-chartreuse);
-  --on-accent: var(--color-moss-deep);
-  --focus: var(--accent);
-}
-
-:root[data-theme="dark"] .deep {
-  --text: var(--color-linen);
-  color: var(--color-linen);
 }
 
 .deep::before {
@@ -134,7 +137,7 @@
   inset: -60% 30% -60% -15%;
   background: radial-gradient(
     closest-side,
-    color-mix(in srgb, var(--color-olive) 55%, transparent),
+    color-mix(in srgb, var(--color-prussian) 65%, transparent),
     transparent
   );
   pointer-events: none;
@@ -158,6 +161,7 @@
 
 html {
   background: var(--bg);
+  scroll-padding-top: 6rem; /* Links to a section land below the pinned header */
   -webkit-text-size-adjust: 100%;
 }
 
