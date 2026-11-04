@@ -8,7 +8,7 @@ import { site } from "../data/site";
       <a class="email" href={`mailto:${site.email}`}>
         {site.email}
       </a>
-      <p class="muted">{site.footer.about}</p>
+      <p class="muted">{site.footer.about.replace("{city}", `${site.city}, Texas`)}</p>
     </div>
     <p class="muted note">{site.footer.colorNote}</p>
     <p class="muted mono">

@@ -33,6 +33,12 @@ const personSchema = {
   url: Astro.site?.href,
   email: `mailto:${site.email}`,
   jobTitle: "Website and brand designer",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: site.city,
+    addressRegion: site.region,
+    addressCountry: "US",
+  },
 };
 ---
 

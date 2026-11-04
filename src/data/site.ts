@@ -5,6 +5,9 @@ const siteSchema = z.object({
   name: z.string(),
   domain: z.string(),
   email: z.email(),
+  /** Where Tim is based, for search engines and copy */
+  city: z.string(),
+  region: z.string(),
   /** Formspree form that delivers contact messages to the email above */
   formEndpoint: z.url(),
   description: z.string(),
@@ -52,9 +55,11 @@ export const site = siteSchema.parse({
   name: "Tim Rios",
   domain: "timrios.dev",
   email: "hello@timrios.dev",
+  city: "San Antonio",
+  region: "TX",
   formEndpoint: "https://formspree.io/f/xnpplzng",
   description:
-    "Tim Rios designs websites, logos, packaging, vehicle wraps and social media for local businesses, so every part of the business looks like it belongs together.",
+    "Tim Rios designs websites, logos, packaging, vehicle wraps and social media for local businesses in San Antonio, so every part of the business looks like it belongs together.",
   navigation: [
     { label: "Work", href: "/#work" },
     { label: "How it works", href: "/#how-it-works" },
@@ -79,7 +84,7 @@ export const site = siteSchema.parse({
       "The first conversation is free. Tell me what you do and what isn't working yet, and I'll suggest where to start.",
   },
   footer: {
-    about: "Websites, brands and social media for local businesses.",
+    about: "Websites, brands and social media for local businesses. Based in {city}.",
     colorNote:
       "My own colors are black and paper. The accent color you see belongs to whichever client is on screen.",
   },

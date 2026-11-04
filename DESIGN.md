@@ -238,6 +238,8 @@ With `prefers-reduced-motion: reduce`: no build (the site shows finished), no sm
 - **Image treatments** (`treatment` in `projects.ts`): `photo` is cropped to fill its frame; `artwork` (logos) is shown
   whole on soot; `artwork-on-light` is shown whole on a paper mat, for artwork drawn for light backgrounds (Fanzi's
   logo). Client artwork is never recolored or redrawn.
+- **Wide** (`wide: true`): a design proof that needs room (Fanzi's wrap drawn on every side of the van) spans the
+  gallery's full width at its own proportions, uncropped.
 - Every image has alt text describing what it shows; screenshots inside links that repeat a text link are hidden from
   screen readers.
 

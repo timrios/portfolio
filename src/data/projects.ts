@@ -15,6 +15,8 @@ const image = z.object({
    * for light backgrounds (dark outlines), shown whole on a paper mat. Client artwork is never recolored.
    */
   treatment: z.enum(["photo", "artwork", "artwork-on-light"]).default("photo"),
+  /** Spans the full width of a gallery (a design proof that needs room) */
+  wide: z.boolean().default(false),
 });
 
 const projectSchema = z.object({
@@ -126,9 +128,15 @@ const all = z.array(projectSchema).parse([
         points: [],
         images: [
           {
+            src: "fanzi-pet/van-wrap-design-every-side.png",
+            alt: "The Fanzi van wrap design drawn on every side of a Mercedes Sprinter: roof, both sides, front and back, in aqua and white with paw prints, bubbles, the logo and three illustrated dogs in a splash",
+            caption: "The wrap design, drawn for every side of the van.",
+            wide: true,
+          },
+          {
             src: "fanzi-pet/vans-side-by-side.webp",
             alt: "Two Fanzi vans parked side by side, wrapped in aqua and white with the Fanzi logo and paw prints",
-            caption: "The van wrap, on both vans.",
+            caption: "The same wrap on the street, on both vans.",
           },
           {
             src: "fanzi-pet/van-wrap-illustrated-dogs.png",

@@ -109,7 +109,7 @@ const host = new URL(project.liveUrl).host;
         {section.images.length > 0 && (
           <div class="gallery">
             {section.images.map((image) => (
-              <figure class:list={["figure", image.treatment]}>
+              <figure class:list={["figure", image.treatment, { wide: image.wide }]}>
                 <Img src={image.src} alt={image.alt} sizes="(min-width: 1024px) 35vw, 100vw" />
                 {image.caption && <figcaption class="muted">{image.caption}</figcaption>}
               </figure>
@@ -282,6 +282,14 @@ const host = new URL(project.liveUrl).host;
     width: 100%;
     aspect-ratio: 3 / 2;
     object-fit: cover;
+  }
+
+  .gallery .wide {
+    grid-column: 1 / -1;
+  }
+
+  .gallery .wide :global(img) {
+    aspect-ratio: auto;
   }
 
   /* Logos are shown whole; artwork drawn for light backgrounds gets a paper mat */
