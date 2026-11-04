@@ -1,5 +1,40 @@
+# Dependencies
 node_modules/
+
+# Build output (Astro: dist/ and .astro/; Next.js: .next/, out/ and .open-next/)
+dist/
+.astro/
+.next/
+out/
+.open-next/
+next-env.d.ts
+*.tsbuildinfo
+
+# Wrangler local state and secrets
+.wrangler/
+.dev.vars*
+
+# Secrets (keep .env.example committed)
+.env
+.env.*
+!.env.example
+
+# Full-size image originals, if kept outside src/; back these up outside Git
+image-originals/
+
+# npm run shots output
+/screenshots/
+
+# Logs
+npm-debug.log*
+
+# OS and editor files
 .DS_Store
+.idea/
+
+# Raw client photos and footage: never committed (phone files can carry GPS). See README → Where everything is.
+Image Drop/
+Video Drop/
 
 # Throwaway comparison images and reference screenshots; deleted once decided
 _compare/

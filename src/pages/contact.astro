@@ -1,0 +1,342 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../data/site";
+
+const c = site.contact;
+const errorText = c.error.replace("{email}", site.email);
+---
+
+<BaseLayout title={c.title} description={c.description} image="social/home.jpg">
+  <div class="contact container">
+    <div class="intro">
+      <h1>{c.heading}</h1>
+      <p class="lede">{c.intro}</p>
+
+      <h2 class="next-heading">{c.nextHeading}</h2>
+      <ol class="next">
+        {c.next.map((step) => (
+          <li>{step}</li>
+        ))}
+      </ol>
+      <p class="direct muted">
+        Or email <a href={`mailto:${site.email}`}>{site.email}</a>
+      </p>
+    </div>
+
+    <form
+      action={site.formEndpoint}
+      method="POST"
+      data-contact-form
+      data-sending={c.sending}
+      data-success={c.success}
+      data-error={errorText}
+    >
+      <input type="hidden" name="_subject" value={`New enquiry from ${site.domain}`} />
+      <!-- Spam trap: people never see or fill this field -->
+      <label class="trap" aria-hidden="true">
+        Leave this empty
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+      </label>
+
+      <div class="row">
+        <label>
+          <span>
+            Your name{" "}
+            <span class="required" aria-hidden="true">
+              (required)
+            </span>
+          </span>
+          <input type="text" name="name" autocomplete="name" required aria-required="true" />
+        </label>
+        <label>
+          <span>Business name</span>
+          <input type="text" name="business" autocomplete="organization" />
+        </label>
+      </div>
+      <div class="row">
+        <label>
+          <span>
+            Email{" "}
+            <span class="required" aria-hidden="true">
+              (required)
+            </span>
+          </span>
+          <input type="email" name="email" autocomplete="email" required aria-required="true" />
+        </label>
+        <label>
+          <span>
+            Phone <span class="muted">(optional)</span>
+          </span>
+          <input type="tel" name="phone" autocomplete="tel" />
+        </label>
+      </div>
+
+      <fieldset>
+        <legend>{c.needsLegend}</legend>
+        <div class="needs">
+          {c.needs.map((need) => (
+            <label class="check">
+              <input type="checkbox" name="needs" value={need} />
+              <span>{need}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <label>
+        <span>
+          Current website or Instagram <span class="muted">(optional)</span>
+        </span>
+        <input type="text" name="current_site" inputmode="url" />
+      </label>
+      <label>
+        <span>
+          Message{" "}
+          <span class="required" aria-hidden="true">
+            (required)
+          </span>
+        </span>
+        <textarea
+          name="message"
+          rows="6"
+          required
+          aria-required="true"
+          placeholder={c.messagePlaceholder}
+        ></textarea>
+      </label>
+
+      <button class="btn btn--primary" type="submit">
+        {c.submitLabel}
+      </button>
+      <p class="status" role="status" aria-live="polite" data-status></p>
+    </form>
+  </div>
+</BaseLayout>
+
+<style>
+  .contact {
+    display: grid;
+    gap: var(--space-9);
+    padding-block: var(--space-8) var(--section);
+  }
+
+  h1 {
+    font-size: var(--text-display);
+    line-height: 0.88;
+    max-width: 12ch;
+  }
+
+  .intro .lede {
+    margin-top: var(--space-5);
+  }
+
+  .next-heading {
+    margin-top: var(--space-8);
+    font-size: var(--text-3);
+    font-weight: 700;
+    font-variation-settings:
+      "opsz" 32,
+      "wdth" 85;
+    letter-spacing: 0;
+  }
+
+  .next {
+    counter-reset: step;
+    margin-top: var(--space-4);
+    padding: 0;
+    list-style: none;
+    max-width: var(--content-narrow);
+  }
+
+  .next li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    padding-block: var(--space-3);
+    border-top: 1px solid var(--rule);
+    color: var(--text-muted);
+  }
+
+  .next li::before {
+    content: counter(step);
+    font-family: var(--font-mono);
+    color: var(--text);
+  }
+
+  .direct {
+    margin-top: var(--space-6);
+  }
+
+  .direct a {
+    color: var(--text);
+    display: inline-block;
+    padding-block: var(--space-2);
+  }
+
+  form {
+    display: grid;
+    gap: var(--space-5);
+    align-content: start;
+  }
+
+  .row {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  label,
+  legend {
+    display: grid;
+    gap: var(--space-2);
+    font-size: var(--text-small);
+    font-weight: 600;
+  }
+
+  .required,
+  .muted {
+    font-weight: 400;
+    color: var(--text-muted);
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  textarea {
+    width: 100%;
+    min-height: 48px;
+    padding: var(--space-3) var(--space-4);
+    font: 400 var(--text-body) / 1.5 var(--font-body);
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--field-border);
+    border-radius: var(--radius-none);
+  }
+
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 0;
+    border-color: transparent;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  textarea::placeholder {
+    color: var(--text-muted);
+  }
+
+  fieldset {
+    border: 0;
+    padding: 0;
+  }
+
+  legend {
+    margin-bottom: var(--space-3);
+  }
+
+  .needs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .check {
+    position: relative;
+    display: inline-flex;
+    font-weight: 400;
+  }
+
+  .check input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    cursor: pointer;
+  }
+
+  .check span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--field-border);
+    color: var(--text-muted);
+  }
+
+  /* Ticked: filled, plus a check mark, so the state never rests on color alone */
+  .check input:checked + span {
+    background: var(--text);
+    border-color: var(--text);
+    color: var(--bg);
+  }
+
+  .check input:checked + span::before {
+    content: "✓";
+    margin-right: var(--space-2);
+  }
+
+  .check input:focus-visible + span {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  .btn {
+    justify-self: start;
+  }
+
+  .status:empty {
+    display: none;
+  }
+
+  .status[data-state="error"] {
+    color: var(--error);
+  }
+
+  .trap {
+    position: absolute;
+    left: -9999px;
+  }
+
+  @media (min-width: 640px) {
+    .row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .contact {
+      grid-template-columns: 5fr 7fr;
+      gap: var(--space-9);
+    }
+  }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("[data-contact-form]")!;
+  const status = form.querySelector<HTMLElement>("[data-status]")!;
+  const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    button.disabled = true;
+    status.textContent = form.dataset.sending!;
+    status.dataset.state = "";
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { Accept: "application/json" },
+      });
+      if (!response.ok) throw new Error(String(response.status));
+      form.reset();
+      status.textContent = form.dataset.success!;
+      status.dataset.state = "success";
+    } catch {
+      status.textContent = form.dataset.error!;
+      status.dataset.state = "error";
+    } finally {
+      button.disabled = false;
+    }
+  });
+</script>

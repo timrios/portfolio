@@ -1,0 +1,76 @@
+---
+// What I offer, each with a real example linking to the project it comes from
+import { services } from "../data/services";
+import { projects } from "../data/projects";
+
+const published = new Map(projects.map((project) => [project.id, project]));
+---
+
+<ul class="services">
+  {services.map((service) => {
+    const project = published.get(service.proof.projectId);
+    return (
+      <li style={project ? `--accent: ${project.accent}` : undefined}>
+        <h3>{service.name}</h3>
+        <p>{service.text}</p>
+        {project && (
+          <a class="proof" href={`/work/${project.id}/`}>
+            <span class="mono">{project.id}</span>
+            {service.proof.text}
+          </a>
+        )}
+      </li>
+    );
+  })}
+</ul>
+
+<style>
+  .services {
+    display: grid;
+    gap: var(--space-7);
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--rule);
+  }
+
+  p {
+    margin-top: var(--space-3);
+    color: var(--text-muted);
+  }
+
+  .proof {
+    display: block;
+    margin-top: var(--space-5);
+    padding-left: var(--space-4);
+    border-left: 2px solid var(--accent);
+    font-size: var(--text-small);
+    text-decoration: none;
+  }
+
+  .proof:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .proof .mono {
+    display: block;
+    color: var(--text-muted);
+    margin-bottom: var(--space-1);
+  }
+
+  @media (min-width: 768px) {
+    .services {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .services {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>

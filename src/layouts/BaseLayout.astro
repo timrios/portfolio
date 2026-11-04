@@ -1,0 +1,76 @@
+---
+import { Font } from "astro:assets";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { site } from "../data/site";
+import { imageUrl } from "../utils/images";
+import "../styles/global.css";
+
+interface Props {
+  /** Page title; " | Tim Rios" is added, except on the home page, which passes the full title */
+  title: string;
+  description: string;
+  /** Social preview image, a path in src/assets/images/ */
+  image: string;
+  /** A project's brand color: the page's borrowed accent (DESIGN.md → Color) */
+  accent?: string;
+  /** Keep a page out of search results (thank-you, 404) */
+  noindex?: boolean;
+  /** The home page's title is already complete */
+  fullTitle?: boolean;
+}
+
+const { title, description, image, accent, noindex = false, fullTitle = false } = Astro.props;
+
+const pageTitle = fullTitle ? title : `${title} | ${site.name}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+// JPEG, because not every link-preview app reads WebP
+const ogImage = new URL(await imageUrl(image, 1200, "jpg"), Astro.site);
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: site.name,
+  url: Astro.site?.href,
+  email: `mailto:${site.email}`,
+  jobTitle: "Website and brand designer",
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#000000" />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <Font cssVariable="--font-bricolage" preload />
+    <Font cssVariable="--font-fragment-mono" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+  </head>
+  <body style={accent ? `--accent: ${accent}` : undefined}>
+    <a class="skip-link" href="#main">
+      Skip to content
+    </a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

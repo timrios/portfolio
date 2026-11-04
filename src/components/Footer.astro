@@ -1,0 +1,56 @@
+---
+import { site } from "../data/site";
+---
+
+<footer class="footer">
+  <div class="container inner">
+    <div>
+      <a class="email" href={`mailto:${site.email}`}>
+        {site.email}
+      </a>
+      <p class="muted">{site.footer.about}</p>
+    </div>
+    <p class="muted note">{site.footer.colorNote}</p>
+    <p class="muted mono">
+      © {new Date().getFullYear()} {site.name}
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--rule);
+    padding-block: var(--space-8);
+  }
+
+  .inner {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .email {
+    font: 800 var(--text-2) / 1 var(--font-display);
+    font-variation-settings:
+      "opsz" 96,
+      "wdth" 75;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+
+  .email:hover {
+    color: var(--accent);
+  }
+
+  .footer p {
+    margin-top: var(--space-2);
+    font-size: var(--text-small);
+    max-width: var(--content-narrow);
+  }
+
+  @media (min-width: 1024px) {
+    .inner {
+      grid-template-columns: 2fr 1fr auto;
+      align-items: end;
+    }
+  }
+</style>

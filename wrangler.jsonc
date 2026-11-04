@@ -1,0 +1,16 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Must match the Worker's name in the Cloudflare dashboard (Workers & Pages → timrios).
+  "name": "timrios",
+  "compatibility_date": "2026-10-01",
+  // A static site: the Worker only serves the built files, so there's no "main" entry.
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+  },
+  "observability": {
+    "enabled": true,
+  },
+  // Branch previews (`npx wrangler preview`) refuse to run without this block. Empty: the site has no bindings.
+  "previews": {},
+}

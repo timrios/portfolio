@@ -1,0 +1,372 @@
+---
+import type { GetStaticPaths } from "astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Img from "../../components/Img.astro";
+import Closing from "../../components/Closing.astro";
+import { projects, type Project } from "../../data/projects";
+
+export const getStaticPaths = (() =>
+  projects.map((project, i) => ({
+    params: { id: project.id },
+    props: { project, next: projects[(i + 1) % projects.length] },
+  }))) satisfies GetStaticPaths;
+
+interface Props {
+  project: Project;
+  next: Project;
+}
+
+const { project, next } = Astro.props;
+const host = new URL(project.liveUrl).host;
+---
+
+<BaseLayout
+  title={project.pageTitle}
+  description={project.pageDescription}
+  image={project.screens.desktop.src}
+  accent={project.accent}
+>
+  <header class="intro container">
+    <p class="mono path">work/{project.id}</p>
+    <h1>{project.name}</h1>
+    <p class="lede">
+      {project.business}. {project.place}.
+    </p>
+    <dl class="facts">
+      <div>
+        <dt class="mono">What I did</dt>
+        <dd>{project.services.join(", ")}</dd>
+      </div>
+      <div>
+        <dt class="mono">Live site</dt>
+        <dd>
+          <a href={project.liveUrl}>{host}</a>
+        </dd>
+      </div>
+      {project.links.map((link) => (
+        <div>
+          <dt class="mono">{link.label}</dt>
+          <dd>
+            <a href={link.href}>{new URL(link.href).pathname.replaceAll("/", "") || link.label}</a>
+          </dd>
+        </div>
+      ))}
+    </dl>
+  </header>
+
+  <div class="screens container">
+    <div class="desktop">
+      <Img
+        src={project.screens.desktop.src}
+        alt={project.screens.desktop.alt}
+        sizes="(min-width: 1024px) 70vw, 100vw"
+        priority
+      />
+    </div>
+    <div class="phone">
+      <Img
+        src={project.screens.phone.src}
+        alt={project.screens.phone.alt}
+        sizes="(min-width: 1024px) 18vw, 40vw"
+        priority
+      />
+    </div>
+  </div>
+
+  <section class="container section block" aria-labelledby="before-heading">
+    <p class="mono label">Before</p>
+    <div>
+      <h2 id="before-heading">{project.before.heading}</h2>
+      <p class="body">{project.before.text}</p>
+      {project.before.image && (
+        <figure class="figure">
+          <Img
+            src={project.before.image.src}
+            alt={project.before.image.alt}
+            sizes="(min-width: 1024px) 55vw, 100vw"
+          />
+          {project.before.image.caption && (
+            <figcaption class="muted">{project.before.image.caption}</figcaption>
+          )}
+        </figure>
+      )}
+    </div>
+  </section>
+
+  {project.sections.map((section, s) => (
+    <section class="container section block" aria-labelledby={`section-${s}`}>
+      <p class="mono label">{section.service}</p>
+      <div>
+        <h2 id={`section-${s}`}>{section.heading}</h2>
+        <p class="body">{section.text}</p>
+        {section.points.length > 0 && (
+          <ul class="points">
+            {section.points.map((point) => (
+              <li>{point}</li>
+            ))}
+          </ul>
+        )}
+        {section.images.length > 0 && (
+          <div class="gallery">
+            {section.images.map((image) => (
+              <figure class:list={["figure", image.treatment]}>
+                <Img src={image.src} alt={image.alt} sizes="(min-width: 1024px) 35vw, 100vw" />
+                {image.caption && <figcaption class="muted">{image.caption}</figcaption>}
+              </figure>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  ))}
+
+  <section class="container section block" aria-labelledby="results-heading">
+    <p class="mono label">Results</p>
+    <div>
+      <h2 id="results-heading">{project.results.heading}</h2>
+      <dl class="results">
+        {project.results.items.map((item) => (
+          <div>
+            <dt>{item.figure}</dt>
+            <dd>{item.text}</dd>
+          </div>
+        ))}
+      </dl>
+      <p class="source muted">{project.results.source}</p>
+    </div>
+  </section>
+
+  {next.id !== project.id && (
+    <nav class="next container" aria-label="Next project" style={`--accent: ${next.accent}`}>
+      <a href={`/work/${next.id}/`}>
+        <span class="mono">Next project</span>
+        <span class="next-name">{next.name}</span>
+        <span class="muted">{next.kind}</span>
+      </a>
+    </nav>
+  )}
+
+  <Closing />
+</BaseLayout>
+
+<style>
+  .intro {
+    padding-top: var(--space-8);
+  }
+
+  .path {
+    color: var(--text-muted);
+  }
+
+  .path::before,
+  .next .mono::before {
+    content: "";
+    display: inline-block;
+    width: 0.55em;
+    height: 1.1em;
+    margin-right: 0.6em;
+    vertical-align: -0.2em;
+    background: var(--accent);
+  }
+
+  h1 {
+    margin-top: var(--space-4);
+    font-size: var(--text-display);
+    line-height: 0.88;
+  }
+
+  .intro .lede {
+    margin-top: var(--space-5);
+  }
+
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5) var(--space-8);
+    margin-top: var(--space-7);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--rule);
+  }
+
+  dt.mono {
+    color: var(--text-muted);
+  }
+
+  dd {
+    margin-top: var(--space-1);
+  }
+
+  dd a {
+    display: inline-block;
+    padding-block: var(--space-2);
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.25em;
+  }
+
+  .screens {
+    position: relative;
+    margin-top: var(--space-8);
+    padding-bottom: var(--space-8);
+  }
+
+  .screens :global(img),
+  .figure :global(img) {
+    outline: 1px solid var(--rule);
+    border-radius: var(--radius-screen);
+  }
+
+  .desktop {
+    width: 86%;
+  }
+
+  .phone {
+    position: absolute;
+    right: var(--gutter);
+    bottom: 0;
+    width: 22%;
+  }
+
+  .phone :global(img) {
+    aspect-ratio: 9 / 19.5;
+    object-fit: cover;
+    object-position: top;
+    box-shadow: 0 0 0 0.5rem var(--bg);
+  }
+
+  .block {
+    display: grid;
+    gap: var(--space-4);
+    padding-block: var(--space-9);
+    border-top: 1px solid var(--rule);
+  }
+
+  .label {
+    color: var(--text-muted);
+  }
+
+  .body {
+    margin-top: var(--space-5);
+    max-width: var(--content-narrow);
+    font-size: var(--text-lede);
+  }
+
+  .points {
+    margin-top: var(--space-6);
+    padding: 0;
+    list-style: none;
+    max-width: var(--content-narrow);
+  }
+
+  .points li {
+    padding-block: var(--space-3);
+    border-top: 1px solid var(--rule);
+    color: var(--text-muted);
+  }
+
+  .figure {
+    margin-top: var(--space-7);
+  }
+
+  figcaption {
+    margin-top: var(--space-3);
+    font-size: var(--text-small);
+  }
+
+  .gallery {
+    display: grid;
+    gap: 0 var(--space-5);
+  }
+
+  .gallery .figure :global(img) {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+  }
+
+  /* Logos are shown whole; artwork drawn for light backgrounds gets a paper mat */
+  .gallery .artwork :global(img),
+  .gallery .artwork-on-light :global(img) {
+    object-fit: contain;
+    padding: var(--space-6);
+    background: var(--surface);
+  }
+
+  .gallery .artwork-on-light :global(img) {
+    background: var(--color-paper);
+  }
+
+  .results {
+    display: grid;
+    gap: var(--space-5) var(--space-7);
+    margin-top: var(--space-7);
+  }
+
+  .results div {
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--rule);
+  }
+
+  .results dt {
+    font: 800 var(--text-2) / 1 var(--font-display);
+    font-variation-settings:
+      "opsz" 96,
+      "wdth" 75;
+    color: var(--accent);
+  }
+
+  .results dd {
+    margin-top: var(--space-2);
+    color: var(--text-muted);
+  }
+
+  .source {
+    margin-top: var(--space-6);
+    font-size: var(--text-small);
+    max-width: var(--content-narrow);
+  }
+
+  .next a {
+    display: grid;
+    gap: var(--space-2);
+    padding-block: var(--space-8);
+    border-top: 1px solid var(--rule);
+    text-decoration: none;
+  }
+
+  .next .mono {
+    color: var(--text-muted);
+  }
+
+  .next-name {
+    font: 800 var(--text-1) / 0.9 var(--font-display);
+    font-variation-settings:
+      "opsz" 96,
+      "wdth" 75;
+  }
+
+  .next a:hover .next-name {
+    color: var(--accent);
+  }
+
+  @media (min-width: 768px) {
+    .gallery {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .results {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .block {
+      grid-template-columns: 3fr 9fr;
+      gap: var(--space-8);
+    }
+
+    .results {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

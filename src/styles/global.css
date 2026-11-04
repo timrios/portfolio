@@ -1,0 +1,251 @@
+/* Design tokens from DESIGN.md. Change DESIGN.md first, then this file, then components. */
+:root {
+  /* Palette */
+  --color-black: #000000;
+  --color-paper: #f2eee6;
+  --color-ash: #9c978f;
+  --color-graphite: #26241f;
+  --color-soot: #0a0a09;
+  --color-smoke: #4a4741;
+  --color-pewter: #6b675f;
+  --color-flare: #ff8a7a;
+
+  /* Semantic */
+  --bg: var(--color-black);
+  --surface: var(--color-soot);
+  --text: var(--color-paper);
+  --text-muted: var(--color-ash);
+  --rule: var(--color-graphite);
+  /* Form field and checkbox edges: 3.7:1 on black, enough to see where to type (WCAG 1.4.11) */
+  --field-border: var(--color-pewter);
+  --code: var(--color-smoke);
+  --error: var(--color-flare);
+  /* The borrowed accent: paper by default; a project's own brand color while that project is on screen */
+  --accent: var(--color-paper);
+  --on-accent: var(--color-black);
+  --focus: var(--accent);
+
+  /* Type */
+  --font-display: var(--font-bricolage);
+  --font-body: var(--font-bricolage);
+  --font-mono: var(--font-fragment-mono);
+  --text-display: clamp(3.25rem, 8.2vw, 9rem);
+  --text-1: clamp(2.75rem, 6.4vw, 6.5rem);
+  --text-2: clamp(2.125rem, 4.2vw, 3.75rem);
+  --text-3: 1.5rem;
+  --text-lede: 1.1875rem;
+  --text-body: 1.0625rem;
+  --text-small: 0.9375rem;
+  --text-mono: 0.875rem;
+
+  /* Space */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 2.5rem;
+  --space-8: 3rem;
+  --space-9: 4.5rem;
+  --space-10: 7rem;
+  --gutter: 1.25rem;
+  --section: clamp(4.5rem, 10vw, 8.5rem);
+  --content-max: 90rem;
+  --content-narrow: 38rem;
+
+  /* Shape */
+  --radius-none: 0;
+  --radius-screen: 3px;
+
+  /* Motion */
+  --ease-build: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-build: 2.6s;
+  --duration-accent: 0.6s;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 2.5rem;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  background: var(--bg);
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: 1.6;
+  font-variation-settings: "opsz" 14;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-variation-settings:
+    "opsz" 96,
+    "wdth" 75;
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--text-1);
+  line-height: 0.9;
+}
+
+h2 {
+  font-size: var(--text-2);
+  line-height: 0.95;
+}
+
+h3 {
+  font-size: var(--text-3);
+  font-weight: 700;
+  font-variation-settings:
+    "opsz" 32,
+    "wdth" 85;
+  letter-spacing: 0;
+  line-height: 1.15;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: var(--section);
+}
+
+.lede {
+  font-size: var(--text-lede);
+  color: var(--text-muted);
+  max-width: var(--content-narrow);
+}
+
+.muted {
+  color: var(--text-muted);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--space-4);
+  top: -10rem;
+  z-index: 10;
+  padding: var(--space-3) var(--space-4);
+  background: var(--text);
+  color: var(--bg);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Buttons: square-cornered, the primary filled with the borrowed accent */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: var(--space-3) var(--space-5);
+  font: 600 1rem/1.2 var(--font-body);
+  text-decoration: none;
+  border: 0;
+  border-radius: var(--radius-none);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-accent),
+    box-shadow 0.2s;
+}
+
+.btn--primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.btn--primary:hover {
+  box-shadow: inset 0 0 0 999px color-mix(in srgb, var(--color-black) 12%, transparent);
+}
+
+.btn--ghost {
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px var(--rule);
+}
+
+.btn--ghost:hover {
+  box-shadow: inset 0 0 0 1px var(--text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0s !important;
+    animation-duration: 0s !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}

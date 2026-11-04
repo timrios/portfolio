@@ -1,0 +1,68 @@
+---
+import { site } from "../data/site";
+---
+
+<header class="header container">
+  <!-- Plain wordmark until the logo is designed (README → Not started) -->
+  <a class="wordmark" href="/">
+    {site.domain}
+  </a>
+  <nav aria-label="Main">
+    <ul>
+      {site.navigation.map((item) => (
+        <li>
+          <a href={item.href}>{item.label}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-5);
+    min-height: 4.5rem;
+  }
+
+  .wordmark {
+    font: 700 1.375rem/1 var(--font-display);
+    font-variation-settings:
+      "opsz" 96,
+      "wdth" 75;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    padding-block: var(--space-3);
+  }
+
+  ul {
+    display: flex;
+    gap: var(--space-5);
+    list-style: none;
+    padding: 0;
+  }
+
+  nav a {
+    display: inline-block;
+    padding-block: var(--space-3);
+    color: var(--text-muted);
+    font-size: var(--text-small);
+    text-decoration: none;
+  }
+
+  nav a:hover {
+    color: var(--text);
+  }
+
+  @media (max-width: 480px) {
+    ul {
+      gap: var(--space-4);
+    }
+
+    li:nth-child(2) {
+      display: none;
+    }
+  }
+</style>

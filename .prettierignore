@@ -1,0 +1,12 @@
+dist/
+.astro/
+.next/
+.open-next/
+.wrangler/
+node_modules/
+image-originals/
+package-lock.json
+case-studies/
+_compare/
+screenshots/
+src/assets/

@@ -1,0 +1,32 @@
+---
+// The invitation to get in touch that ends the home and project pages
+import { site } from "../data/site";
+---
+
+<section class="closing container section" aria-labelledby="closing-heading">
+  <h2 id="closing-heading">{site.home.closingHeading}</h2>
+  <p class="lede">{site.home.closingText}</p>
+  <a class="btn btn--primary" href={site.home.primaryAction.href}>
+    {site.home.primaryAction.label}
+  </a>
+</section>
+
+<style>
+  .closing {
+    border-top: 1px solid var(--rule);
+  }
+
+  h2 {
+    font-size: var(--text-1);
+    line-height: 0.9;
+    max-width: 14ch;
+  }
+
+  .lede {
+    margin-top: var(--space-5);
+  }
+
+  .btn {
+    margin-top: var(--space-6);
+  }
+</style>

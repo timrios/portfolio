@@ -1,0 +1,33 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { Image } from "astro:assets";
+import { asset } from "../utils/images";
+
+interface Props extends Omit<HTMLAttributes<"img">, "src" | "srcset" | "width" | "height"> {
+  /** Path in src/assets/images/, e.g. "fanzi-pet/logo.webp". Astro builds WebP copies at several widths. */
+  src: string;
+  alt: string;
+  /** Rendered width hint for the browser, e.g. "(min-width: 1024px) 50vw, 100vw" */
+  sizes?: string;
+  /** Above-the-fold images load eagerly with high priority */
+  priority?: boolean;
+}
+
+const { src, alt, sizes = "100vw", priority = false, ...attrs } = Astro.props;
+
+const image = asset(src);
+const widths = [400, 640, 960, 1280, 1600]
+  .filter((w) => w < image.width)
+  .concat(Math.min(image.width, 2000));
+---
+
+<Image
+  src={image}
+  widths={widths}
+  sizes={sizes}
+  alt={alt}
+  loading={priority ? "eager" : "lazy"}
+  decoding={priority ? "sync" : "async"}
+  fetchpriority={priority ? "high" : undefined}
+  {...attrs}
+/>
