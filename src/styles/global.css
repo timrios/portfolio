@@ -160,7 +160,6 @@
 }
 
 html {
-  overflow-x: clip; /* Glows may reach past the window's edge; clip keeps the pinned header working */
   background: var(--bg);
   scroll-padding-top: 6rem; /* Links to a section land below the pinned header */
   -webkit-text-size-adjust: 100%;
@@ -173,6 +172,12 @@ body {
   line-height: 1.6;
   font-variation-settings: "opsz" 14;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Glows reach past the window's edge. They're clipped here, not on html: iPhone Safari ignores a clip on the root and
+   lets the whole page slide sideways. Unlike hidden, clip leaves the vertical glows and pinned header alone. */
+main {
+  overflow-x: clip;
 }
 
 img,

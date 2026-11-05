@@ -118,6 +118,19 @@ const delay = projects.findIndex((p) => p.id === project.id) * -2.3;
     object-position: top left;
   }
 
+  /* Drag anywhere on the picture. pan-y keeps up-and-down swipes scrolling the page and hands sideways ones to the
+     script. The images ignore touches, so a press doesn't drag the picture or open the phone's image menu. */
+  [data-compare] {
+    cursor: ew-resize;
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  [data-compare] :global(img) {
+    pointer-events: none;
+  }
+
   /* The old site sits on top, cut away to the right of the split */
   .before-layer {
     position: absolute;
@@ -163,7 +176,8 @@ const delay = projects.findIndex((p) => p.id === project.id) * -2.3;
       70% 60%;
   }
 
-  /* The range input covers the frame invisibly: drag anywhere, or use the arrow keys */
+  /* The range input stays for the keyboard and screen readers. It takes no pointer input, because phones only drag a
+     slider by its thumb; the script handles dragging on the frame instead. */
   input {
     position: absolute;
     inset: 0;
@@ -171,7 +185,7 @@ const delay = projects.findIndex((p) => p.id === project.id) * -2.3;
     height: 100%;
     margin: 0;
     opacity: 0;
-    cursor: ew-resize;
+    pointer-events: none;
   }
 
   .frame:has(input:focus-visible) {
@@ -199,19 +213,27 @@ const delay = projects.findIndex((p) => p.id === project.id) * -2.3;
     right: var(--space-3);
   }
 
+  /* Phones stack the note above the screenshot: a column beside it is too narrow for the words */
   .pair {
     display: grid;
-    grid-template-columns: 2fr 5fr;
     gap: var(--space-4);
-    align-items: center;
   }
 
+  @media (min-width: 640px) {
+    .pair {
+      grid-template-columns: 2fr 5fr;
+    }
+
+    .pair .frame {
+      align-self: center;
+    }
+  }
+
+  /* No fixed shape: the box grows with its text and stretches to the screenshot's height beside it */
   .none {
-    position: relative;
     display: grid;
     align-content: center;
     gap: var(--space-3);
-    aspect-ratio: 4 / 5;
     padding: var(--space-4);
     border: 1px dashed var(--field-border);
     border-radius: var(--radius-screen);
@@ -229,6 +251,33 @@ const delay = projects.findIndex((p) => p.id === project.id) * -2.3;
 <script>
   for (const frame of document.querySelectorAll<HTMLElement>("[data-compare]")) {
     const input = frame.querySelector("input")!;
-    input.addEventListener("input", () => frame.style.setProperty("--split", `${input.value}%`));
+    const show = (percent: number) => {
+      const split = Math.min(100, Math.max(0, percent));
+      input.value = String(split);
+      frame.style.setProperty("--split", `${split}%`);
+    };
+    input.addEventListener("input", () => show(Number(input.value)));
+
+    // A mouse jumps to where it presses. A finger moves the split by how far it travels, so starting a swipe doesn't
+    // make the picture jump. If the swipe turns out to be a page scroll, the browser cancels it.
+    let drag: { startX: number; startSplit: number } | null = null;
+    const toPercent = (pixels: number) => (pixels / frame.clientWidth) * 100;
+
+    frame.addEventListener("pointerdown", (event) => {
+      if (!event.isPrimary || event.button !== 0) return;
+      if (event.pointerType === "mouse") {
+        show(toPercent(event.clientX - frame.getBoundingClientRect().left));
+      }
+      drag = { startX: event.clientX, startSplit: Number(input.value) };
+      frame.setPointerCapture(event.pointerId);
+    });
+    frame.addEventListener("pointermove", (event) => {
+      if (drag) show(drag.startSplit + toPercent(event.clientX - drag.startX));
+    });
+    const stop = () => {
+      drag = null;
+    };
+    frame.addEventListener("pointerup", stop);
+    frame.addEventListener("pointercancel", stop);
   }
 </script>
