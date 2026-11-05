@@ -41,7 +41,16 @@ from what convinces a buyer.
 
 - **Name:** Tim Rios. **Domain and email:** timrios.dev, hello@timrios.dev. **Text:** (210) 802-8851 (`site.ts`).
 - **Voice:** plain, warm, confident, first person ("I"). Speaks to the owner's goals: customers, calls, bookings.
-- **Logo:** not designed yet. The header shows the wordmark `timrios.dev` in the body face, weight 700.
+- **Logo (2026-11-05): the star dot.** `timrios.dev` with the dot replaced by a star. The letters are Bricolage
+  Grotesque (weight 700, display cut) converted to outlines. The star is a five-point lone star for Texas and the night
+  sky of the star band: plump, softly cornered and leaning 10° forward, so it doesn't read as a rating star or a typed ★.
+  Don't swap it for a four-point sparkle or an asterisk: both now read as AI product icons. The cloud idea was dropped:
+  it speaks to employers, not owners, and turned to noise at small sizes.
+  - **Color:** letters in the text color, star in the accent (frost and sky on dark, ink and Prussian on light; white or
+    ink alone for one-color use). In the header it's the `Logo` component, so it follows both looks by itself.
+  - **The star alone** is the small version: sky on a deep-ink tile for the favicon and profile pictures.
+  - **Files:** `src/assets/images/brand/` (SVG masters, PNG copies, profile picture); `public/` holds the favicons.
+    The artwork is final vector art: edit the SVGs, never redraw it from a screenshot. AI never draws it.
 
 ## Color
 
@@ -248,7 +257,7 @@ instantly, the preview's line holds still, Reels start paused.
 
 ## Components
 
-- **Header:** wordmark, links, the theme toggle, and a "Text" pill button with the number.
+- **Header:** the logo (`Logo`), links, the theme toggle, and a "Text" pill button with the number.
 - **Footer:** name and city, email, text number, year.
 - **StarBand:** the star band; one fixed canvas and grain layer behind every page, from the layout. Hidden in print. Never named as space in copy: it's atmosphere, not a theme.
 - **HomeHero:** the short headline, what Tim does, the ask box, timing note; the client collage.

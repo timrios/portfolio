@@ -1,13 +1,13 @@
 ---
+import Logo from "./Logo.astro";
 import ThemeToggle from "./ThemeToggle.astro";
 import { site } from "../data/site";
 ---
 
 <header class="site-header" data-site-header>
   <div class="header container">
-    <!-- Plain wordmark until the logo is designed (README → Not started) -->
-    <a class="wordmark" href="/">
-      {site.domain}
+    <a class="wordmark" href="/" aria-label={site.domain}>
+      <Logo />
     </a>
     <nav aria-label="Main">
       <ul>
@@ -56,11 +56,13 @@ import { site } from "../data/site";
 
   .wordmark {
     margin-right: auto;
-    font-weight: 700;
-    font-size: 1.125rem;
-    letter-spacing: -0.01em;
-    text-decoration: none;
     padding-block: var(--space-3);
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .wordmark :global(svg) {
+    height: 1.5rem;
   }
 
   ul {
