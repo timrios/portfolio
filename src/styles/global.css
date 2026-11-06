@@ -51,7 +51,6 @@
   --rule: color-mix(in oklch, var(--color-ink) 16%, transparent);
   --field-border: var(--color-edge);
   --accent: var(--color-oak);
-  --on-accent: var(--color-paper);
   --action: var(--color-oak-deep);
   --action-hi: var(--color-oak-hi);
   --on-action: var(--color-paper);
@@ -100,7 +99,6 @@
   --space-7: 2.5rem;
   --space-8: 3rem;
   --space-9: 4.5rem;
-  --space-10: 7rem;
   --gutter: 1.25rem;
   --section: clamp(3.25rem, 8vw, 6rem);
   --content-max: 76rem;
@@ -122,7 +120,6 @@
   --t-fast: 150ms;
   --t-base: 220ms;
   --t-sweep: 520ms;
-  --t-intro: 1000ms;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
@@ -140,7 +137,6 @@
   --rule: color-mix(in oklch, var(--color-cream) 18%, transparent);
   --field-border: var(--color-edge-night);
   --accent: var(--color-mint);
-  --on-accent: var(--color-on-mint);
   --action: var(--color-mint);
   --action-hi: var(--color-mint-hi);
   --on-action: var(--color-on-mint);
@@ -172,7 +168,6 @@
   --rule: color-mix(in oklch, var(--color-paper) 16%, transparent);
   --field-border: var(--color-edge-oak);
   --accent: var(--color-marigold);
-  --on-accent: var(--color-ink);
   --action: var(--color-marigold);
   --action-hi: color-mix(in oklch, var(--color-marigold) 86%, var(--color-white));
   --on-action: var(--color-ink);

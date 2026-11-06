@@ -7,7 +7,7 @@ the CSS, then the components.
 History: version 1 (black and paper, client colors borrowed as the accent) and version 2 (black and proof yellow,
 halftone portrait) were both rejected by Tim on 2026-11-04. Version 3 (Prussian blue, dark first, star band, Bricolage)
 was set aside on 2026-11-06. Version 4, "Open for Business", below, was started fresh and designed at phone size first:
-most visitors are on phones. Its prototypes are in `_compare/fresh/` while the rollout runs.
+most visitors are on phones.
 
 ## The brief
 
@@ -114,13 +114,13 @@ the slider's handle and tags, which sit on client screenshots in both looks).
 | `--rule`         | ink 16%     | cream 18%   | paper 16%         | Hairlines (decorative)           |
 | `--field-border` | edge        | edge night  | edge oak          | Field and toggle edges (3:1)     |
 | `--accent`       | oak         | mint        | marigold          | Links, figures, focus            |
-| `--on-accent`    | paper       | on mint     | ink               | Text on the accent               |
 | `--action`       | oak deep    | mint        | marigold          | Primary buttons                  |
 | `--action-hi`    | oak hi      | mint hi     | marigold, lighter | Primary button hover             |
 | `--on-action`    | paper       | on mint     | ink               | Text on primary buttons          |
 | `--plate`        | oak deep    | night       |                   | The menu plates and dock         |
 | `--marigold`, `--on-marigold` | marigold, ink | same | same     | "Text me" and the star, every look |
 | `--error`        | brick       | coral       |                   | Errors                           |
+| `--code`         | soft        | sage        |                   | Code behind the loading preview  |
 | `--shadow`       | oak-tinted, soft | black, deeper |             | Cards and screenshots            |
 
 `.on-deep` switches the tokens above for everything inside an oak surface (results band, "Sound familiar?", closing).
@@ -233,7 +233,6 @@ Home (phone)                         Home (desktop, from lg)
 | `--space-7`  | 2.5rem  |
 | `--space-8`  | 3rem    |
 | `--space-9`  | 4.5rem  |
-| `--space-10` | 7rem    |
 
 ## Breakpoints
 
@@ -270,7 +269,6 @@ One set of timings, used everywhere, all on one curve, `--ease` (`cubic-bezier(.
 | `--t-fast`   | 150ms  | Hover, press, selected states                 |
 | `--t-base`   | 220ms  | Swapping a picture or result, dock, accordion |
 | `--t-sweep`  | 520ms  | The theme reveal, a slider moving by itself   |
-| `--t-intro`  | 1000ms | Reserved for one opening move                 |
 
 | Element            | Behavior                                                                          |
 | ------------------ | --------------------------------------------------------------------------------- |

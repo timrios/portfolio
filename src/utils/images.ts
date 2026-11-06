@@ -15,7 +15,7 @@ export function asset(path: string): ImageMetadata {
   return image.default;
 }
 
-/** URL of a resized copy, for places that need a plain link (social previews, the build animation) */
+/** URL of a resized copy, for places that need a plain link (social previews) */
 export async function imageUrl(path: string, width = 1600, format: "webp" | "jpg" = "webp") {
   const src = asset(path);
   const image = await getImage({ src, width: Math.min(width, src.width), format });
