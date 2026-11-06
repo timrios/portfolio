@@ -279,6 +279,7 @@ One set of timings, used everywhere, all on one curve, `--ease` (`cubic-bezier(.
 | **Menu sheet**     | A native dialog rising from the bottom; closes by the backdrop, Close, Escape, or a link. |
 | **Hero switcher**  | One choice drives everything: the picture, the name, the result. Results sit stacked in one space, so nothing jumps. |
 | **Before/after**   | A range slider wipes between the old and new site (`clip-path`). Press, then slide; arrow keys work. On touch, a sideways swipe moves it and an up-and-down swipe scrolls the page; it moves by finger travel, so nothing jumps. Starts at 50%. Without an old site, the "before" is a short note. |
+| **Links in text**   | The `.tap` utility gives a link inside text a 44px target with no change to its line spacing. |
 | **Theme toggle**   | Switches with a circular reveal from the button (View Transitions), `--t-sweep`; instant where unsupported. |
 | **Preview window** | Opens the client's live site. |
 | **Reels**          | One featured silent loop, never taller than the screen, plays only while visible; stills switch it; a pause button stops it. Paused under reduced motion. |

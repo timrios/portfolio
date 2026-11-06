@@ -16,19 +16,6 @@ const errorText = c.error.replace("{email}", site.email);
         <strong>{site.phone}</strong>
       </a>
       <p class="reply">{c.replyTime}</p>
-
-      <h2 class="next-heading">{c.nextHeading}</h2>
-      <ol class="next">
-        {c.next.map((step) => (
-          <li>{step}</li>
-        ))}
-      </ol>
-      <p class="direct muted">
-        {c.emailPrompt}{" "}
-        <a class="link" href={`mailto:${site.email}`}>
-          {site.email}
-        </a>
-      </p>
     </div>
 
     <form
@@ -118,13 +105,30 @@ const errorText = c.error.replace("{email}", site.email);
       </button>
       <p class="status" role="status" aria-live="polite" data-status></p>
     </form>
+
+    <div class="after">
+      <h2 class="next-heading">{c.nextHeading}</h2>
+      <ol class="next">
+        {c.next.map((step) => (
+          <li>{step}</li>
+        ))}
+      </ol>
+      <p class="direct muted">
+        {c.emailPrompt}{" "}
+        <a class="link tap" href={`mailto:${site.email}`}>
+          {site.email}
+        </a>
+      </p>
+    </div>
+
   </div>
 </BaseLayout>
 
 <style>
+  /* On phones the form comes straight after the text option; what happens next follows it */
   .contact {
     display: grid;
-    gap: var(--space-9);
+    gap: var(--space-8);
     padding-block: var(--space-8) var(--section);
   }
 
@@ -165,7 +169,6 @@ const errorText = c.error.replace("{email}", site.email);
   }
 
   .next-heading {
-    margin-top: var(--space-8);
     font-size: var(--text-3);
     font-weight: 700;
     letter-spacing: 0;
@@ -200,8 +203,6 @@ const errorText = c.error.replace("{email}", site.email);
 
   .direct a {
     color: var(--text);
-    display: inline-block;
-    padding-block: var(--space-2);
   }
 
   form {
@@ -234,7 +235,7 @@ const errorText = c.error.replace("{email}", site.email);
   input[type="tel"],
   textarea {
     width: 100%;
-    min-height: 48px;
+    min-height: var(--target);
     padding: var(--space-3) var(--space-4);
     font: 400 var(--text-body) / 1.5 var(--font-body);
     color: var(--text);
@@ -265,6 +266,7 @@ const errorText = c.error.replace("{email}", site.email);
 
   legend {
     margin-bottom: var(--space-3);
+    padding: 0;
   }
 
   .needs {
@@ -289,9 +291,10 @@ const errorText = c.error.replace("{email}", site.email);
   .check span {
     display: inline-flex;
     align-items: center;
-    min-height: 44px;
+    min-height: var(--target);
     padding: var(--space-2) var(--space-4);
     border: 1px solid var(--field-border);
+    border-radius: var(--radius-screen);
     color: var(--text-muted);
   }
 
@@ -312,10 +315,6 @@ const errorText = c.error.replace("{email}", site.email);
     outline-offset: 2px;
   }
 
-  .btn {
-    justify-self: start;
-  }
-
   .status:empty {
     display: none;
   }
@@ -333,12 +332,22 @@ const errorText = c.error.replace("{email}", site.email);
     .row {
       grid-template-columns: 1fr 1fr;
     }
+
+    .btn {
+      justify-self: start;
+    }
   }
 
   @media (min-width: 1024px) {
     .contact {
       grid-template-columns: 5fr 7fr;
-      gap: var(--space-9);
+      grid-template-rows: auto 1fr;
+      gap: var(--space-8) var(--space-9);
+    }
+
+    form {
+      grid-column: 2;
+      grid-row: 1 / span 2;
     }
   }
 </style>

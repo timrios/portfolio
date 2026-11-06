@@ -340,6 +340,13 @@ p {
   white-space: nowrap;
 }
 
+/* A 44px target on a link inside text, without pushing the lines apart */
+.tap {
+  display: inline-block;
+  padding-block: var(--space-3);
+  margin-block: calc(-1 * var(--space-3));
+}
+
 /* Things that exist only at one size: a phone's layout, or the widened one */
 @media (max-width: 1023.98px) {
   .only-wide {

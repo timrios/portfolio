@@ -139,6 +139,13 @@ import { site } from "../data/site";
     padding-inline: var(--space-3);
     font-weight: 500;
   }
+
+  /* A resume printed from this site must not carry the menu */
+  @media print {
+    .dock {
+      display: none;
+    }
+  }
 </style>
 
 <script>
