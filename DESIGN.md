@@ -305,7 +305,10 @@ switches instantly, Reels start paused, and every transition is instant.
 - **WindowLight:** the fixed panes of light behind every page. Hidden in print.
 - **HomeHero:** the headline, what Tim does, the ask box, then the work. Phones: a real phone beside its switcher.
   Desktop: the offset window with a phone, thumbnails under the ask box. Finished sites only, whole, never a before
-  on the first screen.
+  on the first screen. The desktop column is three groups, not an even list: the headline; the ask box with its note
+  (`--space-3` apart); the work (switcher, result, source). A hairline in `--rule` opens the work group, with
+  `--hero-gap` either side of it (`--space-5` to `--space-6`, by screen height). "Read the story" sits beside the result
+  figure on desktop, so it stays on the first screen on short laptops; on phones it follows the source line.
 - **AskBox:** a labeled field with typed examples and a "Get a free plan" button, posting to `/contact/?need=…`, which
   prefills the message.
 - **ResultsBand:** home: the featured results (`band` text in `projects.ts`), each naming its kind of business, two
