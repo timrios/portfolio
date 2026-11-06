@@ -2,7 +2,8 @@
 import { Font } from "astro:assets";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import StarBand from "../components/StarBand.astro";
+import WindowLight from "../components/WindowLight.astro";
+import Dock from "../components/Dock.astro";
 import { site } from "../data/site";
 import { imageUrl } from "../utils/images";
 import "../styles/global.css";
@@ -45,8 +46,8 @@ const personSchema = {
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Before anything paints: the visitor's saved look, else dark (DESIGN.md → Color) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <!-- Before anything paints: the visitor's saved look, else light (DESIGN.md → Color) -->
     <script is:inline>
       (() => {
         const root = document.documentElement;
@@ -55,12 +56,12 @@ const personSchema = {
         try {
           saved = localStorage.getItem("theme");
         } catch {}
-        root.dataset.theme = saved === "light" ? "light" : "dark";
+        root.dataset.theme = saved === "dark" ? "dark" : "light";
       })();
     </script>
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#0a1822" />
+    <meta name="theme-color" content="#123a2c" />
     {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -75,13 +76,21 @@ const personSchema = {
     <meta property="og:image" content={ogImage} />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <Font cssVariable="--font-bricolage" preload />
-    <Font cssVariable="--font-fragment-mono" />
+    <Font cssVariable="--font-mona-sans" preload />
+    <Font cssVariable="--font-dm-mono" />
 
     <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
   </head>
   <body>
-    <StarBand />
+    <svg class="visually-hidden" aria-hidden="true" focusable="false">
+      <symbol id="star" viewBox="-200 -200 400 400">
+        <path
+          fill="currentColor"
+          d="M21 -157.3Q29.9 -169.4 34.1 -155L59.8 -66.9Q61.9 -59.7 69 -57.4L156.1 -28.6Q170.3 -23.9 157.9 -15.5L82.1 36.2Q75.9 40.4 75.9 47.9L75.5 139.6Q75.4 154.6 63.5 145.4L-9 89.3Q-14.9 84.7 -22.1 87L-109.4 114.9Q-123.7 119.5 -118.7 105.4L-87.7 19Q-85.2 12 -89.5 5.9L-143.1 -68.6Q-151.9 -80.7 -136.9 -80.3L-45.2 -77.5Q-37.7 -77.3 -33.3 -83.3Z"
+        ></path>
+      </symbol>
+    </svg>
+    <WindowLight />
     <a class="skip-link" href="#main">
       Skip to content
     </a>
@@ -90,5 +99,6 @@ const personSchema = {
       <slot />
     </main>
     <Footer />
+    <Dock />
   </body>
 </html>

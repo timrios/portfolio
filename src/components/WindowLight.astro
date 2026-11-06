@@ -1,0 +1,123 @@
+---
+// Panes of sunlight falling across the page, as through a shop window. On phones they're still: no script runs and
+// nothing animates. On desktop they follow the real sun over San Antonio (angle, height, warmth) and drift very slowly.
+---
+
+<div class="light" aria-hidden="true">
+  <div class="drift">
+    <div class="win">
+      {Array.from({ length: 12 }, () => <i></i>)}
+    </div>
+  </div>
+  <div class="cloud only-wide"></div>
+</div>
+
+<style>
+  .light {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .drift {
+    position: absolute;
+    inset: 0;
+  }
+
+  .win {
+    position: absolute;
+    left: calc(40% + var(--sun-x));
+    top: -16%;
+    width: 66%;
+    height: var(--sun-h);
+    display: grid;
+    grid-template: repeat(3, 1fr) / repeat(4, 1fr);
+    gap: 1.5%;
+    transform: skewX(var(--sun-skew)) rotate(3deg);
+    filter: blur(9px);
+  }
+
+  i {
+    background: color-mix(in oklch, var(--sun), var(--sun-warmth) var(--sun-warm));
+  }
+
+  .cloud {
+    position: absolute;
+    left: -40%;
+    top: -20%;
+    width: 90%;
+    height: 150%;
+    background: radial-gradient(closest-side, var(--cloud), transparent);
+  }
+
+  @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+    .drift {
+      animation: drift 64s ease-in-out infinite alternate;
+    }
+
+    .cloud {
+      animation: cloud 97s linear infinite;
+    }
+  }
+
+  @keyframes drift {
+    from {
+      transform: translate3d(-1.6%, 0, 0);
+    }
+    to {
+      transform: translate3d(1.6%, 0.8%, 0);
+    }
+  }
+
+  @keyframes cloud {
+    from {
+      transform: translate3d(-40%, 0, 0);
+    }
+    to {
+      transform: translate3d(190%, 6%, 0);
+    }
+  }
+
+  @media print {
+    .light {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Desktop only: where the sun is in San Antonio right now, whatever the visitor's own time zone
+  if (matchMedia("(min-width: 1024px)").matches) {
+    const parts = new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/Chicago",
+      hour: "numeric",
+      minute: "numeric",
+      hourCycle: "h23",
+    }).formatToParts(new Date());
+    const read = (type: string) => Number(parts.find((part) => part.type === type)?.value);
+    const hour = read("hour") + read("minute") / 60;
+    const style = document.documentElement.style;
+    const set = (x: string, skew: string, height: string, warm: string, shadow: string) => {
+      style.setProperty("--sun-x", x);
+      style.setProperty("--sun-skew", skew);
+      style.setProperty("--sun-h", height);
+      style.setProperty("--sun-warm", warm);
+      style.setProperty("--sun-shadow-x", shadow);
+    };
+    if (hour >= 6.5 && hour <= 19.5) {
+      const day = (hour - 6.5) / 13;
+      const far = Math.abs(day - 0.5) * 2;
+      set(
+        `${(0.5 - day) * 44}%`,
+        `${(day - 0.5) * 76}deg`,
+        `${74 + far * 30}%`,
+        `${Math.round(far * far * 62)}%`,
+        `${Math.round((day - 0.5) * 44)}px`,
+      );
+    } else {
+      set("-6%", "-6deg", "70%", "70%", "0px");
+    }
+  }
+</script>

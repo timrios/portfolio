@@ -1,53 +1,54 @@
 ---
-// The opening asks the owner what's wrong. The field types real problems by itself until the visitor focuses it;
-// whatever they write goes to the contact form, prefilled, so they never type it twice.
+// The opening asks the owner what's wrong. The field types the real problems once by itself and rests on the first, and
+// stops as soon as the visitor focuses it. Whatever they write goes to the contact form, prefilled.
 import { site } from "../data/site";
 
 const { ask } = site.home;
 ---
 
-<form
-  class="ask"
-  action="/contact/"
-  method="get"
-  data-ask
-  data-examples={JSON.stringify(ask.examples)}
->
+<form class="ask" action="/contact/" method="get" data-ask data-examples={JSON.stringify(ask.examples)}>
   <label for="ask-need">{ask.label}</label>
-  <div class="row">
+  <div class="box">
     <input id="ask-need" name="need" type="text" autocomplete="off" placeholder={ask.examples[0]} />
-    <button class="btn btn--primary" type="submit">
-      {ask.submit}
-    </button>
+    <button class="btn btn--primary" type="submit">{ask.submit}</button>
   </div>
 </form>
 
 <style>
-  .ask {
-    margin-top: var(--space-6);
-    max-width: 36rem;
-  }
-
   label {
     display: block;
-    margin-bottom: var(--space-3);
-    font-weight: 600;
+    margin-bottom: var(--space-2);
+    font-size: var(--text-ui);
+    font-weight: 620;
   }
 
-  .row {
-    display: grid;
-    gap: var(--space-2);
+  .box {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-1);
+    border-radius: var(--radius-plate);
+    background: var(--surface);
+    box-shadow:
+      inset 0 0 0 1px var(--field-border),
+      0 10px 20px -14px color-mix(in oklch, var(--shadow-tint) 50%, transparent);
+    transition: box-shadow var(--t-fast) var(--ease);
+  }
+
+  .box:focus-within {
+    box-shadow: inset 0 0 0 2px var(--accent);
   }
 
   input {
     width: 100%;
-    min-height: 56px;
-    padding: 0 var(--space-5);
-    font: 400 var(--text-body) / 1.3 var(--font-body);
+    min-width: 0;
+    min-height: 2.875rem;
+    padding-inline: var(--space-3);
+    border: 0;
+    border-radius: var(--radius-inner);
+    background: none;
     color: var(--text);
-    background: var(--surface);
-    border: 1px solid var(--field-border);
-    border-radius: var(--radius-pill);
+    font: 400 var(--text-ui) / 1.3 var(--font-body);
+    text-overflow: ellipsis;
   }
 
   input::placeholder {
@@ -55,32 +56,36 @@ const { ask } = site.home;
     opacity: 1;
   }
 
+  /* The box itself shows focus */
   input:focus-visible {
-    outline: 2px solid var(--focus);
-    outline-offset: 2px;
+    outline: none;
   }
 
   .btn {
-    min-height: 56px;
+    min-height: 3rem;
+    border-radius: var(--radius-inner);
     white-space: nowrap;
   }
 
-  /* From small tablets up, the button sits inside the field's pill */
-  @media (min-width: 640px) {
-    .row {
-      position: relative;
-      display: block;
+  /* Wide enough for field and button on one line, with the whole example showing */
+  @media (min-width: 1431px) {
+    .box {
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-1);
     }
 
     input {
-      padding-right: 12rem;
+      flex: 1;
+      min-height: var(--target);
+      padding-inline: var(--space-3) 0;
+      font-size: var(--text-small);
     }
 
     .btn {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      min-height: 46px;
+      min-height: var(--target);
+      padding-inline: var(--space-4);
+      font-size: var(--text-small);
     }
   }
 </style>
@@ -90,35 +95,33 @@ const { ask } = site.home;
   const input = form?.querySelector("input");
   if (form && input && matchMedia("(prefers-reduced-motion: no-preference)").matches) {
     const examples: string[] = JSON.parse(form.dataset.examples!);
-    const original = input.placeholder;
-    let stopped = false;
     let index = 0;
-    let length = 0;
-    let deleting = false;
+    let length = examples[0].length;
+    let deleting = true;
+    let stopped = false;
 
     const tick = () => {
       if (stopped) return;
-      const text = examples[index];
       length += deleting ? -1 : 1;
-      input.placeholder = text.slice(0, length);
-      let wait = deleting ? 22 : 48;
-      if (!deleting && length === text.length) {
-        deleting = true;
-        wait = 1800;
-      } else if (deleting && length === 0) {
+      input.placeholder = examples[index].slice(0, length);
+      if (deleting && length === 0) {
         deleting = false;
         index = (index + 1) % examples.length;
-        wait = 350;
+        setTimeout(tick, 300);
+      } else if (!deleting && length === examples[index].length) {
+        // Back to the first example: the tour is over and it rests here
+        if (index === 0) return;
+        deleting = true;
+        setTimeout(tick, 2000);
+      } else {
+        setTimeout(tick, deleting ? 22 : 45);
       }
-      setTimeout(tick, wait);
     };
+    setTimeout(tick, 2500);
 
-    // Once the visitor is in the field, it holds still for them
     input.addEventListener("focus", () => {
       stopped = true;
-      input.placeholder = original;
+      input.placeholder = examples[0];
     });
-    input.placeholder = "";
-    setTimeout(tick, 900);
   }
 </script>

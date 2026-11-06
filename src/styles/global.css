@@ -1,64 +1,94 @@
 /* Design tokens from DESIGN.md. Change DESIGN.md first, then this file, then components.
    Light is the default; html[data-theme="dark"] switches every semantic token. A script in the page head sets
-   data-theme before the page paints, from the visitor's saved choice or else their device setting. */
+   data-theme before the page paints, from the visitor's saved choice or else light. */
 :root {
-  /* Palette: the Prussian blue family (DESIGN.md → Color) */
-  --color-ink-deep: #0e2433;
-  --color-prussian: #1f5c8a;
-  --color-blueprint: #e4eef5;
-  --color-blueprint-mist: #f6f9fb;
-  --color-white: #ffffff;
-  --color-ink: #0f1b26;
-  --color-steel: #4f6070;
-  --color-slate: #7f8e9c;
-  --color-brick: #b42318;
-  --color-navy-night: #0a1822;
-  --color-navy-card: #102331;
-  --color-navy-band: #15314a;
-  --color-sky: #8ec3ea;
-  --color-frost: #eaf1f7;
-  --color-mist-gray: #a9bacb;
-  --color-harbor: #5f7387;
-  --color-steel-light: #b9c8d6;
-  --color-dusk: #6e8499;
-  --color-coral: #ff8a7a;
-  /* Client artwork mat and print */
-  --color-paper: #f2eee6;
+  /* Palette: the live oak family (DESIGN.md → Color) */
+  --color-oak-deep: oklch(31.5% 0.052 167);
+  --color-oak-hi: oklch(37.4% 0.061 167);
+  --color-oak: oklch(49.6% 0.099 162);
+  --color-marigold: oklch(81.1% 0.153 82);
+  --color-limestone: oklch(92.2% 0.018 89);
+  --color-sun: oklch(97.8% 0.019 94);
+  --color-sun-warmth: oklch(91.4% 0.077 84);
+  --color-card: oklch(99.4% 0.008 91);
+  --color-blank: oklch(95.2% 0.018 89);
+  --color-ink: oklch(24% 0.024 167);
+  --color-soft: oklch(43.4% 0.023 162);
+  --color-edge: oklch(59.5% 0.025 135);
+  --color-paper: oklch(96.7% 0.014 93);
+  --color-white: oklch(100% 0 0);
+  --color-band-soft: oklch(87.7% 0.018 148);
+  --color-edge-oak: oklch(67.6% 0.044 163);
+  --color-brick: oklch(50% 0.182 30);
+  --color-night-page: oklch(22.1% 0.027 170);
+  --color-night: oklch(17.7% 0.021 172);
+  --color-night-card: oklch(26% 0.033 162);
+  --color-night-sun: oklch(31.5% 0.04 164);
+  --color-night-warm: oklch(34.2% 0.039 108);
+  --color-cream: oklch(94.9% 0.015 107);
+  --color-sage: oklch(79.5% 0.02 153);
+  --color-mint: oklch(78.2% 0.116 160);
+  --color-mint-hi: oklch(82.5% 0.104 160);
+  --color-on-mint: oklch(17.7% 0.022 168);
+  --color-edge-night: oklch(59.5% 0.032 163);
+  --color-coral: oklch(75.8% 0.145 29);
+  /* Print */
   --color-black: #000000;
   --color-print-white: #ffffff;
   --color-print-gray: #333333;
 
   /* Semantic: light */
   color-scheme: light;
-  --bg: var(--color-blueprint-mist);
-  --deep-bg: var(--color-ink-deep);
-  --band: var(--color-blueprint);
-  --surface: var(--color-white);
+  --bg: var(--color-limestone);
+  --deep-bg: var(--color-oak-deep);
+  --plate: var(--color-oak-deep);
+  --on-plate: var(--color-paper);
+  --plate-hover: color-mix(in oklch, var(--color-paper) 12%, transparent);
+  --band: var(--color-blank);
+  --surface: var(--color-card);
   --text: var(--color-ink);
-  --text-muted: var(--color-steel);
-  --rule: color-mix(in srgb, var(--color-prussian) 14%, transparent);
-  --field-border: var(--color-slate);
-  --accent: var(--color-prussian);
-  --on-accent: var(--color-white);
+  --text-muted: var(--color-soft);
+  --rule: color-mix(in oklch, var(--color-ink) 16%, transparent);
+  --field-border: var(--color-edge);
+  --accent: var(--color-oak);
+  --on-accent: var(--color-paper);
+  --action: var(--color-oak-deep);
+  --action-hi: var(--color-oak-hi);
+  --on-action: var(--color-paper);
+  --marigold: var(--color-marigold);
+  --on-marigold: var(--color-ink);
   --focus: var(--accent);
   --error: var(--color-brick);
-  --code: var(--color-steel);
+  --code: var(--color-soft);
+  --sun: var(--color-sun);
+  --sun-warmth: var(--color-sun-warmth);
+  --cloud: color-mix(in oklch, var(--color-soft) 16%, transparent);
+  --shadow-tint: var(--color-oak-deep);
   --shadow:
-    0 1px 2px color-mix(in srgb, var(--color-ink-deep) 6%, transparent),
-    0 14px 30px -14px color-mix(in srgb, var(--color-ink-deep) 30%, transparent);
+    0 1px 2px color-mix(in oklch, var(--shadow-tint) 18%, transparent),
+    0 22px 38px -22px color-mix(in oklch, var(--shadow-tint) 60%, transparent);
+
+  /* Where the sun sits in the window light; desktop pages update these from the real time (WindowLight) */
+  --sun-x: 0%;
+  --sun-skew: -22deg;
+  --sun-warm: 0%;
+  --sun-h: 96%;
 
   /* Type */
-  --font-display: var(--font-bricolage);
-  --font-body: var(--font-bricolage);
-  --font-mono: var(--font-fragment-mono);
-  --text-display: clamp(3rem, 5.8vw, 5.5rem);
-  --text-1: clamp(2.6rem, 4.4vw, 3.75rem);
-  --text-2: clamp(2.3rem, 4.6vw, 4.25rem);
-  --text-3: 1.25rem;
-  --text-lede: 1.1875rem;
+  --font-display: var(--font-mona-sans);
+  --font-body: var(--font-mona-sans);
+  --font-mono: var(--font-dm-mono);
+  --text-display: clamp(2.1rem, 11.4vw, 3.25rem);
+  --text-1: 2.25rem;
+  --text-2: clamp(2rem, 9vw, 2.5rem);
+  --text-3: 1.625rem;
+  --text-4: 1.125rem;
+  --text-lede: 1.0625rem;
   --text-body: 1.0625rem;
+  --text-ui: 1rem;
+  --text-fig: 1.625rem;
   --text-small: 0.9375rem;
-  --text-mono: 0.875rem;
+  --text-mono: 0.8125rem;
 
   /* Space */
   --space-1: 0.25rem;
@@ -72,81 +102,86 @@
   --space-9: 4.5rem;
   --space-10: 7rem;
   --gutter: 1.25rem;
-  --section: clamp(4rem, 8vw, 6rem);
+  --section: clamp(3.25rem, 8vw, 6rem);
   --content-max: 76rem;
   --content-narrow: 38rem;
+  --dock: 3.75rem;
+  --target: 2.75rem;
 
   /* Shape */
   --radius-pill: 999px;
-  --radius-card: 12px;
+  --radius-plate: 14px;
+  --radius-inner: 11px;
+  --radius-card: 16px;
   --radius-screen: 8px;
+  --radius-tag: 6px;
+  --radius-phone: 26px;
+  --radius-phone-screen: 21px;
 
-  /* Motion */
-  --ease-build: cubic-bezier(0.65, 0, 0.35, 1);
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Motion: one set of timings on one curve (DESIGN.md → Interaction and motion) */
+  --t-fast: 150ms;
+  --t-base: 220ms;
+  --t-sweep: 520ms;
+  --t-intro: 1000ms;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: var(--color-navy-night);
-  --deep-bg: var(--color-navy-band);
-  --band: var(--color-navy-card);
-  --surface: var(--color-navy-card);
-  --text: var(--color-frost);
-  --text-muted: var(--color-mist-gray);
-  --rule: color-mix(in srgb, var(--color-sky) 14%, transparent);
-  --field-border: var(--color-harbor);
-  --accent: var(--color-sky);
-  --on-accent: var(--color-ink-deep);
+  --bg: var(--color-night-page);
+  --deep-bg: var(--color-night);
+  --plate: var(--color-night);
+  --on-plate: var(--color-cream);
+  --plate-hover: color-mix(in oklch, var(--color-cream) 12%, transparent);
+  --band: var(--color-night-card);
+  --surface: var(--color-night-card);
+  --text: var(--color-cream);
+  --text-muted: var(--color-sage);
+  --rule: color-mix(in oklch, var(--color-cream) 18%, transparent);
+  --field-border: var(--color-edge-night);
+  --accent: var(--color-mint);
+  --on-accent: var(--color-on-mint);
+  --action: var(--color-mint);
+  --action-hi: var(--color-mint-hi);
+  --on-action: var(--color-on-mint);
   --error: var(--color-coral);
-  --code: var(--color-mist-gray);
-  --shadow:
-    0 1px 2px color-mix(in srgb, var(--color-black) 40%, transparent),
-    0 18px 40px -16px color-mix(in srgb, var(--color-black) 70%, transparent);
+  --code: var(--color-sage);
+  --sun: var(--color-night-sun);
+  --sun-warmth: var(--color-night-warm);
+  --cloud: color-mix(in oklch, var(--color-black) 22%, transparent);
+  --shadow-tint: var(--color-black);
 }
 
-/* A deep-ink surface (the scrolled header, results, closing, footer): every token inside switches to read on it */
+@media (min-width: 1024px) {
+  :root {
+    --gutter: clamp(1.25rem, 4.45vw, 5rem);
+    --text-display: clamp(2.75rem, 5.2vw, 7rem);
+    --text-1: clamp(2.5rem, 3.6vw, 3.5rem);
+    --text-2: clamp(2.5rem, 3.6vw, 3.75rem);
+    --text-fig: 1.875rem;
+    --text-lede: 1.1875rem;
+  }
+}
+
+/* An oak surface (results, "Sound familiar?", closing): every token inside switches to read on it */
 .on-deep {
   background: var(--deep-bg);
-  color: var(--color-white);
-  --text: var(--color-white);
-  --text-muted: var(--color-steel-light);
-  --rule: color-mix(in srgb, var(--color-sky) 18%, transparent);
-  --field-border: var(--color-dusk);
-  --accent: var(--color-sky);
-  --on-accent: var(--color-ink-deep);
+  color: var(--color-paper);
+  --text: var(--color-paper);
+  --text-muted: var(--color-band-soft);
+  --rule: color-mix(in oklch, var(--color-paper) 16%, transparent);
+  --field-border: var(--color-edge-oak);
+  --accent: var(--color-marigold);
+  --on-accent: var(--color-ink);
+  --action: var(--color-marigold);
+  --action-hi: color-mix(in oklch, var(--color-marigold) 86%, var(--color-white));
+  --on-action: var(--color-ink);
   --focus: var(--accent);
 }
 
 :root[data-theme="dark"] .on-deep {
-  --text: var(--color-frost);
-  color: var(--color-frost);
-}
-
-/* A whole band on that surface, with a soft glow of the Prussian blue for depth */
-.deep {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-}
-
-.deep::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: -60% 30% -60% -15%;
-  background: radial-gradient(
-    closest-side,
-    color-mix(in srgb, var(--color-prussian) 65%, transparent),
-    transparent
-  );
-  pointer-events: none;
-}
-
-@media (min-width: 768px) {
-  :root {
-    --gutter: 2rem;
-  }
+  --text: var(--color-cream);
+  color: var(--color-cream);
 }
 
 *,
@@ -160,8 +195,10 @@
 }
 
 html {
-  background: var(--bg);
-  scroll-padding-top: 6rem; /* Links to a section land below the pinned header */
+  /* A fine grain keeps the window light from banding */
+  background-color: var(--bg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .28 0 0 0 0 .2 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+  scroll-padding-top: var(--space-5); /* Phones: the logo scrolls away, so nothing covers a section's top */
   -webkit-text-size-adjust: 100%;
 }
 
@@ -169,13 +206,28 @@ body {
   color: var(--text);
   font-family: var(--font-body);
   font-size: var(--text-body);
-  line-height: 1.6;
-  font-variation-settings: "opsz" 14;
+  line-height: 1.5;
+  font-kerning: normal;
+  min-height: 100svh;
+  /* Room for the dock on phones */
+  padding-bottom: calc(var(--dock) + var(--space-5) + env(safe-area-inset-bottom));
   -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  text-rendering: optimizeLegibility;
 }
 
-/* Glows reach past the window's edge. They're clipped here, not on html: iPhone Safari ignores a clip on the root and
-   lets the whole page slide sideways. Unlike hidden, clip leaves the vertical glows and pinned header alone. */
+@media (min-width: 1024px) {
+  html {
+    scroll-padding-top: 6rem; /* Links to a section land below the pinned plates */
+  }
+
+  body {
+    padding-bottom: 0;
+  }
+}
+
+/* Screens and phones reach past the window's edge. They're clipped here, not on html: iPhone Safari ignores a clip on
+   the root and lets the whole page slide sideways. Unlike hidden, clip leaves the pinned plates alone. */
 main {
   overflow-x: clip;
 }
@@ -192,15 +244,22 @@ a {
   color: inherit;
 }
 
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
 h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  font-weight: 720;
-  font-variation-settings:
-    "opsz" 96,
-    "wdth" 98;
-  letter-spacing: -0.032em;
+  font-weight: 540;
+  font-stretch: 98%;
+  letter-spacing: -0.03em;
   line-height: 1.02;
   text-wrap: balance;
 }
@@ -215,12 +274,10 @@ h2 {
 
 h3 {
   font-size: var(--text-3);
-  font-weight: 650;
-  font-variation-settings:
-    "opsz" 32,
-    "wdth" 100;
-  letter-spacing: -0.01em;
-  line-height: 1.25;
+  font-weight: 560;
+  font-stretch: 100%;
+  letter-spacing: -0.022em;
+  line-height: 1.1;
 }
 
 p {
@@ -229,7 +286,8 @@ p {
 
 :focus-visible {
   outline: 2px solid var(--focus);
-  outline-offset: 2px;
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 .container {
@@ -245,6 +303,7 @@ p {
 
 .lede {
   font-size: var(--text-lede);
+  line-height: 1.4;
   color: var(--text-muted);
   max-width: var(--content-narrow);
 }
@@ -262,7 +321,7 @@ p {
   position: absolute;
   left: var(--space-4);
   top: -10rem;
-  z-index: 10;
+  z-index: 50;
   padding: var(--space-3) var(--space-4);
   background: var(--text);
   color: var(--bg);
@@ -281,32 +340,44 @@ p {
   white-space: nowrap;
 }
 
-/* Buttons: rounded pills, the primary filled with the accent */
+/* Things that exist only at one size: a phone's layout, or the widened one */
+@media (max-width: 1023.98px) {
+  .only-wide {
+    display: none !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .only-phone {
+    display: none !important;
+  }
+}
+
+/* Buttons: soft-cornered plates, the same material as the menu */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  min-height: 48px;
+  min-height: 3.25rem;
   padding: 0 var(--space-5);
   font: 600 1rem/1.2 var(--font-body);
   text-decoration: none;
   border: 0;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-plate);
   cursor: pointer;
   transition:
-    background-color 0.2s,
-    box-shadow 0.2s;
+    background-color var(--t-fast) var(--ease),
+    box-shadow var(--t-fast) var(--ease);
 }
 
 .btn--primary {
-  background: var(--accent);
-  color: var(--on-accent);
-  box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--accent) 80%, transparent);
+  background: var(--action);
+  color: var(--on-action);
 }
 
 .btn--primary:hover {
-  background: color-mix(in srgb, var(--accent) 88%, var(--text));
+  background: var(--action-hi);
 }
 
 .btn--ghost {
@@ -316,7 +387,7 @@ p {
 }
 
 .btn--ghost:hover {
-  box-shadow: inset 0 0 0 1.5px var(--text);
+  box-shadow: inset 0 0 0 2px var(--text);
 }
 
 /* A pale panel across the page */
@@ -324,21 +395,25 @@ p {
   background: var(--band);
 }
 
-/* Designed links: a 2px accent bar under the text that fills in behind it on hover */
+/* Links: underlined in the accent */
 .link {
   color: var(--text);
   font-weight: 600;
-  text-decoration: none;
-  background: linear-gradient(var(--accent), var(--accent)) 0 100% / 100% 2px no-repeat;
-  padding-bottom: 2px;
-  transition:
-    background-size 0.25s var(--ease-out),
-    color 0.25s;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
 }
 
 .link:hover {
-  background-size: 100% 100%;
-  color: var(--on-accent);
+  text-decoration-thickness: 2px;
+}
+
+/* The theme's circular reveal is set per transition by ThemeToggle; every other view transition keeps one timing */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--t-sweep);
+  animation-timing-function: var(--ease);
 }
 
 /* Printing the resume (or saving it as PDF): plain paper, and only the resume itself */
@@ -353,6 +428,7 @@ p {
     background: var(--color-print-white);
     color: var(--color-black);
     font-size: 10pt;
+    padding-bottom: 0;
   }
 
   /* !important: the header and footer's own display rules are more specific */

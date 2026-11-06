@@ -1,6 +1,6 @@
 ---
-// One project on the home page: its before-and-after slider, and beside it the name, kind, the outcome in bold, and
-// links to the story and to the live site in the preview window.
+// One project on the home page: name and kind, its before-and-after slider, the outcome, and links to the story and to
+// the live site in the preview window. Phones read straight down; desktops zigzag slider and words.
 import CompareSlider from "./CompareSlider.astro";
 import ProjectPreview from "./ProjectPreview.astro";
 import type { Project } from "../data/projects";
@@ -14,29 +14,28 @@ const { project } = Astro.props;
 ---
 
 <article class="row" style={`--client: ${project.accent}`} aria-labelledby={`ba-${project.id}`}>
+  <div class="head">
+    <h3 id={`ba-${project.id}`}>{project.name}</h3>
+    <p class="kind">
+      <i aria-hidden="true"></i>
+      <span>
+        {project.hero.kindLine}{project.status === "in-progress" && `. ${site.projectLabels.inProgress}`}
+      </span>
+    </p>
+  </div>
   <div class="compare">
     <CompareSlider project={project} sizes="(min-width: 1024px) 50vw, 100vw" />
   </div>
-  <div class="text">
-    <h3 id={`ba-${project.id}`}>
-      <span class="marker" aria-hidden="true"></span>
-      {project.name}
-      {project.status === "in-progress" && (
-        <span class="status">{site.projectLabels.inProgress}</span>
-      )}
-    </h3>
-    <p class="kind">
-      {project.kind}, {project.place}
-    </p>
+  <div class="rest">
     <p class="outcome">{project.outcome}</p>
-    <p class="services">{project.services.join(", ")}</p>
     <p class="links">
-      <a class="link" href={`/work/${project.id}/`}>
+      <a
+        href={`/work/${project.id}/`}
+        aria-label={site.home.storyLabel.replace("{who}", project.name)}
+      >
         {site.preview.story}
       </a>
-      <button type="button" class="open link" data-open-preview={project.id}>
-        {site.preview.open}
-      </button>
+      <button type="button" data-open-preview={project.id}>{site.preview.open}</button>
     </p>
   </div>
   <ProjectPreview project={project} />
@@ -44,98 +43,93 @@ const { project } = Astro.props;
 
 <style>
   .row {
-    display: grid;
-    gap: var(--space-5) var(--space-9);
-    align-items: center;
-    padding-block: var(--space-8);
+    margin-top: var(--space-7);
   }
 
   h3 {
-    font-size: var(--text-2);
-    font-weight: 720;
-    font-variation-settings:
-      "opsz" 96,
-      "wdth" 98;
-    letter-spacing: -0.032em;
-    line-height: 1.02;
-  }
-
-  .marker {
-    display: inline-block;
-    width: 0.32em;
-    height: 0.32em;
-    margin-right: 0.3em;
-    border-radius: 2px;
-    background: var(--client);
-    box-shadow: 0 0 0 1px var(--field-border);
-    vertical-align: 0.14em;
-  }
-
-  .status {
-    margin-left: var(--space-2);
-    padding: var(--space-1) var(--space-3);
-    border-radius: var(--radius-pill);
-    background: var(--band);
-    color: var(--text-muted);
-    font-size: 0.8125rem;
-    font-weight: 600;
-    letter-spacing: 0;
-    vertical-align: 0.15em;
+    font-size: var(--text-3);
   }
 
   .kind {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
     margin-top: var(--space-1);
+    margin-bottom: var(--space-3);
     color: var(--text-muted);
     font-size: var(--text-small);
+  }
+
+  .kind i {
+    flex: none;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--client);
+    box-shadow: 0 0 0 1px var(--rule);
   }
 
   .outcome {
-    margin-top: var(--space-4);
-    font-size: 1.5rem;
-    font-weight: 650;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-  }
-
-  .services {
     margin-top: var(--space-3);
-    color: var(--text-muted);
-    font-size: var(--text-small);
+    font-size: var(--text-4);
+    font-weight: 560;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
   }
 
   .links {
     display: flex;
     flex-wrap: wrap;
+    gap: 0 var(--space-5);
+    margin-top: var(--space-1);
+  }
+
+  .links a,
+  .links button {
+    display: inline-flex;
     align-items: center;
-    gap: var(--space-4) var(--space-6);
-    margin-top: var(--space-5);
+    min-height: var(--target);
+    color: var(--accent);
+    font-size: var(--text-ui);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
   }
 
-  /* The button looks like its neighbouring link (global .link style); only the browser's button chrome is removed */
-  /* Standalone links get room above the text for a 44px target; the bar stays right under the words */
-  .links .link {
-    padding-top: 0.85rem;
-  }
-
-  .open {
-    border: 0;
-    font: inherit;
-    cursor: pointer;
-  }
-
-  /* Alternate sides, so the work zigzags down the page instead of stacking */
   @media (min-width: 1024px) {
     .row {
+      display: grid;
       grid-template-columns: 7fr 5fr;
-      padding-block: var(--space-9);
+      grid-template-rows: 1fr auto auto 1fr;
+      grid-template-areas:
+        "cmp ."
+        "cmp head"
+        "cmp rest"
+        "cmp .";
+      column-gap: var(--space-9);
+      margin-top: var(--space-9);
     }
 
     .row:nth-of-type(even) {
       grid-template-columns: 5fr 7fr;
+      grid-template-areas:
+        ". cmp"
+        "head cmp"
+        "rest cmp"
+        ". cmp";
     }
 
-    .row:nth-of-type(even) .compare {
-      order: 2;
+    .head {
+      grid-area: head;
+    }
+
+    .compare {
+      grid-area: cmp;
+    }
+
+    .rest {
+      grid-area: rest;
     }
   }
 </style>

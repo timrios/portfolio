@@ -1,250 +1,197 @@
 ---
 // Before and after for one project: a slider wipes between the old site and the new one (a real range input, so the
-// keyboard works). Without an old site, a short description stands in for "before". Used on the home page and on
-// project pages.
+// keyboard works). Phones see phone captures in a tall frame, desktops the desktop captures; each size loads only its
+// own pictures. Without an old site, a short note stands in for "before". Used on the home and project pages.
 import Img from "./Img.astro";
+import Star from "./Star.astro";
 import type { Project } from "../data/projects";
-import { projects } from "../data/projects";
 import { site } from "../data/site";
 
 interface Props {
   project: Project;
-  /** Rendered width hint for the images */
+  /** Rendered width hint for the wide pictures */
   sizes: string;
 }
 
 const { project, sizes } = Astro.props;
-const before = project.before.image;
 const h = site.home;
-// Each client's light breathes out of step with the others
-const delay = projects.findIndex((p) => p.id === project.id) * -2.3;
+const beforeWide = project.before.image;
+const beforeAlt = beforeWide?.alt ?? "";
 ---
 
-<div class="lit" style={`--client: ${project.accent}; --delay: ${delay}s`}>
-  <div class="light" aria-hidden="true"></div>
-
-  {before ? (
-    <div class="frame" style="--split: 50%" data-compare>
-      <Img src={project.screens.desktop.src} alt={project.screens.desktop.alt} sizes={sizes} />
-      <div class="before-layer">
-        <Img src={before.src} alt={before.alt} sizes={sizes} />
+<div class="cmp" style="--split: 50%" data-compare>
+  <div class="set only-phone">
+    <Img src={project.screens.phone.src} alt={project.screens.phone.alt} sizes="100vw" />
+    {project.hero.beforePhone ? (
+      <div class:list={["old", { fit: project.hero.beforeFit }]}>
+        <Img src={project.hero.beforePhone} alt={beforeAlt} sizes="100vw" />
       </div>
-      <span class="tag tag-before" aria-hidden="true">
-        {h.beforeLabel}
-      </span>
-      <span class="tag tag-after" aria-hidden="true">
-        {h.afterLabel}
-      </span>
-      <span class="handle" aria-hidden="true" />
-      <input
-        type="range"
-        min="0"
-        max="100"
-        value="50"
-        aria-label={`${h.sliderLabel}: ${project.name}`}
-      />
-    </div>
-  ) : (
-    <div class="pair">
-      <p class="none">
-        <span class="tag static">{h.beforeLabel}</span>
-        {project.beforeShort}
-      </p>
-      <div class="frame">
-        <Img src={project.screens.desktop.src} alt={project.screens.desktop.alt} sizes={sizes} />
-        <span class="tag tag-after" aria-hidden="true">
-          {h.afterLabel}
-        </span>
+    ) : (
+      <div class="old note"><p>{project.beforeShort}</p></div>
+    )}
+  </div>
+  <div class="set only-wide">
+    <Img src={project.screens.desktop.src} alt={project.screens.desktop.alt} sizes={sizes} />
+    {beforeWide ? (
+      <div class="old">
+        <Img src={beforeWide.src} alt={beforeAlt} sizes={sizes} />
       </div>
-    </div>
-  )}
+    ) : (
+      <div class="old note"><p>{project.beforeShort}</p></div>
+    )}
+  </div>
+  <span class="tag before" aria-hidden="true">{h.beforeLabel}</span>
+  <span class="tag after" aria-hidden="true">{h.afterLabel}</span>
+  <span class="seam" aria-hidden="true">
+    <span class="grip"><Star /></span>
+  </span>
+  <input
+    type="range"
+    min="0"
+    max="100"
+    value="50"
+    aria-label={`${h.sliderLabel}: ${project.name}`}
+  />
 </div>
 
 <style>
-  /* The client's color breathing behind the work */
-  .lit {
-    position: relative;
-    isolation: isolate;
-  }
-
-  .light {
-    position: absolute;
-    z-index: -1;
-    inset: -22% -16%;
-    pointer-events: none;
-    filter: blur(70px);
-    background:
-      radial-gradient(45% 50% at 35% 40%, var(--client), transparent 72%),
-      radial-gradient(
-        35% 40% at 70% 65%,
-        color-mix(in srgb, var(--client) 70%, var(--accent)),
-        transparent 72%
-      );
-    opacity: 0.6;
-    animation: breathe 7s ease-in-out infinite alternate;
-    animation-delay: var(--delay);
-  }
-
-  @keyframes breathe {
-    from {
-      opacity: 0.3;
-      scale: 0.88;
-    }
-    to {
-      opacity: 0.95;
-      scale: 1.14;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .light {
-      animation: none;
-    }
-  }
-
-  .frame {
-    position: relative;
-    aspect-ratio: 16 / 10;
-    overflow: hidden;
-    border-radius: var(--radius-screen);
-    box-shadow: var(--shadow);
-    background: var(--surface);
-  }
-
-  .frame :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top left;
-  }
-
   /* Drag anywhere on the picture. pan-y keeps up-and-down swipes scrolling the page and hands sideways ones to the
      script. The images ignore touches, so a press doesn't drag the picture or open the phone's image menu. */
-  [data-compare] {
+  .cmp {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: var(--radius-card);
+    background: var(--band);
+    box-shadow:
+      0 0 0 1px var(--rule),
+      var(--shadow);
     cursor: ew-resize;
     touch-action: pan-y;
     user-select: none;
     -webkit-user-select: none;
   }
 
-  [data-compare] :global(img) {
+  .set,
+  .old {
+    position: absolute;
+    inset: 0;
+  }
+
+  .cmp :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
     pointer-events: none;
   }
 
   /* The old site sits on top, cut away to the right of the split */
-  .before-layer {
-    position: absolute;
-    inset: 0;
+  .old {
+    background: var(--band);
     clip-path: inset(0 calc(100% - var(--split)) 0 0);
   }
 
-  /* The handle and tags sit on client screenshots in both looks, so they use fixed white and ink */
-  .handle {
+  .old.fit :global(img) {
+    object-fit: contain;
+  }
+
+  /* The note keeps its width while the split passes over it, so its words don't reflow */
+  .note {
+    display: flex;
+    align-items: center;
+    padding: var(--space-4);
+  }
+
+  .note p {
+    width: min(8rem, 36vw);
+    color: var(--text);
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  /* The tags and the seam sit on client screenshots in both looks, so they use fixed colors */
+  .tag {
     position: absolute;
-    top: 0;
-    bottom: 0;
-    left: var(--split);
-    width: 2px;
-    margin-left: -1px;
-    background: var(--color-white);
-    box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-black) 25%, transparent);
+    top: var(--space-2);
+    z-index: 2;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-tag);
+    background: var(--color-ink);
+    color: var(--color-white);
+    font: 500 var(--text-mono) / 1 var(--font-mono);
     pointer-events: none;
   }
 
-  .handle::after {
-    content: "";
+  .before {
+    left: var(--space-2);
+  }
+
+  .after {
+    right: var(--space-2);
+  }
+
+  .seam {
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    bottom: 0;
+    left: var(--split);
+    width: 1px;
+    background: var(--color-white);
+    box-shadow: 0 0 0 0.5px color-mix(in oklch, var(--color-ink) 35%, transparent);
+    pointer-events: none;
+  }
+
+  .grip {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 2.75rem;
-    height: 2.75rem;
-    transform: translate(-50%, -50%);
+    display: grid;
+    place-items: center;
+    width: var(--target);
+    height: var(--target);
+    translate: -50% -50%;
     border-radius: 50%;
-    background: var(--color-white);
-    box-shadow: var(--shadow);
-    /* Two chevrons, one each way: it drags both directions. Each chevron is two short strokes. */
-    --stroke: transparent 44%, var(--color-ink) 44% 56%, transparent 56%;
-    background-image:
-      linear-gradient(135deg, var(--stroke)), linear-gradient(45deg, var(--stroke)),
-      linear-gradient(45deg, var(--stroke)), linear-gradient(135deg, var(--stroke));
-    background-size: 0.5rem 0.5rem;
-    background-repeat: no-repeat;
-    background-position:
-      30% 40%,
-      30% 60%,
-      70% 40%,
-      70% 60%;
+    background: var(--color-oak-deep);
+    color: var(--color-marigold);
+    box-shadow:
+      0 0 0 3px color-mix(in oklch, var(--color-white) 92%, transparent),
+      0 8px 20px -4px color-mix(in oklch, var(--color-black) 50%, transparent);
+  }
+
+  .grip :global(svg) {
+    width: 1.375rem;
+    height: 1.375rem;
   }
 
   /* The range input stays for the keyboard and screen readers. It takes no pointer input, because phones only drag a
      slider by its thumb; the script handles dragging on the frame instead. */
   input {
     position: absolute;
-    inset: 0;
+    inset: auto 0 0;
     width: 100%;
-    height: 100%;
+    height: 1px;
     margin: 0;
     opacity: 0;
     pointer-events: none;
   }
 
-  .frame:has(input:focus-visible) {
-    outline: 2px solid var(--focus);
-    outline-offset: 3px;
+  .cmp:has(input:focus-visible) .grip {
+    outline: 2px solid var(--color-marigold);
+    outline-offset: 5px;
   }
 
-  .tag {
-    position: absolute;
-    top: var(--space-3);
-    padding: var(--space-1) var(--space-3);
-    border-radius: var(--radius-pill);
-    background: color-mix(in srgb, var(--color-ink) 72%, transparent);
-    color: var(--color-white);
-    font-size: 0.8125rem;
-    font-weight: 600;
-    pointer-events: none;
-  }
-
-  .tag-before {
-    left: var(--space-3);
-  }
-
-  .tag-after {
-    right: var(--space-3);
-  }
-
-  /* Phones stack the note above the screenshot: a column beside it is too narrow for the words */
-  .pair {
-    display: grid;
-    gap: var(--space-4);
-  }
-
-  @media (min-width: 640px) {
-    .pair {
-      grid-template-columns: 2fr 5fr;
+  @media (min-width: 1024px) {
+    .cmp {
+      aspect-ratio: 16 / 10;
     }
 
-    .pair .frame {
-      align-self: center;
+    .note p {
+      width: 12rem;
     }
-  }
-
-  /* No fixed shape: the box grows with its text and stretches to the screenshot's height beside it */
-  .none {
-    display: grid;
-    align-content: center;
-    gap: var(--space-3);
-    padding: var(--space-4);
-    border: 1px dashed var(--field-border);
-    border-radius: var(--radius-screen);
-    color: var(--text-muted);
-    font-size: var(--text-small);
-    text-align: center;
-  }
-
-  .tag.static {
-    position: static;
-    justify-self: center;
   }
 </style>
 

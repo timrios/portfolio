@@ -16,13 +16,17 @@ const siteSchema = z.object({
   description: z.string(),
   navigation: z.array(z.object({ label: z.string(), href: z.string() })),
   home: z.object({
-    headline: z.string(),
+    /** Each entry is one line of the headline; a line never wraps by itself */
+    headlineLines: z.array(z.string()).min(1),
     lede: z.string(),
     primaryAction: z.object({ label: z.string(), href: z.string() }),
     textAction: z.string(),
     ask: z.object({ label: z.string(), examples: z.array(z.string()).min(1), submit: z.string() }),
     timing: z.string(),
-    collageLabel: z.string(),
+    orText: z.string(),
+    switcherLabel: z.string(),
+    /** {who} is the project's name */
+    storyLabel: z.string(),
     resultsLabel: z.string(),
     quotesHeading: z.string(),
     draftLabel: z.string(),
@@ -37,7 +41,8 @@ const siteSchema = z.object({
     closingHeading: z.string(),
     closingText: z.string(),
   }),
-  footer: z.object({ about: z.string() }),
+  dock: z.object({ label: z.string(), menu: z.string(), plan: z.string(), close: z.string() }),
+  footer: z.object({ about: z.string(), hiring: z.string(), resume: z.string() }),
   theme: z.object({ toLight: z.string(), toDark: z.string() }),
   preview: z.object({
     open: z.string(),
@@ -102,8 +107,8 @@ export const site = siteSchema.parse({
     { label: "Contact", href: "/contact/" },
   ],
   home: {
-    headline: "More customers for your business.",
-    lede: "Websites, logos, Google listings and social media for San Antonio businesses of every kind, each one designed around the business, never a template.",
+    headlineLines: ["More customers", "for your business."],
+    lede: "Websites, logos, Google listings and social media for San Antonio businesses.",
     primaryAction: { label: "Get a free plan for your business", href: "/contact/" },
     textAction: "Text me",
     ask: {
@@ -118,11 +123,13 @@ export const site = siteSchema.parse({
       submit: "Get a free plan",
     },
     timing: "Most websites are ready in 2 to 4 weeks. The first conversation is free.",
-    collageLabel: "Recent work for local businesses",
+    orText: "Or text",
+    switcherLabel: "See the site I built for a",
+    storyLabel: "Read the {who} story",
     resultsLabel: "Results for local businesses",
     workHeading: "Four businesses. Four different looks.",
     workIntro:
-      "A dog groomer, a hair stylist, a gymnastics gym and a shawarma restaurant don’t share customers, so they shouldn’t share a look. Drag across each one to see the before and after.",
+      "A dog groomer, a hair stylist, a gymnastics gym and a shawarma restaurant don’t share customers, so they shouldn’t share a look. Each one is designed around the business, never a template. Slide across each one to see the before and after.",
     beforeLabel: "Before",
     afterLabel: "After",
     sliderLabel: "Compare before and after",
@@ -135,10 +142,13 @@ export const site = siteSchema.parse({
     closingHeading: "Let’s get your business more customers.",
     closingText: "Based in San Antonio. I’ll come to you, or we can talk by phone.",
   },
+  dock: { label: "Quick actions", menu: "Menu", plan: "Free plan", close: "Close" },
   footer: {
     about: "Websites, brands and social media for local businesses. Based in {city}.",
+    hiring: "Hiring a developer?",
+    resume: "See my resume",
   },
-  theme: { toLight: "Switch to the light look", toDark: "Switch to the dark look" },
+  theme: { toLight: "Daylight look", toDark: "After-hours look" },
   preview: {
     open: "Browse the site",
     story: "Read the story",

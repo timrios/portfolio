@@ -1,225 +1,616 @@
 ---
-// The home page's opening: what the owner gets, then the clients' real work as a collage. Each piece sits at its own
-// depth and shifts with the pointer (fine pointers, motion allowed), inviting a closer look. Behind it, a soft glow in
-// the featured clients' own brand colors: the work lights the page.
+// The home page's opening: what the owner gets, the question, then real finished sites. One choice drives the picture,
+// the name and the result. Phones: a real phone beside its switcher. Desktop: an offset window with a phone over its
+// edge, and thumbnails under the question. Only finished sites, whole, never a before on the first screen.
+//
+// Pictures that aren't showing stay display:none until the visitor reaches for the switcher, so they don't download.
+// The window's first picture sits in a <picture> whose phone source is a blank pixel: a phone never fetches it, and a
+// desktop gets it at high priority.
 import AskBox from "./AskBox.astro";
 import Img from "./Img.astro";
 import { site } from "../data/site";
 import { projects } from "../data/projects";
 
-// The clients whose work is in the collage lend their colors to the glow
-const color = (id: string) =>
-  projects.find((project) => project.id === id)?.accent ?? "transparent";
-const glow = `--glow-1: ${color("fanzi-pet")}; --glow-2: ${color("shawarma-way")}; --glow-3: ${color("hair-by-christopher")}`;
-
-const pieces = [
-  { src: "fanzi-pet/site-home-desktop.jpg", alt: "The Fanzi Pet website", depth: 0.5, class: "a" },
-  {
-    src: "shawarma-way/site-home-desktop.jpg",
-    alt: "The Shawarma Way website",
-    depth: 0.8,
-    class: "b",
-  },
-  {
-    src: "fanzi-pet/vans-side-by-side.webp",
-    alt: "Fanzi Pet’s two wrapped vans",
-    depth: 1.1,
-    class: "c",
-  },
-  {
-    src: "hair-by-christopher/site-home-phone.jpg",
-    alt: "Hair By Christopher’s website on a phone",
-    depth: 1.4,
-    class: "d",
-  },
-];
+const h = site.home;
+const shown = [...projects].sort((a, b) => a.hero.order - b.hero.order);
+const blank = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
 ---
 
-<section class="hero container" aria-labelledby="hero-heading">
-  <div class="words">
-    <h1 id="hero-heading">{site.home.headline}</h1>
-    <p class="lede">{site.home.lede}</p>
-    <AskBox />
-    <p class="timing">
-      {site.home.timing}{" "}
-      <a class="link" href={`sms:${site.phoneSms}`}>
-        {site.home.textAction}
-      </a>
-    </p>
-  </div>
-  <div class="collage" role="group" aria-label={site.home.collageLabel} data-collage>
-    <div class="glow piece" style={glow} data-depth="-0.8" aria-hidden="true"></div>
-    {pieces.map((piece) => (
-      <div class:list={["piece", piece.class]} data-depth={piece.depth}>
-        <Img src={piece.src} alt={piece.alt} sizes="(min-width: 1024px) 34vw, 80vw" priority />
+<section class="hero" aria-labelledby="hero-heading" data-hero>
+  <h1 id="hero-heading">{h.headlineLines.map((line) => <span>{line} </span>)}</h1>
+  <p class="intro">{h.lede}</p>
+  <div class="asking"><AskBox /></div>
+
+  <div class="stage">
+    <div class="ph">
+      <div class="screen">
+        {shown.map((project, i) => (
+          <Img
+            src={project.screens.phone.src}
+            alt={project.screens.phone.alt}
+            sizes="(min-width: 1024px) 11rem, 54vw"
+            priority={i === 0}
+            class:list={["shot", { on: i === 0 }]}
+            data-shot={project.id}
+          />
+        ))}
       </div>
+    </div>
+
+    <div class="side">
+      <div class="pick" role="group" aria-labelledby="pick-label">
+        <span class="pick-label" id="pick-label">{h.switcherLabel}</span>
+        <div class="choices">
+          {shown.map((project, i) => (
+            <button type="button" aria-pressed={i === 0 ? "true" : "false"} data-choose={project.id}>
+              <span class="thumb only-phone">
+                <Img src={project.screens.phone.src} alt="" sizes="2rem" />
+              </span>
+              <span class="thumb only-wide">
+                <Img src={project.screens.desktop.src} alt="" sizes="10vw" />
+              </span>
+              <span class="name">{project.hero.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div class="results" aria-live="polite">
+        {shown.map((project, i) => {
+          const result = project.results.items[0];
+          return (
+            <div class:list={["res", { on: i === 0 }]} data-res={project.id} style={`--client: ${project.accent}`}>
+              <p class="biz"><i aria-hidden="true"></i>{project.hero.shortName}</p>
+              <p class="fig">{result.figure}</p>
+              <p class="line">{result.text}</p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    {shown.map((project, i) => (
+      <p class:list={["foot-row", { on: i === 0 }]} data-res={project.id}>
+        <span class="src">{project.hero.source}</span>
+        <a
+          class="story"
+          href={`/work/${project.id}/`}
+          aria-label={h.storyLabel.replace("{who}", project.name)}
+        >
+          {site.preview.story}
+        </a>
+      </p>
     ))}
+  </div>
+
+  <div class="aside">
+    <p class="or only-wide">
+      {h.orText} <a href={`sms:${site.phoneSms}`}>{site.phone}</a>
+    </p>
+    <p class="time">{h.timing}</p>
+  </div>
+
+  <div class="window only-wide">
+    <div class="bar">
+      {shown.map((project, i) => (
+        <span class:list={["addr", { on: i === 0 }]} data-res={project.id} style={`--client: ${project.accent}`}>
+          <i aria-hidden="true"></i>{project.hero.address}
+        </span>
+      ))}
+    </div>
+    <div class="shots">
+      {shown.map((project, i) =>
+        i === 0 ? (
+          <picture>
+            <source media="(max-width: 1023.98px)" srcset={blank} />
+            <Img
+              src={project.screens.desktop.src}
+              alt={project.screens.desktop.alt}
+              sizes="54vw"
+              priority
+              class="shot on"
+              data-shot={project.id}
+            />
+          </picture>
+        ) : (
+          <Img
+            src={project.screens.desktop.src}
+            alt={project.screens.desktop.alt}
+            sizes="54vw"
+            class="shot"
+            data-shot={project.id}
+          />
+        ),
+      )}
+      {shown.map((project, i) => (
+        <a
+          class:list={["hit", { on: i === 0 }]}
+          data-res={project.id}
+          href={`/work/${project.id}/`}
+          tabindex="-1"
+          aria-hidden="true"
+        ></a>
+      ))}
+    </div>
   </div>
 </section>
 
 <style>
   .hero {
-    display: grid;
-    gap: var(--space-8);
-    align-items: center;
-    padding-block: var(--space-6) var(--space-8);
+    display: flex;
+    flex-direction: column;
+    padding-inline: var(--gutter);
   }
 
-  .lede {
+  h1 span {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .intro {
+    margin-top: var(--space-2);
+    font-size: var(--text-lede);
+    line-height: 1.38;
+  }
+
+  .asking {
+    margin-top: var(--space-4);
+  }
+
+  /* The phone beside its switcher */
+  .stage {
+    display: grid;
+    grid-template-columns: 54fr 46fr;
+    gap: var(--space-4);
+    align-items: start;
     margin-top: var(--space-5);
   }
 
-  .timing {
-    margin-top: var(--space-4);
-    font-size: var(--text-small);
-    color: var(--text-muted);
+  .ph {
+    aspect-ratio: 1290 / 2796;
+    padding: var(--space-1);
+    border-radius: var(--radius-phone);
+    background: var(--color-ink);
+    box-shadow:
+      0 26px 44px -20px color-mix(in oklch, var(--shadow-tint) 65%, transparent),
+      0 1px 2px color-mix(in oklch, var(--shadow-tint) 30%, transparent);
   }
 
-  .collage {
+  .screen {
     position: relative;
-    isolation: isolate;
-    aspect-ratio: 1 / 0.86;
-  }
-
-  .piece {
-    position: absolute;
-    transform: translate(var(--x, 0), var(--y, 0));
-    transition: transform 0.5s var(--ease-out);
-  }
-
-  /* The clients' colors as soft light behind the work; stronger in light so it reads on white */
-  .glow {
-    inset: -16% -10% -12% -8%;
-    z-index: -1;
-    opacity: 0.8;
-    filter: blur(72px);
-    background:
-      radial-gradient(42% 46% at 30% 30%, var(--glow-1), transparent 70%),
-      radial-gradient(36% 42% at 78% 55%, var(--glow-2), transparent 70%),
-      radial-gradient(32% 36% at 38% 86%, var(--glow-3), transparent 70%);
-    pointer-events: none;
-  }
-
-  /* The glow breathes (scale is its own property, so it doesn't fight the pointer's translate) */
-  .glow {
-    animation: hero-breathe 8s ease-in-out infinite alternate;
-  }
-
-  @keyframes hero-breathe {
-    from {
-      scale: 0.9;
-      filter: blur(72px) brightness(0.7);
-    }
-    to {
-      scale: 1.12;
-      filter: blur(72px) brightness(1.4);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .glow {
-      animation: none;
-    }
-  }
-
-  :global([data-theme="dark"]) .glow {
-    opacity: 0.45;
-  }
-
-  .piece {
-    border-radius: var(--radius-screen);
+    height: 100%;
     overflow: hidden;
-    box-shadow: var(--shadow);
+    border-radius: var(--radius-phone-screen);
+    background: var(--surface);
   }
 
-  .glow {
-    overflow: visible;
-    box-shadow: none;
-  }
-
-  .d {
-    border-radius: 1rem;
-  }
-
-  .piece :global(img) {
+  .hero :global(.shot) {
+    position: absolute;
+    inset: 0;
+    display: none;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: top left;
+    object-position: top;
+    opacity: 0;
+    transition: opacity var(--t-base) var(--ease);
   }
 
-  .a {
-    width: 72%;
-    aspect-ratio: 16 / 10;
-    left: 0;
-    top: 2%;
+  .hero :global(.shot.on) {
+    display: block;
+    opacity: 1;
   }
 
-  .b {
-    width: 54%;
-    aspect-ratio: 16 / 10;
-    right: 0;
-    top: 32%;
+  /* Reached for the switcher: the rest may load, so they're ready to fade in */
+  .hero:global(.primed) :global(.shot) {
+    display: block;
   }
 
-  .c {
-    width: 38%;
-    aspect-ratio: 4 / 3;
-    right: 8%;
-    bottom: 0;
+  .side {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 0;
+    padding-top: var(--space-1);
   }
 
-  .c :global(img) {
-    object-position: center;
+  .pick-label {
+    display: block;
+    margin-bottom: var(--space-2);
+    font-size: var(--text-small);
+    font-weight: 600;
+    line-height: 1.25;
+    text-wrap: balance;
   }
 
-  .d {
-    width: 21%;
-    aspect-ratio: 9 / 19.5;
-    left: 8%;
-    bottom: 0;
+  .choices {
+    display: grid;
+    gap: var(--space-1);
   }
 
-  .d :global(img) {
-    border-radius: 1rem;
+  .choices button {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    width: 100%;
+    min-height: 3.25rem;
+    padding: var(--space-1);
+    border-radius: var(--radius-inner);
+    color: var(--text-muted);
+    font-size: var(--text-small);
+    text-align: left;
+    transition:
+      background-color var(--t-fast) var(--ease),
+      box-shadow var(--t-fast) var(--ease);
   }
 
-  /* Wide screens: the text keeps the content column's left edge; the collage runs wider, toward the window's edge */
+  .choices button[aria-pressed="true"] {
+    background: var(--surface);
+    box-shadow: 0 0 0 2px var(--accent);
+    color: var(--text);
+    font-weight: 620;
+  }
+
+  .thumb {
+    flex: none;
+    width: 1.875rem;
+    height: 2.625rem;
+    overflow: hidden;
+    border-radius: var(--radius-tag);
+    box-shadow: 0 0 0 1px var(--rule);
+  }
+
+  .thumb :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  /* Stacked in one space, so changing the choice moves nothing */
+  .results,
+  .foot {
+    display: grid;
+  }
+
+  .res,
+  .foot-row {
+    grid-area: 1 / 1;
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .res:global(.on),
+  .foot-row:global(.on) {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity var(--t-base) var(--ease);
+  }
+
+  .res {
+    margin-top: var(--space-2);
+  }
+
+  .biz {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-small);
+    font-weight: 620;
+    line-height: 1.2;
+    letter-spacing: -0.012em;
+  }
+
+  .biz i {
+    flex: none;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--client);
+    box-shadow: 0 0 0 1px var(--rule);
+  }
+
+  .fig {
+    margin-top: var(--space-1);
+    color: var(--accent);
+    font-size: var(--text-fig);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.024em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .line {
+    margin-top: var(--space-1);
+    font-size: var(--text-small);
+    line-height: 1.3;
+  }
+
+  .foot {
+    margin-top: var(--space-4);
+  }
+
+  .src {
+    display: block;
+    color: var(--text-muted);
+    font: 400 var(--text-mono) / 1.35 var(--font-mono);
+  }
+
+  .story {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target);
+    color: var(--accent);
+    font-size: var(--text-ui);
+    font-weight: 600;
+    text-underline-offset: 0.22em;
+    text-decoration-thickness: 1px;
+  }
+
+  .aside {
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--rule);
+    color: var(--text-muted);
+    font-size: var(--text-small);
+    line-height: 1.4;
+  }
+
+  /* Widened: words on the left, the window bleeding off the right edge, the phone over its corner */
   @media (min-width: 1024px) {
     .hero {
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-8);
-      max-width: none;
-      padding-left: max(var(--gutter), calc((100vw - var(--content-max)) / 2 + var(--gutter)));
-      padding-right: max(var(--gutter), calc((100vw - var(--content-max)) / 4));
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 54vw;
+      grid-template-rows: auto auto auto auto auto auto 1fr;
+      column-gap: clamp(6rem, 10vw, 12rem);
+      row-gap: var(--space-3);
+      padding-top: clamp(1rem, 2.6vh, 2rem);
+      padding-bottom: var(--space-9);
+      padding-inline: 0;
     }
+
+    h1,
+    .asking,
+    .aside,
+    .pick,
+    .results,
+    .foot {
+      grid-column: 1;
+      padding-left: var(--gutter);
+    }
+
+    h1 {
+      grid-row: 1 / 3;
+      letter-spacing: -0.034em;
+      line-height: 0.99;
+      margin-bottom: var(--space-2);
+    }
+
+    .intro {
+      grid-column: 2;
+      grid-row: 1;
+      margin: 0 0 var(--space-3);
+      padding-right: var(--gutter);
+      max-width: calc(30em + var(--gutter));
+    }
+
+    .asking {
+      grid-row: 3;
+      margin: 0;
+    }
+
+    .aside {
+      grid-row: 4;
+      margin: 0;
+      padding-top: 0;
+      border: 0;
+    }
+
+    /* A 44px target that doesn't push the lines apart */
+    .or a {
+      display: inline-block;
+      padding-block: var(--space-3);
+      margin-block: calc(-1 * var(--space-3));
+      color: var(--text);
+    }
+
+    .stage,
+    .side {
+      display: contents;
+    }
+
+    .pick {
+      grid-row: 5;
+    }
+
+    .choices {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-2);
+    }
+
+    .choices button {
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--space-1);
+      min-height: var(--target);
+      padding: 0;
+      background: none !important;
+      box-shadow: none !important;
+    }
+
+    .thumb {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      border-radius: var(--radius-screen);
+      box-shadow:
+        0 0 0 1px var(--rule),
+        0 2px 6px -2px color-mix(in oklch, var(--shadow-tint) 35%, transparent);
+      transition:
+        translate var(--t-fast) var(--ease),
+        box-shadow var(--t-fast) var(--ease);
+    }
+
+    .choices button:hover .thumb {
+      translate: 0 -2px;
+    }
+
+    .choices button[aria-pressed="true"] .thumb {
+      box-shadow:
+        0 0 0 2px var(--bg),
+        0 0 0 4px var(--accent);
+    }
+
+    .name {
+      font-size: var(--text-mono);
+      line-height: 1.2;
+    }
+
+    .results {
+      grid-row: 6;
+    }
+
+    .res {
+      margin: 0;
+    }
+
+    .foot {
+      grid-row: 7;
+      margin: 0;
+    }
+
+    .foot-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0 var(--space-4);
+    }
+
+    .src {
+      flex: 1 1 13rem;
+      font-size: 0.75rem;
+    }
+
+    .story {
+      font-size: var(--text-small);
+    }
+
+    .window {
+      grid-column: 2;
+      grid-row: 2 / 8;
+      align-self: start;
+      overflow: hidden;
+      border-radius: var(--radius-card) 0 0 var(--radius-card);
+      background: var(--surface);
+      box-shadow:
+        calc(var(--sun-shadow-x, 0px)) 28px 60px -22px color-mix(in oklch, var(--shadow-tint) 55%, transparent),
+        0 2px 4px color-mix(in oklch, var(--shadow-tint) 12%, transparent);
+    }
+
+    .bar {
+      display: grid;
+      grid-template-columns: 1fr;
+      align-items: center;
+      gap: var(--space-2);
+      height: 2.25rem;
+      padding-inline: var(--space-4);
+      border-bottom: 1px solid var(--rule);
+      color: var(--text-muted);
+      font: 400 0.75rem / 1 var(--font-mono);
+    }
+
+
+    .addr {
+      grid-area: 1 / 1;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      opacity: 0;
+    }
+
+    .addr i {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      background: var(--client);
+    }
+
+    .addr:global(.on) {
+      opacity: 1;
+    }
+
+    .shots {
+      position: relative;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+    }
+
+    .hit {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: none;
+    }
+
+    .hit:global(.on) {
+      display: block;
+    }
+
+    .ph {
+      grid-column: 2;
+      grid-row: 2 / 8;
+      z-index: 8;
+      align-self: end;
+      justify-self: start;
+      width: clamp(7.5rem, 10.4vw, 11rem);
+      aspect-ratio: 9 / 18;
+      margin-left: calc(3.6vw - clamp(7.5rem, 10.4vw, 11rem));
+      margin-bottom: calc(-1 * var(--space-5));
+      padding: var(--space-1);
+      pointer-events: none;
+    }
+
   }
 </style>
 
 <script>
-  const collage = document.querySelector<HTMLElement>("[data-collage]");
-  const moves = matchMedia("(pointer: fine) and (prefers-reduced-motion: no-preference)").matches;
-  if (collage && moves) {
-    const pieces = [...collage.querySelectorAll<HTMLElement>("[data-depth]")];
-    let frame = 0;
-    addEventListener("pointermove", (event) => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        // -1 to 1 across the window; each piece moves up to 14px times its depth
-        const dx = (event.clientX / innerWidth - 0.5) * 2;
-        const dy = (event.clientY / innerHeight - 0.5) * 2;
-        for (const piece of pieces) {
-          const depth = Number(piece.dataset.depth);
-          piece.style.setProperty("--x", `${(dx * 10 * depth).toFixed(1)}px`);
-          piece.style.setProperty("--y", `${(dy * 10 * depth).toFixed(1)}px`);
-        }
-      });
-    });
-    document.documentElement.addEventListener("pointerleave", () => {
-      for (const piece of pieces) {
-        piece.style.removeProperty("--x");
-        piece.style.removeProperty("--y");
+  const hero = document.querySelector<HTMLElement>("[data-hero]");
+  if (hero) {
+    const buttons = [...hero.querySelectorAll<HTMLButtonElement>("[data-choose]")];
+    const prime = () => hero.classList.add("primed");
+    const group = hero.querySelector(".pick")!;
+    for (const type of ["pointerover", "touchstart", "focusin"]) {
+      group.addEventListener(type, prime, { once: true, passive: true });
+    }
+
+    const choose = (id: string) => {
+      prime();
+      for (const button of buttons) {
+        button.setAttribute("aria-pressed", String(button.dataset.choose === id));
       }
-    });
+      for (const el of hero.querySelectorAll<HTMLElement>("[data-res]")) {
+        el.classList.toggle("on", el.dataset.res === id);
+      }
+      // Each picture set (the phone's, the window's): the old picture stays until the new one is ready
+      for (const set of hero.querySelectorAll<HTMLElement>(".screen, .shots")) {
+        const next = set.querySelector<HTMLImageElement>(`[data-shot="${id}"]`);
+        if (!next || !next.getClientRects().length) continue;
+        next.loading = "eager";
+        const swap = () => {
+          // A later choice has already moved on
+          if (hero.querySelector(`[data-choose="${id}"]`)?.getAttribute("aria-pressed") !== "true") return;
+          for (const img of set.querySelectorAll<HTMLImageElement>("[data-shot]")) {
+            img.classList.toggle("on", img === next);
+          }
+        };
+        next.decode().then(swap, swap);
+      }
+    };
+    for (const button of buttons) {
+      button.addEventListener("click", () => choose(button.dataset.choose!));
+    }
   }
 </script>

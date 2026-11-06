@@ -67,6 +67,20 @@ const projectSchema = z.object({
   outcome: z.string(),
   /** What the business had before, in a few words, when there's no old site to show (null when there is) */
   beforeShort: z.string().nullable(),
+  /**
+   * How the project appears in the home page's opening. Its figure and line are the project's first result. `order`
+   * places it in the switcher; `beforePhone` is the old site as seen in a phone-shaped frame, shown whole when `beforeFit`.
+   */
+  hero: z.object({
+    order: z.number().int(),
+    label: z.string(),
+    shortName: z.string(),
+    kindLine: z.string(),
+    address: z.string(),
+    source: z.string(),
+    beforePhone: z.string().nullable(),
+    beforeFit: z.boolean().default(false),
+  }),
   screens: z.object({ desktop: image, phone: image }),
   /**
    * The address the preview window opens, showing the client's live site. null when the site refuses to be shown
@@ -125,6 +139,15 @@ const all = z.array(projectSchema).parse([
     logo: { src: "fanzi-pet/logo.webp", on: "light" },
     outcome: "Prices, booking and an address check, all on one page",
     beforeShort: null,
+    hero: {
+      order: 1,
+      label: "Groomer",
+      shortName: "Fanzi Pet",
+      kindLine: "Dog grooming, San Antonio and Irving",
+      address: "fanzipet.com",
+      source: "Results so far, November 2026",
+      beforePhone: "fanzi-pet/before-home-phone.jpg",
+    },
     screens: {
       desktop: {
         src: "fanzi-pet/site-home-desktop.jpg",
@@ -276,6 +299,15 @@ const all = z.array(projectSchema).parse([
     logo: { src: "hair-by-christopher/logo.png", on: "dark" },
     outcome: "299 direction requests in five months",
     beforeShort: "A booking-app page, and nothing on Google",
+    hero: {
+      order: 2,
+      label: "Stylist",
+      shortName: "Hair By Christopher",
+      kindLine: "Hair stylist, Downtown San Antonio",
+      address: "christophercolors.com",
+      source: "Google Business Profile, June to October 2026",
+      beforePhone: null,
+    },
     screens: {
       desktop: {
         src: "hair-by-christopher/site-home-desktop.jpg",
@@ -405,6 +437,16 @@ const all = z.array(projectSchema).parse([
     logo: { src: "agsa-flyers/logo.png", on: "light" },
     outcome: "Income doubled in a year",
     beforeShort: null,
+    hero: {
+      order: 4,
+      label: "Gym",
+      shortName: "Acrobatic Gymnastics",
+      kindLine: "Gymnastics gym, San Antonio",
+      address: "agsaflyers.com, archived 2023",
+      source: "The gym’s own figures",
+      beforePhone: "agsa-flyers/old-site-home-desktop.jpg",
+      beforeFit: true,
+    },
     screens: {
       desktop: {
         src: "agsa-flyers/site-home-desktop.jpg",
@@ -533,6 +575,15 @@ const all = z.array(projectSchema).parse([
     logo: { src: "shawarma-way/logo.png", on: "light" },
     outcome: "The main photo loads almost twice as fast on phones",
     beforeShort: null,
+    hero: {
+      order: 3,
+      label: "Restaurant",
+      shortName: "Shawarma Way",
+      kindLine: "Restaurant, Irving",
+      address: "Preview: photos are AI placeholders",
+      source: "Lighthouse, 3 November 2026",
+      beforePhone: "shawarma-way/before-home-phone.jpg",
+    },
     screens: {
       desktop: {
         src: "shawarma-way/site-home-desktop.jpg",

@@ -2,46 +2,39 @@
 import { site } from "../data/site";
 ---
 
-<footer class="footer on-deep deep">
-  <div class="container inner">
-    <p>
-      <strong>{site.name}</strong>
-      <span class="muted">{site.footer.about.replace("{city}", `${site.city}, Texas`)}</span>
-    </p>
-    <p class="contact">
-      <a class="link" href={`mailto:${site.email}`}>
-        {site.email}
-      </a>
-      <a class="link" href={`sms:${site.phoneSms}`}>
-        {site.phone}
-      </a>
-      <span class="muted">© {new Date().getFullYear()}</span>
-    </p>
-  </div>
+<footer class="footer container">
+  <p><strong>{site.name}</strong></p>
+  <p>{site.footer.about.replace("{city}", site.city)}</p>
+  <p class="contact">
+    <a href={`mailto:${site.email}`}>{site.email}</a>
+    <a href={`sms:${site.phoneSms}`}>{site.phone}</a>
+  </p>
+  <p class="door">
+    {site.footer.hiring}{" "}
+    <a class="link" href="/resume/">{site.footer.resume}</a>
+  </p>
+  <p>© {new Date().getFullYear()}</p>
 </footer>
 
 <style>
   .footer {
-    padding-block: var(--space-7) var(--space-8);
+    padding-block: var(--space-5) var(--space-4);
+    color: var(--text-muted);
     font-size: var(--text-small);
   }
 
-  .inner {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: var(--space-3) var(--space-6);
+  strong {
+    color: var(--text);
   }
 
-  .inner p {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-1) var(--space-4);
+  a {
+    display: inline-flex;
     align-items: center;
+    min-height: var(--target);
+    color: var(--text);
   }
 
   .contact a {
-    display: inline-block;
-    margin-block: var(--space-2);
+    margin-right: var(--space-5);
   }
 </style>
