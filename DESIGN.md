@@ -298,7 +298,8 @@ switches instantly, Reels start paused, and every transition is instant.
 
 - **Header:** phones: the logo plate, which scrolls away. Desktop: the logo plate, and a plate with links, the theme
   toggle and "Text me" in marigold.
-- **Dock:** phones only: Menu, Free plan, Text me; holds the menu sheet (links and the theme toggle).
+- **Dock:** phones only: Menu, Free plan, Text me; holds the menu sheet (Home first, because the logo scrolls away on
+  phones; then the links and the theme toggle). Desktop needs no Home link: its logo stays pinned.
 - **Footer:** name and city, email, text number, year, and the door for employers: "Hiring a developer?" with the
   resume.
 - **WindowLight:** the fixed panes of light behind every page. Hidden in print.

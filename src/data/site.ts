@@ -41,7 +41,7 @@ const siteSchema = z.object({
     closingHeading: z.string(),
     closingText: z.string(),
   }),
-  dock: z.object({ label: z.string(), menu: z.string(), plan: z.string(), close: z.string() }),
+  dock: z.object({ label: z.string(), menu: z.string(), home: z.string(), plan: z.string(), close: z.string() }),
   footer: z.object({ about: z.string(), hiring: z.string(), resume: z.string() }),
   theme: z.object({ toLight: z.string(), toDark: z.string() }),
   preview: z.object({
@@ -142,7 +142,7 @@ export const site = siteSchema.parse({
     closingHeading: "Let’s get your business more customers.",
     closingText: "Based in San Antonio. I’ll come to you, or we can talk by phone.",
   },
-  dock: { label: "Quick actions", menu: "Menu", plan: "Free plan", close: "Close" },
+  dock: { label: "Quick actions", menu: "Menu", home: "Home", plan: "Free plan", close: "Close" },
   footer: {
     about: "Websites, brands and social media for local businesses. Based in {city}.",
     hiring: "Hiring a developer?",

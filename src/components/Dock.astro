@@ -17,6 +17,7 @@ import { site } from "../data/site";
 
   <dialog class="sheet" aria-label={site.dock.menu} data-menu>
     <button class="close" type="button" data-menu-close>{site.dock.close}</button>
+    <a href="/">{site.dock.home}</a>
     {site.navigation.map((item) => <a href={item.href}>{item.label}</a>)}
     <ThemeToggle labeled />
   </dialog>
