@@ -47,6 +47,15 @@ const personSchema = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <!-- Inline, not in global.css: Chromium drops the page transition on most clicks when this rule is in a stylesheet
+         the browser has to revalidate, which our hosting makes it do on every page. Safari doesn't mind. -->
+    <style is:inline>
+      @media (prefers-reduced-motion: no-preference) {
+        @view-transition {
+          navigation: auto;
+        }
+      }
+    </style>
     <!-- Before anything paints: the visitor's saved look, else light (DESIGN.md → Color) -->
     <script is:inline>
       (() => {

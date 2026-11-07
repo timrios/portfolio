@@ -412,14 +412,8 @@ p {
 }
 
 /* Moving between pages: a project's name travels from its work card to the page's heading (a shared
-   view-transition-name), everything else fades.
+   view-transition-name), everything else fades. The rule that turns this on is inline in BaseLayout, which explains why.
    Browsers without this simply load the next page. The theme's circular reveal is set per transition by ThemeToggle. */
-@media (prefers-reduced-motion: no-preference) {
-  @view-transition {
-    navigation: auto;
-  }
-}
-
 ::view-transition-group(*),
 ::view-transition-old(*),
 ::view-transition-new(*) {
