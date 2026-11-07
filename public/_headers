@@ -1,3 +1,7 @@
 # Built assets (CSS, JS, images, fonts) have content-hashed names, so browsers can keep them for good
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
+
+# The workers.dev copy stays out of search so timrios.dev is the only indexed address
+https://timrios.myrrh-billion-34.workers.dev/*
+  X-Robots-Tag: noindex
