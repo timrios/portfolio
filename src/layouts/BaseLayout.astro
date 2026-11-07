@@ -56,7 +56,7 @@ const personSchema = {
         }
       }
     </style>
-    <!-- Before anything paints: the visitor's saved look, else light (DESIGN.md → Color) -->
+    <!-- Before anything paints: the visitor's saved look, else dark (DESIGN.md → Color) -->
     <script is:inline>
       (() => {
         const root = document.documentElement;
@@ -65,7 +65,7 @@ const personSchema = {
         try {
           saved = localStorage.getItem("theme");
         } catch {}
-        root.dataset.theme = saved === "dark" ? "dark" : "light";
+        root.dataset.theme = saved === "light" ? "light" : "dark";
       })();
     </script>
     <title>{pageTitle}</title>

@@ -1,6 +1,6 @@
 /* Design tokens from DESIGN.md. Change DESIGN.md first, then this file, then components.
-   Light is the default; html[data-theme="dark"] switches every semantic token. A script in the page head sets
-   data-theme before the page paints, from the visitor's saved choice or else light. */
+   Dark is the default (Tim, 2026-11-07); html[data-theme="dark"] switches every semantic token. A script in the page head sets
+   data-theme before the page paints, from the visitor's saved choice or else dark. */
 :root {
   /* Palette: the live oak family (DESIGN.md → Color) */
   --color-oak-deep: oklch(31.5% 0.052 167);

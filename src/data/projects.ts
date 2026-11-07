@@ -494,19 +494,19 @@ const all = z.array(projectSchema).parse([
       {
         service: "Brand",
         heading: "A star for the gym",
-        text: "I designed the AGSA logo, a star with a gymnast at its center, and the tuition calendars that tell parents when each four-week session is billed and when the gym is closed.",
+        text: "I designed the AGSA logo, a star with a gymnast at its center, and the letterhead the gym uses for its letters to families, shown here on the welcome letter every new member receives.",
         points: [],
         images: [
           {
             src: "agsa-flyers/logo.png",
-            alt: "The AGSA logo: a red-outlined star with a gymnast in blue at its center, beside the words Acrobatic Gymnastics of San Antonio",
+            alt: "The AGSA logo: a red-outlined star with a black gymnast figure at its center, beside the words Acrobatic Gymnastics of San Antonio",
             caption: "The logo.",
             treatment: "artwork-on-light",
           },
           {
-            src: "agsa-flyers/tuition-calendar.jpg",
-            alt: "The AGSA tuition payment calendar: twelve color-coded months, one color per four-week session, with closures marked in red",
-            caption: "The tuition payment calendar, 2026 edition.",
+            src: "agsa-flyers/new-client-letter.jpg",
+            alt: "The AGSA welcome letter on the gym’s letterhead: the logo and the words Make New Friends, Increase Self-Esteem, Have Fun across the top, a faint gymnast behind the text, and the phone, address and website along the bottom",
+            caption: "The letterhead, on the new-member welcome letter.",
             treatment: "artwork-on-light",
           },
         ],

@@ -33,7 +33,7 @@ most visitors are on phones.
 4. **Calm, with a job.** One set of timings (see Motion). Motion answers the visitor, or plays once. No breathing glows,
    no count-ups, no pointer-following. The only ambient things are the window light on desktop and the one Reel, which
    can be paused.
-5. **Open in daylight, after hours on request.** Both looks are complete; the site opens light and remembers a
+5. **Open after hours, daylight on request** (Tim, 2026-11-07). Both looks are complete; the site opens dark and remembers a
    visitor's switch.
 6. **Proof next to every claim.** Results name their business and their source and date. DM Mono marks these proof tags.
 7. **Built to be read by two people.** The copy speaks to owners; the discipline (one system, fast, accessible) is
@@ -60,8 +60,8 @@ most visitors are on phones.
 daylight, with one marigold accent for the thing to press. One hue is a family of three shades, each with a job:
 **oak deep** carries whole bands and the menu plates, **oak** does links and figures, **limestone** is the page.
 
-Two complete looks, **light by default**. `html[data-theme]` holds the look; an inline script in the head applies the
-visitor's saved choice, else light, before the page paints. The dark look, "after hours", is the same hue at night, not
+Two complete looks, **dark by default** (Tim, 2026-11-07). `html[data-theme]` holds the look; an inline script in the head applies the
+visitor's saved choice, else dark, before the page paints. The dark look, "after hours", is the same hue at night, not
 a neutral gray, so both looks are one brand. Colors are written in OKLCH in `global.css`.
 
 ### Palette
