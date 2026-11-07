@@ -11,7 +11,7 @@ export const process = z
     },
     {
       id: "plan",
-      name: "A plan and a quote",
+      name: "A free plan and quote",
       text: "I suggest what would help most and quote it for your business. No packages to squeeze into.",
     },
     {

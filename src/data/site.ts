@@ -28,6 +28,8 @@ const siteSchema = z.object({
     /** {who} is the project's name */
     storyLabel: z.string(),
     resultsLabel: z.string(),
+    /** Where the band's numbers come from */
+    resultsSource: z.string(),
     quotesHeading: z.string(),
     draftLabel: z.string(),
     beforeLabel: z.string(),
@@ -39,11 +41,14 @@ const siteSchema = z.object({
     servicesHeading: z.string(),
     processHeading: z.string(),
     processIntro: z.string(),
+    questionsHeading: z.string(),
+    questionsIntro: z.string(),
     closingHeading: z.string(),
+    /** {name} and {city} are filled in by the component */
     closingText: z.string(),
   }),
-  dock: z.object({ label: z.string(), menu: z.string(), home: z.string(), plan: z.string(), close: z.string() }),
-  footer: z.object({ about: z.string(), hiring: z.string(), resume: z.string() }),
+  dock: z.object({ label: z.string(), menu: z.string(), home: z.string(), quote: z.string(), close: z.string() }),
+  footer: z.object({ about: z.string(), hiring: z.string(), resume: z.string(), or: z.string(), buildNotes: z.string() }),
   theme: z.object({ toLight: z.string(), toDark: z.string() }),
   preview: z.object({
     open: z.string(),
@@ -110,7 +115,7 @@ export const site = siteSchema.parse({
   home: {
     headlineLines: ["More customers", "for your business."],
     lede: "Websites, logos, Google listings and social media for San Antonio businesses.",
-    primaryAction: { label: "Get a free plan for your business", href: "/contact/" },
+    primaryAction: { label: "Get a free quote for your business", href: "/contact/" },
     textAction: "Text me",
     ask: {
       label: "What’s holding your business back?",
@@ -121,13 +126,15 @@ export const site = siteSchema.parse({
         "I never have time for social media…",
         "I need my first website…",
       ],
-      submit: "Get a free plan",
+      submit: "Get a free quote",
     },
-    timing: "Most websites are ready in 2 to 4 weeks. The first conversation is free.",
+    timing: "Most websites are ready in 2 to 4 weeks. The first conversation and the quote are free.",
     orText: "Or text",
     switcherLabel: "See the site I built for a",
-    storyLabel: "Read the {who} story",
+    storyLabel: "Read the story of {who}",
     resultsLabel: "Results for local businesses",
+    resultsSource:
+      "Sources: the gym’s own figures (2012), Google Business Profile (June to October 2026), Google Analytics (July and August 2026 against 2025).",
     workHeading: "Four businesses. Four different looks.",
     workIntro:
       "A dog groomer, a hair stylist, a gymnastics gym and a shawarma restaurant don’t share customers, so they shouldn’t share a look. Each one is designed around the business, never a template. Press Before to see where each one started.",
@@ -141,14 +148,18 @@ export const site = siteSchema.parse({
     processHeading: "From first text to live site.",
     processIntro:
       "No packages: every quote fits the business. Most websites are ready in 2 to 4 weeks.",
+    questionsHeading: "Before you ask.",
+    questionsIntro: "Straight answers about money, ownership and who does the work.",
     closingHeading: "Let’s get your business more customers.",
-    closingText: "Based in San Antonio. I’ll come to you, or we can talk by phone.",
+    closingText: "I’m {name}, based in {city}. I’ll come to you, or we can talk by phone.",
   },
-  dock: { label: "Quick actions", menu: "Menu", home: "Home", plan: "Free plan", close: "Close" },
+  dock: { label: "Quick actions", menu: "Menu", home: "Home", quote: "Free quote", close: "Close" },
   footer: {
     about: "Websites, brands and social media for local businesses. Based in {city}.",
     hiring: "Hiring a developer?",
     resume: "See my resume",
+    or: "or",
+    buildNotes: "how this site was built",
   },
   theme: { toLight: "Daylight look", toDark: "After-hours look" },
   preview: {
@@ -176,7 +187,7 @@ export const site = siteSchema.parse({
       "Tell Tim Rios about your business: a new website, a logo or brand, signs, vehicle wraps or packaging, or social media. The first conversation is free.",
     heading: "Tell me about your business.",
     intro:
-      "What do you do, and what isn't working yet? A few sentences is plenty. The first conversation is free.",
+      "What do you do, and what isn't working yet? A few sentences is plenty. The conversation and the quote are free, and you decide from there.",
     needsLegend: "What do you need? Tick any that fit.",
     needs: [
       "A new website",

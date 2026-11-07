@@ -83,6 +83,25 @@ const published = new Map(projects.map((project) => [project.id, project]));
     rotate: 72deg;
   }
 
+  /* Answers slide open where the browser can animate to a natural height; elsewhere they simply appear */
+  @media (prefers-reduced-motion: no-preference) {
+    details {
+      interpolate-size: allow-keywords;
+    }
+
+    details::details-content {
+      block-size: 0;
+      overflow: clip;
+      transition:
+        block-size var(--t-base) var(--ease),
+        content-visibility var(--t-base) allow-discrete;
+    }
+
+    details[open]::details-content {
+      block-size: auto;
+    }
+  }
+
   .answer {
     padding-bottom: var(--space-5);
     line-height: 1.42;

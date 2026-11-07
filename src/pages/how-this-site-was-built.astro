@@ -1,0 +1,77 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ResultsBand from "../components/ResultsBand.astro";
+import { buildNotes } from "../data/build-notes";
+---
+
+<BaseLayout title={buildNotes.title} description={buildNotes.description} image="social/home.jpg">
+  <header class="intro container">
+    <h1>{buildNotes.heading}</h1>
+    <p class="lede">{buildNotes.intro}</p>
+  </header>
+
+  <ResultsBand items={buildNotes.measured} source={buildNotes.measuredSource} label={buildNotes.measuredLabel} />
+
+  <div class="container section notes">
+    {buildNotes.sections.map((section) => (
+      <section aria-labelledby={section.id}>
+        <h2 id={section.id}>{section.heading}</h2>
+        <p>{section.text}</p>
+      </section>
+    ))}
+  </div>
+
+  <div class="container actions">
+    <a class="btn btn--primary" href="/resume/">{buildNotes.resumeAction}</a>
+    <a class="btn btn--ghost" href="/contact/">{buildNotes.contactAction}</a>
+  </div>
+</BaseLayout>
+
+<style>
+  .intro {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-7);
+  }
+
+  .lede {
+    margin-top: var(--space-4);
+  }
+
+  .notes {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  h2 {
+    font-size: var(--text-3);
+    letter-spacing: -0.022em;
+    line-height: 1.12;
+  }
+
+  section p {
+    margin-top: var(--space-3);
+    max-width: var(--content-narrow);
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+
+  .actions {
+    display: grid;
+    gap: var(--space-2);
+    padding-bottom: var(--section);
+  }
+
+  @media (min-width: 640px) {
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .notes {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-8) var(--space-9);
+    }
+  }
+</style>

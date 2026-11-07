@@ -191,7 +191,7 @@ nothing waits on a third party (the variable file is about 116 KB and is preload
 
 ## Layout
 
-- **Content width:** `--content-max` 76rem; `--content-narrow` 38rem. **Gutters:** `--gutter`, 1.25rem on phones,
+- **Content width:** `--content-max` 120rem (2026-11-06: wide enough that sections line up with the hero's left edge at every common desktop width); `--content-narrow` 38rem. **Gutters:** `--gutter`, 1.25rem on phones,
   growing to `clamp(1.25rem, 4.45vw, 5rem)` from `lg`.
 - **Section spacing:** `--section`, `clamp(3.25rem, 8vw, 6rem)`.
 - **Bottom of every page on phones:** room for the dock, `--dock` 3.75rem plus the safe area.
@@ -216,7 +216,7 @@ Home (phone)                         Home (desktop, from lg)
 │   open at a time)     │
 │ Steps on a rail       │
 │ Closing, footer       │
-│ [Menu][Free plan][Text]│ dock, pinned
+│ [Menu][Free quote][Text]│ dock, pinned
 └───────────────────────┘
 ```
 
@@ -273,7 +273,11 @@ One set of timings, used everywhere, all on one curve, `--ease` (`cubic-bezier(.
 | Element            | Behavior                                                                          |
 | ------------------ | --------------------------------------------------------------------------------- |
 | **Window light**   | Behind every page, panes of sunlight fall across the page, like a shop window. Desktop only: it follows the real sun over San Antonio (angle, height, warmth) and drifts very slowly. Phones get a still version, with no script and no animation. |
-| **Dock (phones)**  | Menu and Text me sit under the thumb. "Free plan" joins once the question box scrolls away. The dock steps aside for the keyboard and for the closing band. The logo scrolls away at the top. |
+| **Before/after wipe** | The work cards wait in their "before" state below the fold and wipe to today's sites once, half a second after coming into view. Skipped if the visitor has pressed the switch, if the cards are already on screen at load, and under reduced motion. |
+| **Page change**    | A project's name travels from its work card to the project page's heading; everything else cross-fades (`@view-transition`, `--t-sweep`). The name moves, not the screenshot: a blown-up screenshot blurs across the page. Browsers without it load the page normally. |
+| **Sound familiar answers** | Slide open with `::details-content` and `interpolate-size`, at `--t-base`; elsewhere they simply appear. |
+| **Step rail**      | Fills with `--action` as the steps scroll past (`animation-timeline: view()`), step by step on desktop. Elsewhere, and under reduced motion, a plain `--rule` line. |
+| **Dock (phones)**  | Menu and Text me sit under the thumb. "Free quote" joins once the question box scrolls away. The dock steps aside for the keyboard and for the closing band. The logo scrolls away at the top. |
 | **Menu sheet**     | A native dialog rising from the bottom; closes by the backdrop, Close, Escape, or a link. |
 | **Hero switcher**  | One choice drives everything: the picture, the name, the result. Results sit stacked in one space, so nothing jumps. |
 | **Work switch**    | Before and After wipe all four cards left to right (`clip-path`, `--t-sweep`), 60ms apart, so they read as one gesture. Instant, with no stagger, under reduced motion. |
@@ -297,9 +301,9 @@ switches instantly, Reels start paused, and every transition is instant.
 
 - **Header:** phones: the logo plate, which scrolls away. Desktop: the logo plate, and a plate with links, the theme
   toggle and "Text me" in marigold.
-- **Dock:** phones only: Menu, Free plan, Text me; holds the menu sheet (Home first, because the logo scrolls away on
+- **Dock:** phones only: Menu, Free quote, Text me; holds the menu sheet (Home first, because the logo scrolls away on
   phones; then the links and the theme toggle). Desktop needs no Home link: its logo stays pinned.
-- **Footer:** name and city, email, text number, year, and the door for employers: "Hiring a developer?" with the
+- **Footer:** name and city, email, text number, year, and the door for employers (the resume and `/how-this-site-was-built/`): "Hiring a developer?" with the
   resume.
 - **WindowLight:** the fixed panes of light behind every page. Hidden in print.
 - **HomeHero:** the headline, what Tim does, the ask box, then the work. Phones: a real phone beside its switcher.
@@ -308,7 +312,7 @@ switches instantly, Reels start paused, and every transition is instant.
   (`--space-3` apart); the work (switcher, result, source). A hairline in `--rule` opens the work group, with
   `--hero-gap` either side of it (`--space-5` to `--space-6`, by screen height). "Read the story" sits beside the result
   figure on desktop, so it stays on the first screen on short laptops; on phones it follows the source line.
-- **AskBox:** a labeled field with typed examples and a "Get a free plan" button, posting to `/contact/?need=…`, which
+- **AskBox:** a labeled field with typed examples and a "Get a free quote" button, posting to `/contact/?need=…`, which
   prefills the message.
 - **ResultsBand:** home: the featured results (`band` text in `projects.ts`), each naming its kind of business, two
   across on phones. Project pages: that project's results and source.
@@ -325,7 +329,8 @@ switches instantly, Reels start paused, and every transition is instant.
   "Browse the site" (opens **ProjectPreview**); the results band with its source; the before story with the CompareSlider and the phone view;
   each section with a service tag, text, points (accent dots) and gallery (Fanzi's social section shows its Reels);
   the client's quote (when approved); the next project as a card with its screenshot; the closing band.
-- **Quotes:** client quotes from `quotes.ts`, as cards. Drafts show labeled "Draft, awaiting the client's OK" until the
+- **Questions:** the home page's "Before you ask" section, from `questions.ts`: one raised sheet, question left and answer right, stacked on phones. Plain rows rather than a second accordion, because these answers should be read without opening anything.
+- **Quotes:** client quotes from `quotes.ts`, as cards, three across from `lg`, stacked on phones. Drafts show labeled "Draft, awaiting the client's OK" until the
   site opens to search engines; after that, only `approved` quotes appear. On the home page the cards also break up the
   plain stretch between "Four different looks" and the Reel.
 - **FeaturedReel:** one Reel in a phone, its story beside it (below on phones), stills to switch to the others, a pause

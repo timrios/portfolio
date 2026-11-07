@@ -115,7 +115,10 @@ const { labeled = false } = Astro.props;
       const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
       const sweep = getComputedStyle(root).getPropertyValue("--t-sweep");
       const ease = getComputedStyle(root).getPropertyValue("--ease");
-      document.startViewTransition(apply).ready.then(() => {
+      root.classList.add("theme-sweep");
+      const sweepIn = document.startViewTransition(apply);
+      void sweepIn.finished.finally(() => root.classList.remove("theme-sweep"));
+      sweepIn.ready.then(() => {
         root.animate(
           { clipPath: [`circle(0 at ${x}px ${y}px)`, `circle(${r}px at ${x}px ${y}px)`] },
           {
@@ -132,9 +135,14 @@ const { labeled = false } = Astro.props;
 </script>
 
 <style is:global>
-  /* The circle replaces the browser's default cross-fade */
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
+  /* The circle replaces the browser's default cross-fade, for this switch only: moving between pages keeps the fade */
+  /* A card keeps its page-to-page name otherwise, and would cross-fade on its own above the circle */
+  .theme-sweep * {
+    view-transition-name: none !important;
+  }
+
+  .theme-sweep::view-transition-old(root),
+  .theme-sweep::view-transition-new(root) {
     animation: none;
     mix-blend-mode: normal;
   }

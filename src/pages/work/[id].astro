@@ -50,7 +50,7 @@ const hasReels = reels.some((reel) => reel.projectId === project.id);
       {project.kind}, {project.place}
       {project.status === "in-progress" && <span class="status">{labels.inProgress}</span>}
     </p>
-    <h1>{project.name}</h1>
+    <h1 style={`view-transition-name: project-${project.id}`}>{project.name}</h1>
     <p class="lede">{project.summary}</p>
     <ul class="facts">
       <li>
@@ -198,6 +198,7 @@ const hasReels = reels.some((reel) => reel.projectId === project.id);
   }
 
   h1 {
+    width: fit-content;
     margin-top: var(--space-3);
   }
 

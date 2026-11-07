@@ -27,7 +27,9 @@ const sizes = "(min-width: 768px) 25vw, 50vw";
           <div class="old empty"><p>{project.beforeShort}</p></div>
         )}
       </div>
-      <h3 id={`work-${project.id}`}>{project.hero.shortName}</h3>
+      <h3 id={`work-${project.id}`} style={`view-transition-name: project-${project.id}`}>
+        {project.hero.shortName}
+      </h3>
       <p class="kind">
         <i aria-hidden="true"></i>
         <span>
@@ -141,6 +143,7 @@ const sizes = "(min-width: 768px) 25vw, 50vw";
   }
 
   h3 {
+    width: fit-content;
     margin-top: var(--space-3);
     font-size: var(--text-4);
   }
@@ -214,10 +217,35 @@ const sizes = "(min-width: 768px) 25vw, 50vw";
 <script>
   const buttons = document.querySelectorAll<HTMLButtonElement>("[data-work-switch] button");
   const grid = document.querySelector("[data-work-grid]");
+  const show = (side: string) => {
+    for (const button of buttons) button.setAttribute("aria-pressed", String(button.dataset.show === side));
+    grid?.classList.toggle("before", side === "before");
+  };
+  let pressed = false;
   for (const button of buttons) {
     button.addEventListener("click", () => {
-      for (const other of buttons) other.setAttribute("aria-pressed", String(other === button));
-      grid?.classList.toggle("before", button.dataset.show === "before");
+      pressed = true;
+      show(button.dataset.show!);
     });
+  }
+
+  // Many visitors never press the switch, so it shows what it does once: the cards wait below the fold as they were, and
+  // wipe to today's sites the first time they come into view. Skipped if they're already on screen when the page opens
+  // (coming back from a project), and under reduced motion.
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (grid && !still && grid.getBoundingClientRect().top > innerHeight) {
+    show("before");
+    const watch = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        watch.disconnect();
+        setTimeout(() => {
+          if (!pressed) show("after");
+        }, 500);
+      },
+      // A margin, not a share of the grid: on a phone the grid is taller than the screen
+      { rootMargin: "0px 0px -40% 0px" },
+    );
+    watch.observe(grid);
   }
 </script>

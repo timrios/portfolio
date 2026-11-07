@@ -5,8 +5,8 @@ import { process } from "../data/process";
 ---
 
 <ol class="steps">
-  {process.map((step) => (
-    <li>
+  {process.map((step, i) => (
+    <li style={`--i: ${i}`}>
       <h3>{step.name}</h3>
       <p>{step.text}</p>
     </li>
@@ -54,6 +54,34 @@ import { process } from "../data/process";
     left: calc(var(--dot) / 2 - 1px);
     width: 2px;
     background: var(--rule);
+  }
+
+  /* The rail fills in as the steps scroll past, one after another. Without scroll timelines it stays a plain line. */
+  @keyframes rail-fill {
+    to {
+      background-size: 100% 100%;
+    }
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      li:not(:last-child)::after {
+        background: linear-gradient(var(--action), var(--action)) no-repeat top left / 100% 0 var(--rule);
+        /* Long form on purpose: from the `animation` shorthand, the minifier writes a form Chrome rejects */
+        animation-name: rail-fill;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: view();
+        animation-range: cover 25% cover 55%;
+      }
+
+      @media (min-width: 1024px) {
+        li:not(:last-child)::after {
+          background-size: 0 100%;
+          animation-range: cover calc(15% + var(--i) * 9%) cover calc(24% + var(--i) * 9%);
+        }
+      }
+    }
   }
 
   h3 {

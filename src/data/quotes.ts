@@ -29,8 +29,16 @@ export const quotes = z
       id: "fanzi",
       projectId: "fanzi-pet",
       text: "Tim designed our logo, our treat bags, our van and our website, so everything finally looks like us. Customers recognize the van before they even read the name.",
-      name: "Owner",
+      name: "Amjad Saleh",
       role: "Fanzi Pet",
+      approved: false,
+    },
+    {
+      id: "shawarma-way",
+      projectId: "shawarma-way",
+      text: "Our old site could have been any restaurant. Tim built the new one from our logo, our fire and our room, so now it actually looks like the place people walk into.",
+      name: "Khader Sawan",
+      role: "Shawarma Way",
       approved: false,
     },
   ]);

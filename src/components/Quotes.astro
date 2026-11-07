@@ -52,7 +52,7 @@ const clients = new Map(projects.map((project) => [project.id, project]));
   }
 
   blockquote p {
-    font-size: 1.3125rem;
+    font-size: var(--text-4);
     line-height: 1.45;
     letter-spacing: -0.01em;
   }
@@ -86,7 +86,11 @@ const clients = new Map(projects.map((project) => [project.id, project]));
 
   @media (min-width: 1024px) {
     .quotes {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    blockquote p {
+      font-size: var(--text-lede);
     }
   }
 </style>

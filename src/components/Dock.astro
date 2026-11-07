@@ -1,5 +1,5 @@
 ---
-// Phones: what you act on sits under the thumb. Menu and Text me are always here; Free plan joins once the question box
+// Phones: what you act on sits under the thumb. Menu and Text me are always here; Free quote joins once the question box
 // has scrolled away. The dock steps aside for the keyboard and for the closing band. Menu opens a native dialog sheet.
 import ThemeToggle from "./ThemeToggle.astro";
 import { site } from "../data/site";
@@ -11,7 +11,7 @@ import { site } from "../data/site";
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"></path></svg>
       {site.dock.menu}
     </button>
-    <a class="plan" href={site.home.primaryAction.href}>{site.dock.plan}</a>
+    <a class="quote" href={site.home.primaryAction.href}>{site.dock.quote}</a>
     <a class="text" href={`sms:${site.phoneSms}`}>{site.home.textAction}</a>
   </nav>
 
@@ -73,7 +73,7 @@ import { site } from "../data/site";
     stroke-width: 1.6;
   }
 
-  .plan {
+  .quote {
     overflow: hidden;
     max-width: 0;
     padding-inline: 0;
@@ -85,7 +85,7 @@ import { site } from "../data/site";
       opacity var(--t-base) var(--ease);
   }
 
-  .dock:global(.past) .plan {
+  .dock:global(.past) .quote {
     max-width: 9rem;
     padding-inline: var(--space-3);
     opacity: 1;
@@ -153,7 +153,7 @@ import { site } from "../data/site";
   const dock = document.querySelector<HTMLElement>("[data-dock]");
   const sheet = document.querySelector<HTMLDialogElement>("[data-menu]");
   if (dock && sheet) {
-    // "Free plan" joins once the question box is gone; pages without one (except Contact itself) show it from the start
+    // "Free quote" joins once the question box is gone; pages without one (except Contact itself) show it from the start
     const ask = document.querySelector("[data-ask]");
     if (ask) {
       new IntersectionObserver(([entry]) => {

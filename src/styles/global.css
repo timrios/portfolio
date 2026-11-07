@@ -101,7 +101,7 @@
   --space-9: 4.5rem;
   --gutter: 1.25rem;
   --section: clamp(3.25rem, 8vw, 6rem);
-  --content-max: 76rem;
+  --content-max: 120rem;
   --content-narrow: 38rem;
   --dock: 3.75rem;
   --target: 2.75rem;
@@ -411,9 +411,18 @@ p {
   text-decoration-thickness: 2px;
 }
 
-/* The theme's circular reveal is set per transition by ThemeToggle; every other view transition keeps one timing */
-::view-transition-old(root),
-::view-transition-new(root) {
+/* Moving between pages: a project's name travels from its work card to the page's heading (a shared
+   view-transition-name), everything else fades.
+   Browsers without this simply load the next page. The theme's circular reveal is set per transition by ThemeToggle. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
+::view-transition-group(*),
+::view-transition-old(*),
+::view-transition-new(*) {
   animation-duration: var(--t-sweep);
   animation-timing-function: var(--ease);
 }
