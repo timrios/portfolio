@@ -48,7 +48,7 @@ const personSchema = {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <!-- Inline, not in global.css: Chromium drops the page transition on most clicks when this rule is in a stylesheet
-         the browser has to revalidate, which our hosting makes it do on every page. Safari doesn't mind. -->
+         the browser has to revalidate, so it must not depend on a stylesheet's cache state. Safari doesn't mind. -->
     <style is:inline>
       @media (prefers-reduced-motion: no-preference) {
         @view-transition {
