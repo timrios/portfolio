@@ -20,10 +20,10 @@ export const quotes = z
     {
       id: "christopher",
       projectId: "hair-by-christopher",
-      text: "Before Tim, I was just another stylist on a booking app. Now people find me on Google when they search for a salon, and my book is fuller than it’s ever been.",
+      text: "Before Tim made my site most of my clients found me through other clients. Now everyone that comes in says they found me online and my bookings are way up.",
       name: "Christopher Valdez",
       role: "Hair By Christopher",
-      approved: false,
+      approved: true,
     },
     {
       id: "fanzi",
@@ -31,15 +31,15 @@ export const quotes = z
       text: "Tim designed our logo, our treat bags, our van and our website, so everything finally looks like us. Customers recognize the van before they even read the name.",
       name: "Amjad Saleh",
       role: "Fanzi Pet",
-      approved: false,
+      approved: true,
     },
     {
       id: "shawarma-way",
       projectId: "shawarma-way",
-      text: "Our old site could have been any restaurant. Tim built the new one from our logo, our fire and our room, so now it actually looks like the place people walk into.",
+      text: "Our old site looked generic and forgettable. Tim built our new site from our logo, our wood burning grill, and from our heritage. Now our site represents us.",
       name: "Khader Sawan",
       role: "Shawarma Way",
-      approved: false,
+      approved: true,
     },
   ]);
 
