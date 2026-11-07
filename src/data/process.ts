@@ -7,7 +7,7 @@ export const process = z
     {
       id: "talk",
       name: "A free conversation",
-      text: "Tell me about your business and what isn’t working yet. No charge and no pressure.",
+      text: "Tell me about your business and what isn’t working yet. No charge, and you decide from there.",
     },
     {
       id: "plan",

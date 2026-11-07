@@ -135,7 +135,7 @@ export const site = siteSchema.parse({
     resultsLabel: "Results for local businesses",
     resultsSource:
       "Sources: the gym’s own figures (2012), Google Business Profile (June to October 2026), Google Analytics (July and August 2026 against 2025).",
-    workHeading: "Four businesses. Four different looks.",
+    workHeading: "Four businesses, each with its own look.",
     workIntro:
       "A dog groomer, a hair stylist, a gymnastics gym and a shawarma restaurant don’t share customers, so they shouldn’t share a look. Each one is designed around the business, never a template. Press Before to see where each one started.",
     beforeLabel: "Before",
@@ -147,7 +147,7 @@ export const site = siteSchema.parse({
     servicesHeading: "Sound familiar?",
     processHeading: "From first text to live site.",
     processIntro:
-      "No packages: every quote fits the business. Most websites are ready in 2 to 4 weeks.",
+      "No packages: every quote fits the business.",
     questionsHeading: "Before you ask.",
     questionsIntro: "Straight answers about money, ownership and who does the work.",
     closingHeading: "Let’s get your business more customers.",
@@ -169,7 +169,7 @@ export const site = siteSchema.parse({
     desktop: "Desktop",
     phone: "Phone",
     close: "Close",
-    screenshotNote: "A full-page capture: this site can’t be shown inside another page.",
+    screenshotNote: "A full page capture: this site can’t be shown inside another page.",
     loading: "Loading the site…",
   },
   projectLabels: {
@@ -187,7 +187,7 @@ export const site = siteSchema.parse({
       "Tell Tim Rios about your business: a new website, a logo or brand, signs, vehicle wraps or packaging, or social media. The first conversation is free.",
     heading: "Tell me about your business.",
     intro:
-      "What do you do, and what isn't working yet? A few sentences is plenty. The conversation and the quote are free, and you decide from there.",
+      "What do you do, and what isn’t working yet? A few sentences is plenty. The conversation and the quote are free, and you decide from there.",
     needsLegend: "What do you need? Tick any that fit.",
     needs: [
       "A new website",
@@ -196,11 +196,11 @@ export const site = siteSchema.parse({
       "Social media",
       "Not sure yet",
     ],
-    messagePlaceholder: "My business is… and I'd like…",
+    messagePlaceholder: "My business is… and I’d like…",
     submitLabel: "Send message",
     sending: "Sending…",
-    success: "Message sent. I'll reply by email to set up a time to talk.",
-    error: "The message didn't send. Check your connection and try again, or email me at {email}.",
+    success: "Message sent, thank you! I’ll reply by email to set up a time to talk.",
+    error: "The message didn’t send. Check your connection and try again, or email me at {email}.",
     textPrompt: "Prefer to text? Send me a message:",
     replyTime: "I reply within one business day, by text or email.",
     emailPrompt: "Or email",
@@ -213,8 +213,8 @@ export const site = siteSchema.parse({
   },
   notFound: {
     title: "Page not found",
-    heading: "Nothing built here yet.",
-    text: "This address doesn't lead to a page. It may have moved, or there may be a typo in the link.",
+    heading: "This page doesn’t exist.",
+    text: "The page may have moved, or there may be a typo in the link.",
     action: "Go to the home page",
   },
 });

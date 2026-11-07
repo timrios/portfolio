@@ -34,7 +34,7 @@ export const buildNotes = z
       {
         id: "phones",
         heading: "Phones first",
-        text: "Most visitors are on a phone, so every page was designed at phone size and then widened. Actions sit in a dock under the thumb, and a script checks every page for sideways scrolling and small tap targets.",
+        text: "Most web traffic worldwide now comes from phones (StatCounter, 2026), and 85% of the views of Hair By Christopher’s Google profile came from one. So every page was designed at phone size and then widened. Actions sit in a dock under the thumb, and a script checks every page for sideways scrolling and small tap targets.",
       },
       {
         id: "system",
@@ -43,7 +43,7 @@ export const buildNotes = z
       },
       {
         id: "effects",
-        heading: "Effects with a job",
+        heading: "Effects that have a reason",
         text: "On desktop, the window light behind the page follows the real sun over San Antonio: its angle, height and warmth. The before and after wipe plays once so you can see what the switch does, and the steps fill in as you scroll past them. All of it respects reduced motion, and a browser that can’t run an effect simply goes without it.",
       },
       {

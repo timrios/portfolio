@@ -17,7 +17,7 @@ export const services = z.array(serviceSchema).parse([
     id: "local-search",
     problem: "Nobody finds us on Google.",
     name: "Getting found",
-    text: "Google and Apple Maps listings set up properly, and a site built to show up when people nearby search.",
+    text: "Google and Apple Maps listings set up right, and a site built to show up when people nearby search.",
     proof: {
       text: "3,749 people viewed Christopher’s Google profile in five months.",
       projectId: "hair-by-christopher",

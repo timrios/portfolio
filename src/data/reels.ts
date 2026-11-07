@@ -40,7 +40,7 @@ export const reels = z.array(reelSchema).parse([
   {
     id: "gizmo-pug-tips",
     projectId: "fanzi-pet",
-    title: "Gizmo’s pug-care tips",
+    title: "Gizmo’s pug care tips",
     story:
       "A full visit filmed by the groomer, cut into three tips for pug and bulldog owners, in her own words.",
     ai: false,
@@ -53,7 +53,7 @@ export const reels = z.array(reelSchema).parse([
     projectId: "fanzi-pet",
     title: "Mr. Duncan’s de-shed",
     story:
-      "Filmed first-person on smart glasses in the groomer’s own voice, told as three steps that sell the de-shed add-on.",
+      "Filmed first person on smart glasses in the groomer’s own voice, told as three steps that sell the de-shed add-on.",
     ai: false,
     video: "duncan-deshed.mp4",
     poster: "duncan-deshed.jpg",

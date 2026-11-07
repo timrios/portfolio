@@ -24,10 +24,10 @@ export const about = aboutSchema.parse({
     "Tim Rios has built websites since 2005. He ran the business side of a San Antonio gym for nine years and now designs brands, websites and social media for local businesses.",
   heading: "I’ve been building websites since 2005.",
   intro: [
-    "I’m Tim Rios, a web and brand designer in San Antonio. For local businesses I design the whole picture, the logo, the website, the van, the bag and the posts, so everything a customer sees looks like one business.",
+    "I’m Tim Rios, a web and brand designer in San Antonio. For local businesses I design the whole picture: the logo, the website, the van, the bag and the posts, so everything a customer sees looks like one business.",
     "I’ve also been on the owner’s side of the counter. For nine years I ran the business side of a gymnastics gym, and the website and marketing I built for it doubled its income in a year. So I design for what an owner actually needs: more customers, fewer repeat questions, and a site that keeps working.",
-    "In between, I spent four years at JPMorgan Chase, where I automated every recurring quality report in Power BI and cut the team’s reporting work by 80%. The habit of measuring stuck: every project here shows real numbers.",
-    "I’m also finishing a degree in Cloud Computing, so what I build is fast, secure and set up properly behind the scenes, from hosting to email.",
+    "After the gym, I spent four years at JPMorgan Chase, where I automated every recurring quality report in Power BI, which cut the reporting work of my role by 80% and stayed with the role after I left. The habit of measuring stuck: every project here shows real numbers.",
+    "I’m also finishing a degree in Cloud Computing, so what I build is fast, secure and set up right behind the scenes, from hosting to email.",
   ],
   logosHeading: "Businesses I’ve worked with",
   backgroundHeading: "Background",
@@ -37,7 +37,7 @@ export const about = aboutSchema.parse({
       id: "freelance",
       when: "2005",
       what: "Websites for businesses",
-      detail: "Started building websites for business clients, alongside every job since.",
+      detail: "Started building websites for business clients, and kept building them alongside every job since.",
     },
     {
       id: "agsa",
@@ -82,7 +82,7 @@ export const about = aboutSchema.parse({
     {
       id: "yours",
       name: "Yours to run",
-      text: "You own your domain and your site, and you get a plain-language guide for keeping it up to date.",
+      text: "You own your domain and your site, and I show you how to keep it up to date.",
     },
     {
       id: "measured",

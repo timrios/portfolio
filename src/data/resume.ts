@@ -43,7 +43,7 @@ export const resume = resumeSchema.parse({
   name: "Tim Rios",
   headline: "Web developer and cloud computing student",
   summary:
-    "Web developer with 20 years of building websites for businesses, now completing an A.A.S. in Cloud Computing (May 2027). I design, build and deploy production sites on serverless edge hosting with Git-based continuous deployment, set up DNS and email authentication, and integrate payments securely. Background in data analysis, where my Power BI automation cut a team’s reporting work by 80%, and nine years running a small business, where a new website and marketing doubled its income.",
+    "Web developer with 20 years of building websites for businesses, now completing an A.A.S. in Cloud Computing (May 2027). I design, build and deploy production sites on serverless edge hosting with Git-based continuous deployment, set up DNS and email authentication, and integrate payments securely. Background in data analysis, where my Power BI automation cut the reporting work of my role by 80%, and nine years running a small business, where a new website and marketing doubled its income.",
   experience: [
     {
       id: "freelance",

@@ -127,7 +127,7 @@ const all = z.array(projectSchema).parse([
     status: "live",
     name: "Fanzi Pet",
     kind: "Dog grooming",
-    business: "Mobile dog grooming in spa vans, plus handmade, all-natural dog treats",
+    business: "Mobile dog grooming in spa vans, plus handmade, all natural dog treats",
     place: "San Antonio and Irving, Texas",
     accent: "#9ADBD4",
     services: ["Brand", "Website", "Social media", "Local search"],
@@ -236,7 +236,7 @@ const all = z.array(projectSchema).parse([
         points: [
           "Exact grooming prices by dog size, with a size picker.",
           "“Do we come to you?”: type your address and it checks the real service areas, including a “you’re just outside” answer up to five miles out.",
-          "A before-and-after slider and a photo wall of real dogs groomed in the vans. Every photo is a real customer’s dog.",
+          "A before and after slider and a photo wall of real dogs groomed in the vans. Every photo is a real customer’s dog.",
           "A treat shop with secure card checkout, live since 1 November 2026.",
           "The domain moved to the new site with no email downtime.",
         ],
@@ -293,10 +293,10 @@ const all = z.array(projectSchema).parse([
     liveUrl: "https://christophercolors.com",
     links: [{ label: "Instagram", href: "https://www.instagram.com/hairbychris_sa" }],
     summary:
-      "From a booking-app page to a brand of his own. Thousands now find him on Google and Apple Maps while looking for any salon, and his revenue is up sharply year over year.",
+      "From a booking app page to a brand of his own. Thousands now find him on Google and Apple Maps while looking for any salon, and his revenue is up sharply year over year.",
     logo: { src: "hair-by-christopher/logo.png", on: "dark" },
     outcome: "299 direction requests in five months",
-    beforeShort: "A booking-app page, and nothing on Google",
+    beforeShort: "A booking app page, and nothing on Google",
     hero: {
       order: 2,
       label: "Stylist",
@@ -348,7 +348,7 @@ const all = z.array(projectSchema).parse([
     sections: [
       {
         service: "Brand",
-        heading: "Colors taken from the man himself",
+        heading: "Colors that come from Christopher himself",
         text: "I designed his logo and chose his colors from his personality and the presence he has in person: near-black, champagne gold and cream, with an elegant serif for headings.",
         points: [],
         images: [
@@ -483,7 +483,7 @@ const all = z.array(projectSchema).parse([
       "How Tim Rios’s logo, website and marketing for Acrobatic Gymnastics of San Antonio doubled the gym’s income in 2012.",
     before: {
       heading: "Where AGSA started",
-      text: "In 2011 the gym’s website was a single dark page: red script lettering over black, a team photo and a block of links.",
+      text: "The gym’s website looked the same in 2010 as it did in 2011, when I joined: a single dark page of red script lettering over black, a team photo and a block of links.",
       image: {
         src: "agsa-flyers/old-site-home-desktop.jpg",
         alt: "The earlier AGSA website: a black page with red script lettering reading “Acrobatic Gymnastics of San Antonio” and a team photo",
@@ -494,7 +494,7 @@ const all = z.array(projectSchema).parse([
       {
         service: "Brand",
         heading: "A star for the gym",
-        text: "I designed the AGSA logo, a star with a gymnast at its center, and the letterhead the gym uses for its letters to families, shown here on the welcome letter every new member receives.",
+        text: "I designed the AGSA logo, a star with a gymnast at its center. I also designed the letterhead the gym uses for its letters to families, shown here on the welcome letter every new member receives.",
         points: [],
         images: [
           {
@@ -518,7 +518,7 @@ const all = z.array(projectSchema).parse([
         points: [
           "Pages for the acro team, birthday parties, training programs, staff and policies.",
           "Built so the gym could run it alone: after I stepped away in 2020, the gym kept it going for six more years, posting its own announcements for sign-ups, tryouts, its move and closures.",
-          "Secure by design: when an automated vulnerability scanner probed the site in 2022, comment moderation held every one of its 54 test comments.",
+          "Kept safe: when an automated vulnerability scanner probed the site in 2022, comment moderation held all 54 of its test comments.",
         ],
         images: [
           {
@@ -568,7 +568,7 @@ const all = z.array(projectSchema).parse([
     liveUrl: "https://shawarmaway.myrrh-billion-34.workers.dev",
     links: [],
     summary:
-      "Off a restaurant-platform template and onto a site drawn from the restaurant itself: the logo, the fire and the dining room. In progress: online ordering comes next.",
+      "Off a restaurant platform template and onto a site drawn from the restaurant itself: the logo, the fire and the dining room. In progress: online ordering comes next.",
     logo: { src: "shawarma-way/logo.png", on: "light" },
     outcome: "The main photo loads almost twice as fast on phones",
     beforeShort: null,
@@ -620,10 +620,10 @@ const all = z.array(projectSchema).parse([
 </section>`,
     pageTitle: "Shawarma Way: new website for an Irving restaurant",
     pageDescription:
-      "How Tim Rios is moving Shawarma Way off a restaurant-platform template onto a website drawn from the restaurant itself: the logo, the wood fire and the dining room.",
+      "How Tim Rios is moving Shawarma Way off a restaurant platform template onto a website drawn from the restaurant itself: the logo, the wood fire and the dining room.",
     before: {
       heading: "Where Shawarma Way started",
-      text: "A template from a restaurant-website platform, in a look borrowed from no one in particular: nothing came from the restaurant’s own logo, food or room. On phones an app prompt covered the page, and the pages disagreed with each other, with two phone numbers, two sets of hours and eleven overlapping menu categories.",
+      text: "A template from a restaurant-website platform, in a generic look: nothing came from the restaurant’s own logo, food or room. On phones an app prompt covered the page, and the pages disagreed with each other, with two phone numbers, two sets of hours and eleven overlapping menu categories.",
       image: {
         src: "shawarma-way/old-site-home-desktop.jpg",
         alt: "The earlier Shawarma Way website: a white template page with a large sandwich photo and the slogan “Taste the Shawarma Revolution!”",
@@ -633,19 +633,19 @@ const all = z.array(projectSchema).parse([
     sections: [
       {
         service: "Website",
-        heading: "Objects from the counter",
-        text: "The look comes from the restaurant itself: charcoal and brick red from the logo, ember and wood from the grill, slate and orange from the dining-room chairs. Dark pages with butcher-paper reading surfaces, tall menu-board headlines, the Arabic name in Kufi lettering, and a single ember glow behind the headline, which says what sets them apart: “Shawarma over real fire.”",
+        heading: "A look taken from the restaurant",
+        text: "The look comes from the restaurant itself: charcoal and brick red from the logo, ember and wood from the grill, slate and orange from the dining room chairs. Dark pages with butcher paper reading surfaces, tall menu board headlines, the Arabic name in Kufi lettering, and a single ember glow behind the headline. The headline says what sets them apart: “Shawarma over real fire.”",
         points: [
           "The menu reorganized from eleven overlapping categories to eight, every duplicate removed, prices unchanged.",
           "Every fact (phone, address, hours) kept in one place, so the site can’t contradict itself again. At launch, the menu, prices and hours come straight from the restaurant’s Square till.",
-          "Every old page address kept or rebuilt, including 21 search pages rewritten with honest copy, so the move loses no search rankings.",
+          "Every old page address kept or rebuilt, including 21 search pages rewritten so each one says something true about the restaurant, so the move loses no search rankings.",
           "Coming next: online ordering and payments through Square, sent straight to the kitchen screen.",
           "The photos on the preview are AI placeholders, marked as such, until the owner’s professional photo shoot.",
         ],
         images: [
           {
             src: "shawarma-way/site-menu-desktop.jpg",
-            alt: "The new Shawarma Way menu page: a tall “Menu” headline on charcoal, then dishes and prices on a butcher-paper surface",
+            alt: "The new Shawarma Way menu page: a tall “Menu” headline on charcoal, then dishes and prices on a butcher paper surface",
             caption: "The menu, on butcher paper. Food photos are AI placeholders.",
           },
           {

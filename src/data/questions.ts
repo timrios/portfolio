@@ -20,13 +20,13 @@ export const questions = z
       id: "after-launch",
       question: "What will I pay after launch?",
       answer:
-        "Your domain name has a yearly fee, paid to the registrar, not to me. Upkeep is your choice: pay me a monthly fee and I’ll handle it, or I’ll show you how to manage it yourself and there’s no upkeep fee.",
+        "Your domain name has a yearly fee, paid to the registrar, not to me. Upkeep however is your choice: pay me a monthly fee and I’ll handle it, or I’ll show you how to manage it yourself and there’s no upkeep fee.",
     },
     {
       id: "ownership",
       question: "Who owns the site?",
       answer:
-        "You do. You own your domain and your site, and you get a plain-language guide for keeping it up to date.",
+        "You do. You own your domain and your site, and you get a plain language guide for keeping it up to date.",
     },
     {
       id: "who",
