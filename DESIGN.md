@@ -325,8 +325,9 @@ switches instantly, Reels start paused, and every transition is instant.
   "Browse the site" (opens **ProjectPreview**); the results band with its source; the before story with the CompareSlider and the phone view;
   each section with a service tag, text, points (accent dots) and gallery (Fanzi's social section shows its Reels);
   the client's quote (when approved); the next project as a card with its screenshot; the closing band.
-- **Quotes:** client quotes from `quotes.ts`. Only `approved` quotes appear on the live site; drafts show in local
-  development only, labeled "Draft, awaiting the client's OK".
+- **Quotes:** client quotes from `quotes.ts`, as cards. Drafts show labeled "Draft, awaiting the client's OK" until the
+  site opens to search engines; after that, only `approved` quotes appear. On the home page the cards also break up the
+  plain stretch between "Four different looks" and the Reel.
 - **FeaturedReel:** one Reel in a phone, its story beside it (below on phones), stills to switch to the others, a pause
   button. Home and project pages.
 - **ServiceList** ("Sound familiar?"): an oak band of the owner's problems, one answer open at a time, each with what

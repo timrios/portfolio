@@ -1,7 +1,7 @@
-// Client quotes, word for word. A quote is published only when `approved` is true: the client has seen this exact
-// wording and said yes. Drafts (written for the client to approve) show only in local
-// development, labeled as drafts, never on the live site. Once a client replies, paste their words exactly, trimming
-// with "…" only, and set approved: true.
+// Client quotes, word for word. `approved` means the client has seen this exact wording and said yes. Drafts (written
+// for the client to approve) show only while search engines are blocked, labeled as
+// drafts, so the page can be judged with its quotes in place; the launch build drops them by itself. Once a client
+// replies, paste their words exactly, trimming with "…" only, and set approved: true.
 import { z } from "astro/zod";
 
 export const quotes = z
@@ -35,5 +35,7 @@ export const quotes = z
     },
   ]);
 
-/** The quotes this build may show: approved ones always, drafts only while developing locally */
-export const visibleQuotes = quotes.filter((quote) => quote.approved || import.meta.env.DEV);
+/** The quotes this build may show: approved ones always, drafts only until the site opens to search engines */
+export const visibleQuotes = quotes.filter(
+  (quote) => quote.approved || process.env.SITE_INDEXABLE !== "true",
+);
