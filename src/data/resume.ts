@@ -73,7 +73,7 @@ export const resume = resumeSchema.parse({
       roles: [
         {
           title: "Quality Data Analyst",
-          dates: "Jan 2022 – Oct 2024",
+          dates: "Jan 2023 – Oct 2024",
           points: [
             "Automated every recurring quality report in Power BI, cutting analyst workload by 80% and leading to the role’s evolution.",
             "Built Tableau and Power BI reports that turned quality findings into insights for executive leadership.",
@@ -82,13 +82,13 @@ export const resume = resumeSchema.parse({
         },
         {
           title: "Development Center Coach",
-          dates: "Jan 2021 – Jan 2022",
+          dates: "May 2022 – Jan 2023",
           points: ["Trained new hires on the firm’s proprietary knowledge management system."],
         },
         {
           title: "Executive Line / Private Client Supervisor",
-          dates: "Dec 2020 – Jan 2021",
-          points: ["Delivered compliant, efficient service to the firm’s executive clients."],
+          dates: "Dec 2020 – May 2022",
+          points: ["Desk work and client phone calls for the firm’s executive and private clients."],
         },
       ],
     },
