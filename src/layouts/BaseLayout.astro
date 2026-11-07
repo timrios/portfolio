@@ -26,19 +26,36 @@ const pageTitle = fullTitle ? title : `${title} | ${site.name}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 // JPEG, because not every link-preview app reads WebP
 const ogImage = new URL(await imageUrl(image, 1200, "jpg"), Astro.site);
-const personSchema = {
+// Tim is a service-area business with no storefront, so the business has no street address, only the city it serves
+const schema = {
   "@context": "https://schema.org",
-  "@type": "Person",
-  name: site.name,
-  url: Astro.site?.href,
-  email: `mailto:${site.email}`,
-  jobTitle: "Website and brand designer",
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: site.city,
-    addressRegion: site.region,
-    addressCountry: "US",
-  },
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${Astro.site?.href}#tim`,
+      name: site.name,
+      url: Astro.site?.href,
+      email: `mailto:${site.email}`,
+      jobTitle: "Website and brand designer",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: site.city,
+        addressRegion: site.region,
+        addressCountry: "US",
+      },
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": `${Astro.site?.href}#business`,
+      name: site.name,
+      url: Astro.site?.href,
+      description: site.description,
+      email: site.email,
+      telephone: site.phoneSms,
+      founder: { "@id": `${Astro.site?.href}#tim` },
+      areaServed: { "@type": "City", name: site.city },
+    },
+  ],
 };
 ---
 
@@ -88,7 +105,7 @@ const personSchema = {
     <Font cssVariable="--font-mona-sans" preload />
     <Font cssVariable="--font-dm-mono" />
 
-    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
   </head>
   <body>
     <svg class="visually-hidden" aria-hidden="true" focusable="false">

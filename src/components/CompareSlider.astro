@@ -102,7 +102,11 @@ const beforeAlt = beforeWide?.alt ?? "";
   }
 
   .note p {
+    box-sizing: content-box;
     width: min(8rem, 36vw);
+    padding: var(--space-3);
+    border: 2px dashed var(--field-border);
+    border-radius: var(--radius-tag);
     color: var(--text);
     font-weight: 600;
     line-height: 1.25;

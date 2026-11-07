@@ -182,7 +182,7 @@ export const site = siteSchema.parse({
     phoneView: "On a phone",
   },
   contact: {
-    title: "Contact",
+    title: "Contact: get a free website quote",
     description:
       "Tell Tim Rios about your business: a new website, a logo or brand, signs, vehicle wraps or packaging, or social media. The first conversation is free.",
     heading: "Tell me about your business.",

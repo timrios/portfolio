@@ -19,9 +19,9 @@ const aboutSchema = z.object({
 });
 
 export const about = aboutSchema.parse({
-  title: "About",
+  title: "About: San Antonio web and brand designer",
   description:
-    "Tim Rios has built websites for businesses since 2005. He ran the business side of a San Antonio gymnastics gym for nine years and automated reporting at JPMorgan Chase, and now designs brands, websites and social media for local businesses.",
+    "Tim Rios has built websites since 2005. He ran the business side of a San Antonio gym for nine years and now designs brands, websites and social media for local businesses.",
   heading: "I’ve been building websites since 2005.",
   intro: [
     "I’m Tim Rios, a web and brand designer in San Antonio. For local businesses I design the whole picture, the logo, the website, the van, the bag and the posts, so everything a customer sees looks like one business.",

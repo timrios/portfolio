@@ -181,7 +181,7 @@ const all = z.array(projectSchema).parse([
     </div>
   </div>
 </section>`,
-    pageTitle: "Fanzi Pet: brand, website and social for a mobile dog groomer",
+    pageTitle: "Fanzi Pet: brand and website for a dog groomer",
     pageDescription:
       "How Tim Rios designed Fanzi Pet’s logo, treat bags and van wrap, then built the website, treat shop and social media around them.",
     before: {
@@ -337,7 +337,7 @@ const all = z.array(projectSchema).parse([
     </div>
   </div>
 </div>`,
-    pageTitle: "Hair By Christopher: brand, website and local search for a San Antonio stylist",
+    pageTitle: "Hair By Christopher: brand, website, local search",
     pageDescription:
       "How Tim Rios gave a solo San Antonio stylist a logo, a website and listings of his own, and helped thousands of people find him on Google and Apple Maps.",
     before: {
@@ -478,7 +478,7 @@ const all = z.array(projectSchema).parse([
     </div>
   </div>
 </div>`,
-    pageTitle: "Acrobatic Gymnastics of San Antonio: brand, website and marketing for a local gym",
+    pageTitle: "Acrobatic Gymnastics: brand and website for a gym",
     pageDescription:
       "How Tim Rios’s logo, website and marketing for Acrobatic Gymnastics of San Antonio doubled the gym’s income in 2012.",
     before: {
@@ -618,7 +618,7 @@ const all = z.array(projectSchema).parse([
     </div>
   </div>
 </section>`,
-    pageTitle: "Shawarma Way: a new website for an Irving shawarma restaurant",
+    pageTitle: "Shawarma Way: new website for an Irving restaurant",
     pageDescription:
       "How Tim Rios is moving Shawarma Way off a restaurant-platform template onto a website drawn from the restaurant itself: the logo, the wood fire and the dining room.",
     before: {

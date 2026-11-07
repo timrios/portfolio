@@ -1,3 +1,10 @@
+# Basic browser protections on every page. No includeSubDomains on HSTS: the domain's mail records live beside the site.
+/*
+  Strict-Transport-Security: max-age=31536000
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+
 # Built assets (CSS, JS, images, fonts) have content-hashed names, so browsers can keep them for good
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
