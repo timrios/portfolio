@@ -1,0 +1,223 @@
+---
+// Every project at once, so the variety is visible without a tap. One switch wipes all of them between the old sites and
+// the new ones. Dragging the slider and browsing a site belong to the project pages.
+import Img from "./Img.astro";
+import { projects } from "../data/projects";
+import { site } from "../data/site";
+
+const h = site.home;
+const sizes = "(min-width: 768px) 25vw, 50vw";
+---
+
+<div class="switch on-deep" role="group" aria-label={h.workToggleLabel} data-work-switch>
+  <button type="button" aria-pressed="false" data-show="before">{h.beforeLabel}</button>
+  <button type="button" aria-pressed="true" data-show="after">{h.afterLabel}</button>
+</div>
+
+<div class="grid" data-work-grid>
+  {projects.map((project, i) => (
+    <article style={`--client: ${project.accent}; --i: ${i}`} aria-labelledby={`work-${project.id}`}>
+      <div class="shot">
+        <Img src={project.screens.phone.src} alt={project.screens.phone.alt} sizes={sizes} />
+        {project.hero.beforePhone ? (
+          <div class="old">
+            <Img src={project.hero.beforePhone} alt={project.before.image?.alt ?? ""} sizes={sizes} />
+          </div>
+        ) : (
+          <div class="old empty"><p>{project.beforeShort}</p></div>
+        )}
+      </div>
+      <h3 id={`work-${project.id}`}>{project.hero.shortName}</h3>
+      <p class="kind">
+        <i aria-hidden="true"></i>
+        <span>
+          {project.hero.label}{project.status === "in-progress" && `. ${site.projectLabels.inProgress}`}
+        </span>
+      </p>
+      <p class="outcome">{project.outcome}</p>
+      <a class="story" href={`/work/${project.id}/`} aria-label={h.storyLabel.replace("{who}", project.name)}>
+        {site.preview.story}
+      </a>
+    </article>
+  ))}
+</div>
+
+<style>
+  .switch {
+    display: inline-flex;
+    gap: var(--space-1);
+    margin-bottom: var(--space-5);
+    padding: var(--space-1);
+    border-radius: var(--radius-plate);
+  }
+
+  .switch button {
+    min-width: 5.5rem;
+    min-height: var(--target);
+    padding: 0 var(--space-4);
+    border-radius: var(--radius-inner);
+    color: var(--text);
+    font-size: var(--text-ui);
+    transition:
+      background-color var(--t-fast) var(--ease),
+      color var(--t-fast) var(--ease);
+  }
+
+  .switch button[aria-pressed="true"] {
+    background: var(--marigold);
+    color: var(--on-marigold);
+    font-weight: 620;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6) var(--space-3);
+  }
+
+  /* The story link stretches over the whole card, so tapping the picture works without a second link to it */
+  article {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .shot {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: var(--radius-screen);
+    background: var(--band);
+    box-shadow:
+      0 0 0 1px var(--rule),
+      var(--shadow);
+  }
+
+  .shot :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  /* The old site sits on top, wiped away to the left until Before is pressed */
+  .old {
+    position: absolute;
+    inset: 0;
+    background: var(--band);
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path var(--t-sweep) var(--ease);
+  }
+
+  .grid.before .old {
+    clip-path: inset(0);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .old {
+      transition-delay: calc(var(--i) * 60ms);
+    }
+  }
+
+  /* No old site to show: an empty frame, with the note saying what was there instead */
+  .empty {
+    display: flex;
+    padding: var(--space-2);
+  }
+
+  .empty p {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    padding: var(--space-3);
+    border: 2px dashed var(--field-border);
+    border-radius: var(--radius-tag);
+    color: var(--text);
+    font-size: var(--text-small);
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  h3 {
+    margin-top: var(--space-3);
+    font-size: var(--text-4);
+  }
+
+  .kind {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-1);
+    color: var(--text-muted);
+    font-size: var(--text-small);
+    line-height: 1.25;
+  }
+
+  .kind i {
+    flex: none;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--client);
+    box-shadow: 0 0 0 1px var(--rule);
+  }
+
+  .outcome {
+    margin-top: var(--space-2);
+    font-size: var(--text-small);
+    line-height: 1.3;
+  }
+
+  .story {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    min-height: var(--target);
+    margin-top: auto;
+    color: var(--accent);
+    font-size: var(--text-small);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+  }
+
+  .story::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
+  @media (min-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-5);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .switch {
+      display: flex;
+      width: fit-content;
+      margin-left: auto;
+    }
+
+    .outcome,
+    .story {
+      font-size: var(--text-ui);
+    }
+  }
+</style>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>("[data-work-switch] button");
+  const grid = document.querySelector("[data-work-grid]");
+  for (const button of buttons) {
+    button.addEventListener("click", () => {
+      for (const other of buttons) other.setAttribute("aria-pressed", String(other === button));
+      grid?.classList.toggle("before", button.dataset.show === "before");
+    });
+  }
+</script>

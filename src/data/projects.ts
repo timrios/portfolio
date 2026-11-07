@@ -69,7 +69,7 @@ const projectSchema = z.object({
   beforeShort: z.string().nullable(),
   /**
    * How the project appears in the home page's opening. Its figure and line are the project's first result. `order`
-   * places it in the switcher; `beforePhone` is the old site as seen in a phone-shaped frame, shown whole when `beforeFit`.
+   * places it in the switcher; `beforePhone` is the old site cropped to a 4:5 frame.
    */
   hero: z.object({
     order: z.number().int(),
@@ -79,7 +79,6 @@ const projectSchema = z.object({
     address: z.string(),
     source: z.string(),
     beforePhone: z.string().nullable(),
-    beforeFit: z.boolean().default(false),
   }),
   screens: z.object({ desktop: image, phone: image }),
   /**
@@ -444,8 +443,7 @@ const all = z.array(projectSchema).parse([
       kindLine: "Gymnastics gym, San Antonio",
       address: "agsaflyers.com, archived 2023",
       source: "The gym’s own figures",
-      beforePhone: "agsa-flyers/old-site-home-desktop.jpg",
-      beforeFit: true,
+      beforePhone: "agsa-flyers/before-home-phone.jpg",
     },
     screens: {
       desktop: {

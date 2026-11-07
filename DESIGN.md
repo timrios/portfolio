@@ -276,7 +276,8 @@ One set of timings, used everywhere, all on one curve, `--ease` (`cubic-bezier(.
 | **Dock (phones)**  | Menu and Text me sit under the thumb. "Free plan" joins once the question box scrolls away. The dock steps aside for the keyboard and for the closing band. The logo scrolls away at the top. |
 | **Menu sheet**     | A native dialog rising from the bottom; closes by the backdrop, Close, Escape, or a link. |
 | **Hero switcher**  | One choice drives everything: the picture, the name, the result. Results sit stacked in one space, so nothing jumps. |
-| **Before/after**   | A range slider wipes between the old and new site (`clip-path`). Press, then slide; arrow keys work. On touch, a sideways swipe moves it and an up-and-down swipe scrolls the page; it moves by finger travel, so nothing jumps. Starts at 50%. Without an old site, the "before" is a short note. |
+| **Work switch**    | Before and After wipe all four cards left to right (`clip-path`, `--t-sweep`), 60ms apart, so they read as one gesture. Instant, with no stagger, under reduced motion. |
+| **Before/after**   | On project pages, a range slider wipes between the old and new site (`clip-path`). Press, then slide; arrow keys work. On touch, a sideways swipe moves it and an up-and-down swipe scrolls the page; it moves by finger travel, so nothing jumps. Starts at 50%. Without an old site, the "before" is a short note. |
 | **Links in text**   | The `.tap` utility gives a link inside text a 44px target with no change to its line spacing. |
 | **Theme toggle**   | Switches with a circular reveal from the button (View Transitions), `--t-sweep`; instant where unsupported. |
 | **Preview window** | Opens the client's live site. |
@@ -311,15 +312,17 @@ switches instantly, Reels start paused, and every transition is instant.
   prefills the message.
 - **ResultsBand:** home: the featured results (`band` text in `projects.ts`), each naming its kind of business, two
   across on phones. Project pages: that project's results and source.
-- **BeforeAfter:** one per project on the home page: name, kind, the **CompareSlider**, the outcome line, "Read the
-  story" and "Browse the site" (opens **ProjectPreview**).
-- **CompareSlider:** the before/after slider: phone captures in a 4:5 frame on the home page; desktop captures on
-  project pages. The grip is the star on oak. Without an old site, a short note instead; a desktop-only old site is
-  shown whole.
+- **WorkGrid:** the home page's "Four different looks": every project at once, so the variety shows without a tap. Phone
+  captures in 4:5 frames, two across on phones and four across from `md`, each with its short name, kind, outcome and
+  "Read the story" (the whole card is the link). One Before/After switch on an oak plate, the selected side in marigold,
+  drives all of them. An old site without a capture is an empty frame: its short note inside a dashed `--field-border`
+  rectangle, so the emptiness is the point. Browsing a site and dragging the slider belong to the project pages.
+- **CompareSlider:** the before/after slider on project pages: phone captures in a 4:5 frame on phones, desktop captures
+  on desktop. The grip is the star on oak. Without an old site, a short note instead.
 - **LogoRow:** "Businesses I've worked with": each client's real logo on the background it was designed for (white or
   ink, in either look), linking to the project. On About.
 - **Project page:** kind and place with the client marker, name, summary, facts (what I did, the site, Instagram),
-  "Browse the site"; the results band with its source; the before story with the CompareSlider and the phone view;
+  "Browse the site" (opens **ProjectPreview**); the results band with its source; the before story with the CompareSlider and the phone view;
   each section with a service tag, text, points (accent dots) and gallery (Fanzi's social section shows its Reels);
   the client's quote (when approved); the next project as a card with its screenshot; the closing band.
 - **Quotes:** client quotes from `quotes.ts`. Only `approved` quotes appear on the live site; drafts show in local

@@ -2,14 +2,13 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import HomeHero from "../components/HomeHero.astro";
 import ResultsBand from "../components/ResultsBand.astro";
-import BeforeAfter from "../components/BeforeAfter.astro";
+import WorkGrid from "../components/WorkGrid.astro";
 import Quotes from "../components/Quotes.astro";
 import FeaturedReel from "../components/FeaturedReel.astro";
 import ServiceList from "../components/ServiceList.astro";
 import ProcessSteps from "../components/ProcessSteps.astro";
 import Closing from "../components/Closing.astro";
 import { site } from "../data/site";
-import { projects } from "../data/projects";
 ---
 
 <BaseLayout
@@ -26,9 +25,7 @@ import { projects } from "../data/projects";
       <h2 id="work-heading">{site.home.workHeading}</h2>
       <p class="lede">{site.home.workIntro}</p>
     </div>
-    {projects.map((project) => (
-      <BeforeAfter project={project} />
-    ))}
+    <WorkGrid />
   </section>
 
   <Quotes />

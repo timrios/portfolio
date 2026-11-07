@@ -1,7 +1,7 @@
 ---
 // Before and after for one project: a slider wipes between the old site and the new one (a real range input, so the
 // keyboard works). Phones see phone captures in a tall frame, desktops the desktop captures; each size loads only its
-// own pictures. Without an old site, a short note stands in for "before". Used on the home and project pages.
+// own pictures. Without an old site, a short note stands in for "before". Used on project pages.
 import Img from "./Img.astro";
 import Star from "./Star.astro";
 import type { Project } from "../data/projects";
@@ -23,7 +23,7 @@ const beforeAlt = beforeWide?.alt ?? "";
   <div class="set only-phone">
     <Img src={project.screens.phone.src} alt={project.screens.phone.alt} sizes="100vw" />
     {project.hero.beforePhone ? (
-      <div class:list={["old", { fit: project.hero.beforeFit }]}>
+      <div class="old">
         <Img src={project.hero.beforePhone} alt={beforeAlt} sizes="100vw" />
       </div>
     ) : (
@@ -92,10 +92,6 @@ const beforeAlt = beforeWide?.alt ?? "";
   .old {
     background: var(--band);
     clip-path: inset(0 calc(100% - var(--split)) 0 0);
-  }
-
-  .old.fit :global(img) {
-    object-fit: contain;
   }
 
   /* The note keeps its width while the split passes over it, so its words don't reflow */
