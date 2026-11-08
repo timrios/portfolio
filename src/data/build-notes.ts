@@ -24,12 +24,12 @@ export const buildNotes = z
       "The words on this site speak to local business owners. The design and the build are what I’d like a developer or hiring manager to read, so here’s what’s under them.",
     measuredLabel: "Measured results for this site",
     measured: [
-      { figure: "90", text: "Lighthouse performance, home page on a simulated phone" },
-      { figure: "100", text: "Lighthouse accessibility" },
-      { figure: "100", text: "Lighthouse best practices" },
-      { figure: "3.2 KB", text: "JavaScript on the home page, compressed" },
+      { figure: "96", text: "Lighthouse performance, home page on a simulated phone" },
+      { figure: "100", text: "Lighthouse accessibility, on all four pages tested" },
+      { figure: "100", text: "Lighthouse best practices and SEO, on all four pages tested" },
+      { figure: "2.2 KB", text: "of this site’s own JavaScript on the home page, compressed" },
     ],
-    measuredSource: "One Lighthouse run on the launch build, served locally, 6 November 2026.",
+    measuredSource: "Lighthouse run on the live site (home, Hair By Christopher, About and Contact; phone and desktop), 7 November 2026. The JavaScript figure counts the code written for this site.",
     sections: [
       {
         id: "phones",
