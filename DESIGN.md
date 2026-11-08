@@ -314,6 +314,23 @@ switches instantly, Reels start paused, and every transition is instant.
   figure on desktop, so it stays on the first screen on short laptops; on phones it follows the source line.
 - **AskBox:** a labeled field with typed examples and a "Get a free quote" button, posting to `/contact/?need=…`, which
   prefills the message.
+- **Contact page:** phones: the intro and Text me card, the form, then "What happens next", stacked. Desktop (from
+  1024px): the intro beside the form (5fr / 7fr), then "What happens next" as its own row across the page: the heading
+  and "Or email" on the left, the three steps three across on the right, each under a `--rule` hairline, lined up with
+  the form's column. The steps used to sit under the intro, where they hung below the form once it got shorter.
+- **Contact form fields** (2026-11-07): the label sits inside the top of its box, always visible and small
+  (`--text-small`, `--text-muted`), with the typed text under it. The `<label>` is the box: it carries the
+  `--surface` fill, the `--field-border` edge and `--radius-screen`; the input inside has no edge of its own, and the
+  focus outline goes round the whole box (`:focus-within`), so a tap anywhere in it focuses the field. No floating
+  labels: an empty floating label looks like typed text or a placeholder, and it needs motion. Boxes sit
+  `--space-3` apart. Only what's needed to reply is asked: name, business (optional), email or phone (one is
+  required, grouped under one legend), what they need, and the message; the message placeholder asks for a website
+  or Instagram link instead of a separate field. Fewer fields shortens the form more than any styling does.
+  **Errors** are checked by the page's script before anything is sent (the browser's own check is off): words under
+  the field in `--error` (5.2:1 light, 7.5:1 dark), the box edge in `--error`, `aria-invalid`, and focus moves to the
+  first problem. A typed email or phone is checked when the visitor leaves the field; an error clears as soon as it's
+  fixed. Email needs a dot and an ending after the @; a US phone needs its area code (10 digits, or 11 starting with
+  1), and a number starting with + may have 8 to 15 digits. The messages live in `site.ts` → `contact.errors`.
 - **ResultsBand:** home: the featured results (`band` text in `projects.ts`), each naming its kind of business, two
   across on phones. Project pages: that project's results and source.
 - **WorkGrid:** the home page's "Four different looks": every project at once, so the variety shows without a tap. Phone
@@ -362,7 +379,7 @@ switches instantly, Reels start paused, and every transition is instant.
 ## Accessibility
 
 - Only the approved pairings. A visible 2px focus outline (accent) with 2px offset everywhere.
-- "Skip to content" first. Every form field labeled; required fields marked in words.
+- "Skip to content" first. Every form field labeled; required fields marked in words (a group where one of two is needed says so in its legend).
 - 44×44px minimum targets. Color never carries meaning alone.
 - The slider is a real `<input type="range">` with a label. The toggle states its current look.
 - Reduced motion respected (see above).

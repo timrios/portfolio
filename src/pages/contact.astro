@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { site } from "../data/site";
 
 const c = site.contact;
+const f = c.fields;
 const errorText = c.error.replace("{email}", site.email);
 ---
 
@@ -25,6 +26,7 @@ const errorText = c.error.replace("{email}", site.email);
       data-sending={c.sending}
       data-success={c.success}
       data-error={errorText}
+      data-reach-missing={c.errors.reach}
     >
       <input type="hidden" name="_subject" value={`New enquiry from ${site.domain}`} />
       <!-- Spam trap: people never see or fill this field -->
@@ -34,37 +36,79 @@ const errorText = c.error.replace("{email}", site.email);
       </label>
 
       <div class="row">
-        <label>
-          <span>
-            Your name{" "}
-            <span class="required" aria-hidden="true">
-              (required)
+        <div class="field-wrap">
+          <label class="field">
+            <span class="label">
+              {f.name} <span class="note" aria-hidden="true">{c.required}</span>
             </span>
+            <input
+              type="text"
+              name="name"
+              autocomplete="name"
+              autocapitalize="words"
+              enterkeyhint="next"
+              required
+              aria-required="true"
+              aria-describedby="error-name"
+              data-check="name"
+              data-invalid={c.errors.name}
+            />
+          </label>
+          <p class="field-error" id="error-name"></p>
+        </div>
+        <label class="field">
+          <span class="label">
+            {f.business} <span class="note">{c.optional}</span>
           </span>
-          <input type="text" name="name" autocomplete="name" required aria-required="true" />
-        </label>
-        <label>
-          <span>Business name</span>
-          <input type="text" name="business" autocomplete="organization" />
+          <input
+            type="text"
+            name="business"
+            autocomplete="organization"
+            autocapitalize="words"
+            enterkeyhint="next"
+          />
         </label>
       </div>
-      <div class="row">
-        <label>
-          <span>
-            Email{" "}
-            <span class="required" aria-hidden="true">
-              (required)
-            </span>
-          </span>
-          <input type="email" name="email" autocomplete="email" required aria-required="true" />
-        </label>
-        <label>
-          <span>
-            Phone <span class="muted">(optional)</span>
-          </span>
-          <input type="tel" name="phone" autocomplete="tel" />
-        </label>
-      </div>
+
+      <!-- Either one is enough to reply; the script asks for one if both are empty -->
+      <fieldset aria-describedby="error-reach">
+        <legend>
+          {f.reachLegend} <span class="note">{f.reachNote}</span>
+        </legend>
+        <div class="row">
+          <div class="field-wrap">
+            <label class="field">
+              <span class="label">{f.email}</span>
+              <input
+                type="email"
+                name="email"
+                autocomplete="email"
+                enterkeyhint="next"
+                aria-describedby="error-email"
+                data-check="email"
+                data-invalid={c.errors.email}
+              />
+            </label>
+            <p class="field-error" id="error-email"></p>
+          </div>
+          <div class="field-wrap">
+            <label class="field">
+              <span class="label">{f.phone}</span>
+              <input
+                type="tel"
+                name="phone"
+                autocomplete="tel"
+                enterkeyhint="next"
+                aria-describedby="error-phone"
+                data-check="phone"
+                data-invalid={c.errors.phone}
+              />
+            </label>
+            <p class="field-error" id="error-phone"></p>
+          </div>
+        </div>
+        <p class="field-error" id="error-reach"></p>
+      </fieldset>
 
       <fieldset>
         <legend>{c.needsLegend}</legend>
@@ -78,27 +122,24 @@ const errorText = c.error.replace("{email}", site.email);
         </div>
       </fieldset>
 
-      <label>
-        <span>
-          Current website or Instagram <span class="muted">(optional)</span>
-        </span>
-        <input type="text" name="current_site" inputmode="url" />
-      </label>
-      <label>
-        <span>
-          Message{" "}
-          <span class="required" aria-hidden="true">
-            (required)
+      <div class="field-wrap">
+        <label class="field">
+          <span class="label">
+            {f.message} <span class="note" aria-hidden="true">{c.required}</span>
           </span>
-        </span>
-        <textarea
-          name="message"
-          rows="6"
-          required
-          aria-required="true"
-          placeholder={c.messagePlaceholder}
-        ></textarea>
-      </label>
+          <textarea
+            name="message"
+            rows="5"
+            required
+            aria-required="true"
+            aria-describedby="error-message"
+            data-check="message"
+            data-invalid={c.errors.message}
+            placeholder={c.messagePlaceholder}
+          ></textarea>
+        </label>
+        <p class="field-error" id="error-message"></p>
+      </div>
 
       <button class="btn btn--primary" type="submit">
         {c.submitLabel}
@@ -207,48 +248,90 @@ const errorText = c.error.replace("{email}", site.email);
 
   form {
     display: grid;
-    gap: var(--space-5);
+    gap: var(--space-3);
     align-content: start;
   }
 
   .row {
     display: grid;
-    gap: var(--space-5);
+    gap: var(--space-3);
   }
 
-  label,
-  legend {
-    display: grid;
-    gap: var(--space-2);
-    font-size: var(--text-small);
-    font-weight: 600;
-  }
-
-  .required,
   .muted {
+    color: var(--text-muted);
+  }
+
+  /* The label is the box, with its name tucked inside the top: a phone shows more of the form
+     at once, and a tap anywhere in the box focuses the field (DESIGN.md → Contact form fields) */
+  .field {
+    display: grid;
+    align-content: center;
+    min-height: calc(var(--target) + var(--space-3));
+    padding: var(--space-2) var(--space-4);
+    background: var(--surface);
+    border: 1px solid var(--field-border);
+    border-radius: var(--radius-screen);
+    cursor: text;
+  }
+
+  .field:focus-within {
+    outline: 2px solid var(--focus);
+    outline-offset: 0;
+    border-color: transparent;
+  }
+
+  .field-wrap {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  /* Errors are words under the box, not only a red edge, so color never carries them alone */
+  .field-error {
+    font-size: var(--text-small);
+    color: var(--error);
+  }
+
+  .field-error:empty {
+    display: none;
+  }
+
+  fieldset > .field-error {
+    margin-top: var(--space-2);
+  }
+
+  .field:has([aria-invalid="true"]) {
+    border-color: var(--error);
+  }
+
+  .label {
+    font-size: var(--text-small);
+    font-weight: 500;
+    color: var(--text-muted);
+  }
+
+  .note {
     font-weight: 400;
     color: var(--text-muted);
   }
 
-  input[type="text"],
-  input[type="email"],
-  input[type="tel"],
-  textarea {
+  .field input,
+  .field textarea {
     width: 100%;
-    min-height: var(--target);
-    padding: var(--space-3) var(--space-4);
+    padding: 0;
     font: 400 var(--text-body) / 1.5 var(--font-body);
     color: var(--text);
-    background: var(--surface);
-    border: 1px solid var(--field-border);
-    border-radius: var(--radius-screen);
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    /* The box shows focus for the whole field */
+    outline: none;
   }
 
-  input:focus-visible,
-  textarea:focus-visible {
-    outline: 2px solid var(--focus);
-    outline-offset: 0;
-    border-color: transparent;
+  /* Safari and Chrome paint autofilled fields their own color; keep the box one surface */
+  .field input:-webkit-autofill {
+    -webkit-text-fill-color: var(--text);
+    box-shadow: 0 0 0 100vmax var(--surface) inset;
+    caret-color: var(--text);
   }
 
   textarea {
@@ -259,7 +342,9 @@ const errorText = c.error.replace("{email}", site.email);
     color: var(--text-muted);
   }
 
+  /* A group gets more room than a single box, so it reads as its own step */
   fieldset {
+    margin: var(--space-3) 0;
     border: 0;
     padding: 0;
   }
@@ -267,6 +352,12 @@ const errorText = c.error.replace("{email}", site.email);
   legend {
     margin-bottom: var(--space-3);
     padding: 0;
+    font-size: var(--text-small);
+    font-weight: 600;
+  }
+
+  .btn {
+    margin-top: var(--space-3);
   }
 
   .needs {
@@ -278,6 +369,7 @@ const errorText = c.error.replace("{email}", site.email);
   .check {
     position: relative;
     display: inline-flex;
+    font-size: var(--text-small);
     font-weight: 400;
   }
 
@@ -323,9 +415,9 @@ const errorText = c.error.replace("{email}", site.email);
     color: var(--error);
   }
 
+  /* Formspree's documented way to hide its spam trap; bots still find and fill it */
   .trap {
-    position: absolute;
-    left: -9999px;
+    display: none;
   }
 
   @media (min-width: 640px) {
@@ -339,15 +431,43 @@ const errorText = c.error.replace("{email}", site.email);
   }
 
   @media (min-width: 1024px) {
+    /* Intro beside the form, then "What happens next" as its own row across the page:
+       the steps no longer hang below the shorter form (DESIGN.md → Contact page) */
     .contact {
       grid-template-columns: 5fr 7fr;
-      grid-template-rows: auto 1fr;
-      gap: var(--space-8) var(--space-9);
+      gap: var(--space-9);
+      align-items: start;
     }
 
-    form {
+    .after {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 5fr 7fr;
+      /* The second row takes the steps' extra height, so "Or email" stays under its heading */
+      grid-template-rows: auto 1fr;
+      gap: var(--space-3) var(--space-9);
+      align-items: start;
+    }
+
+    .direct {
+      margin-top: 0;
+    }
+
+    .next {
       grid-column: 2;
       grid-row: 1 / span 2;
+      margin-top: 0;
+      max-width: none;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-6);
+    }
+
+    .next li {
+      grid-template-columns: none;
+      align-content: start;
+      gap: var(--space-2);
+      padding-block: var(--space-4) 0;
     }
   }
 </style>
@@ -362,8 +482,75 @@ const errorText = c.error.replace("{email}", site.email);
   const message = form.querySelector<HTMLTextAreaElement>('textarea[name="message"]');
   if (need && message) message.value = need;
 
+  // The script checks everything itself and writes errors under each field: the browser's own
+  // bubbles vanish after a moment on iPhones and let "name@site" through
+  form.noValidate = true;
+
+  type Field = HTMLInputElement | HTMLTextAreaElement;
+  const field = (name: string) => form.querySelector<Field>(`[data-check="${name}"]`)!;
+  const fields = ["name", "email", "phone", "message"].map(field);
+  const [, email, phone] = fields as [Field, Field, Field, Field];
+  const reachError = form.querySelector<HTMLElement>("#error-reach")!;
+
+  // Needs a dot and an ending after the @, which the browser's own check doesn't ask for
+  const emailOk = (v: string) => /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)*\.[a-z]{2,}$/i.test(v);
+
+  // US numbers need the area code: 10 digits, or 11 starting with 1. A number starting with +
+  // is international and may have 8 to 15 digits
+  const phoneOk = (v: string) => {
+    if (!/^\+?[\d\s().-]+$/.test(v)) return false;
+    const digits = v.replace(/\D/g, "");
+    if (v.startsWith("+")) return digits.length >= 8 && digits.length <= 15;
+    return digits.length === 10 || (digits.length === 11 && digits.startsWith("1"));
+  };
+
+  const isValid = (f: Field) => {
+    const v = f.value.trim();
+    if (f === email) return !v || emailOk(v);
+    if (f === phone) return !v || phoneOk(v);
+    return v !== "";
+  };
+
+  const show = (f: Field, ok: boolean) => {
+    f.setAttribute("aria-invalid", String(!ok));
+    form.querySelector(`#error-${f.dataset.check}`)!.textContent = ok ? "" : f.dataset.invalid!;
+  };
+
+  const reachOk = () => Boolean(email.value.trim() || phone.value.trim());
+  const showReach = (ok: boolean) => {
+    reachError.textContent = ok ? "" : form.dataset.reachMissing!;
+    if (!ok) [email, phone].forEach((f) => f.setAttribute("aria-invalid", "true"));
+  };
+
+  fields.forEach((f) => {
+    // Check a typed email or phone when the visitor moves on, not while they're typing it
+    f.addEventListener("blur", () => {
+      if (f.value.trim() && (f === email || f === phone)) show(f, isValid(f));
+    });
+    // Once an error shows, it clears as soon as the field is fixed
+    f.addEventListener("input", () => {
+      if (f.getAttribute("aria-invalid") === "true" && isValid(f)) show(f, true);
+      if (reachError.textContent && reachOk()) {
+        showReach(true);
+        [email, phone].forEach((g) => show(g, isValid(g)));
+      }
+    });
+  });
+
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
+    const results = fields.map((f) => {
+      const ok = isValid(f);
+      show(f, ok);
+      return ok;
+    });
+    const reached = reachOk();
+    showReach(reached);
+    const firstBad = !reached && results[0] ? email : fields[results.indexOf(false)];
+    if (firstBad) {
+      firstBad.focus();
+      return;
+    }
     button.disabled = true;
     status.textContent = form.dataset.sending!;
     status.dataset.state = "";
