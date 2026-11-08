@@ -351,6 +351,13 @@ switches instantly, Reels start paused, and every transition is instant.
 - **Image treatments** (`treatment` in `projects.ts`): `photo` crops to fill; `artwork` shows whole on the surface;
   `artwork-on-light` shows whole on a paper mat. `wide` spans a gallery. Client artwork is never recolored.
 - **No photo of Tim** on the home page (his choice): the work is the face.
+- **Tim's portrait (2026-11-07): an illustrated character in his signature style, on the About page only.** It is
+  `brand/tim-portrait.jpg`, set as a framed picture (card radius, system shadow, a hairline edge), never a cut-out:
+  it keeps its own pale cream ground so the green jacket doesn't disappear into the dark look's green. Phones: under
+  the heading at 13rem wide; from 768px a right-hand column beside the text. Alt text describes the illustration. The
+  style, the master file and how to make other pictures of Tim are in `~/Projects/dev-setup/knowledge/Tim's
+  signature art style (Nov 2026).md`: read it before making any new picture of him. AI art of Tim stays in that
+  style; his logo and star are never AI-drawn (see Brand).
 
 ## Accessibility
 

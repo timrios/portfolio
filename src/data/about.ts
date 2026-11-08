@@ -6,6 +6,8 @@ const aboutSchema = z.object({
   title: z.string(),
   description: z.string(),
   heading: z.string(),
+  /** Tim's illustrated portrait (style guide: dev-setup knowledge, "Tim's signature art style"); file lives in assets/images/ */
+  portrait: z.object({ src: z.string(), alt: z.string() }),
   intro: z.array(z.string()).min(1),
   logosHeading: z.string(),
   backgroundHeading: z.string(),
@@ -23,6 +25,10 @@ export const about = aboutSchema.parse({
   description:
     "Tim Rios has built websites since 2005. He ran the business side of a San Antonio gym for nine years and now designs brands, websites and social media for local businesses.",
   heading: "I’ve been building websites since 2005.",
+  portrait: {
+    src: "brand/tim-portrait.jpg",
+    alt: "Illustration of Tim Rios, smiling, with short black hair and a trimmed beard, in a green puffer jacket with a gold star patch.",
+  },
   intro: [
     "I’m Tim Rios, a web and brand designer in San Antonio. For local businesses I design the whole picture: the logo, the website, the van, the bag and the posts, so everything a customer sees looks like one business.",
     "I’ve also been on the owner’s side of the counter. For nine years I ran the business side of a gymnastics gym, and the website and marketing I built for it doubled its income in a year. So I design for what an owner actually needs: more customers, fewer repeat questions, and a site that keeps working.",
