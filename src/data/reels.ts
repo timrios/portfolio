@@ -60,15 +60,15 @@ export const reels = z.array(reelSchema).parse([
     alt: "A husky in the tub being de-shed, filmed from the groomer’s point of view",
   },
   {
-    id: "halloween-spell",
+    id: "cornpop-tangle-rescue",
     projectId: "fanzi-pet",
-    title: "The Halloween spell",
+    title: "Corn Pop’s tangle rescue",
     story:
-      "Openly magical AI scenes in Fanzi’s colors, ending on the real logo carved into a glowing jack-o’-lantern. Labeled as AI.",
-    ai: true,
-    video: "halloween-spell.mp4",
-    poster: "halloween-spell.jpg",
-    alt: "An illustrated scene of aqua bubble magic swirling under a full moon, made with AI",
+      "One visit narrated by the groomer, cut as a 32-second story from tangled to tangle-free. The same footage became a longer tutorial, to learn which length Fanzi’s followers watch.",
+    ai: false,
+    video: "cornpop-tangle-rescue.mp4",
+    poster: "cornpop-tangle-rescue.jpg",
+    alt: "A groomer sprays detangler on a golden retriever’s ear and brushes it out, ending on the dog sitting tangle-free in the van, with captions",
   },
   {
     id: "doodle-before-after",

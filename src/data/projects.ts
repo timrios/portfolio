@@ -256,7 +256,7 @@ const all = z.array(projectSchema).parse([
       {
         service: "Social media",
         heading: "Reels in the van’s own style",
-        text: "The social style comes from the van wrap, not the website, because the van is what customers recognize. The groomers film real visits, and I cut them into short Reels in their own words. Openly magical scenes, like the Halloween Reel’s van flying past the moon, are made with AI in the wrap’s illustrated style and labeled as AI.",
+        text: "The social style comes from the van wrap, not the website, because the van is what customers recognize. The groomers film real visits, and I cut them into short Reels in their own words. Openly magical scenes for the holidays are made with AI in the wrap’s illustrated style and labeled as AI.",
         points: [],
         images: [],
       },
