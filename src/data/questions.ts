@@ -1,4 +1,5 @@
 // What owners want settled before they reach out. No prices here: every job is quoted to fit (README → Decisions).
+// Terms match the client agreement (2026-11-10); change both together.
 import { z } from "astro/zod";
 
 export const questions = z
@@ -14,19 +15,31 @@ export const questions = z
       id: "payment",
       question: "How do I pay?",
       answer:
-        "40% to start, and 60% when the work is finished and ready to go live. You can pay by credit card, Cash App or PayPal.",
+        "Half to start, and half once your site is working: tested, ready to go live, and taking orders if it sells online. The first half isn’t refundable once work begins. I send each half as an online invoice, and you can pay by card, Cash App Pay, Klarna or bank transfer.",
     },
     {
       id: "after-launch",
       question: "What will I pay after launch?",
       answer:
-        "Your domain name has a yearly fee, paid to the registrar, not to me. Upkeep however is your choice: pay me a monthly fee and I’ll handle it, or I’ll show you how to manage it yourself and there’s no upkeep fee.",
+        "Your domain name has a small yearly fee, paid to the registrar, not to me. Hosting is usually free, on an account in your name. For the first year, anything that needs fixing to stay safe or keep working is on me, at no charge. After that, upkeep is your choice: a small monthly or yearly fee, or stop and your site keeps running as it is.",
+    },
+    {
+      id: "changes",
+      question: "Can I make changes myself?",
+      answer:
+        "The everyday ones, yes. Your prices, hours and services can come straight from the tools you already run your business with, like Square or your booking app, so a change there shows on your site. Anything else I change for a set price you know before you ask, and anything bigger is quoted first. I don’t start paid work without your OK.",
+    },
+    {
+      id: "google",
+      question: "Will I show up first on Google?",
+      answer:
+        "Nobody can honestly promise that, so I don’t. I build every site so Google can read it well, keep your details the same everywhere they appear, and make sure Google and Apple Maps point to it.",
     },
     {
       id: "ownership",
       question: "Who owns the site?",
       answer:
-        "You do. You own your domain and your site, and you get a plain language guide for keeping it up to date.",
+        "You do. Your domain, hosting and code accounts are in your name from day one, and once the site is paid in full, the site and its code are yours too. You can remove my access at any time, and you get a plain language guide for keeping it up to date.",
     },
     {
       id: "who",

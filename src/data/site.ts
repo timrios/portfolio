@@ -167,7 +167,7 @@ export const site = siteSchema.parse({
     processIntro:
       "No packages: every quote fits the business.",
     questionsHeading: "Before you ask.",
-    questionsIntro: "Straight answers about money, ownership and who does the work.",
+    questionsIntro: "Straight answers about money, changes, ownership and who does the work.",
     closingHeading: "Let’s get your business more customers.",
     closingText: "I’m {name}, based in {city}. I’ll come to you, or we can talk by phone.",
   },

@@ -7,7 +7,7 @@ Moved here from `CLAUDE.md` so it only loads when someone works on content. The 
 - `reels.ts`: Reels, the first one featured; the short silent clips live in `public/media/reels/`.
 - `quotes.ts`: client quotes, word for word. Drafts (for the client to approve) show labeled as drafts, on the live development build too, only until `SITE_INDEXABLE=true`; after that, only `approved: true` quotes appear (Tim, 2026-11-06).
 - Text-message number: `phone` and `phoneSms` in `site.ts`.
-- `questions.ts`: the home page's "Before you ask" answers: cost, payment, costs after launch, ownership, who does the work. Never a price.
+- `questions.ts`: the home page's "Before you ask" answers: cost, payment, costs after launch, making changes, Google, ownership, who does the work. Never a price; the terms match the agreement in README → Decisions.
 - `build-notes.ts`: the "How this site was built" page, for developers and hiring managers. Its figures are measured and dated: re-measure after any large change, on a launch build (`SITE_INDEXABLE=true`), and never state a figure that wasn't measured.
 - `services.ts`: the four services, each with proof from a project.
 - `process.ts`: the five steps of working together.
