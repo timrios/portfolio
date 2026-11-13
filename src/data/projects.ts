@@ -159,11 +159,8 @@ const all = z.array(projectSchema).parse([
         caption: null,
       },
     },
-    previewUrl: null,
-    fullScreens: {
-      desktop: "fanzi-pet/site-full-desktop.jpg",
-      phone: "fanzi-pet/site-full-phone.jpg",
-    },
+    previewUrl: "https://fanzipet.com/",
+    fullScreens: null,
     code: `<section class="hero hero-band section--ink">
   <div class="container hero-split">
     <div class="hero-copy">
