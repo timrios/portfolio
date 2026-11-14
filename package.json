@@ -11,12 +11,13 @@
     "preview": "astro preview",
     "astro": "astro",
     "typecheck": "astro check",
-    "format": "prettier --write .",
+    "format": "prettier --write src scripts \"*.{ts,mjs,json}\"",
     "check": "npm run typecheck && npm run build",
     "shots": "node scripts/shots.mjs",
     "phone-check": "node scripts/phone-check.mjs",
     "project-screens": "node scripts/project-screens.mjs",
-    "resume-pdf": "node --env-file-if-exists=.env scripts/resume-pdf.mjs"
+    "resume-pdf": "node --env-file-if-exists=.env scripts/resume-pdf.mjs",
+    "format:check": "prettier --check src scripts \"*.{ts,mjs,json}\""
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
