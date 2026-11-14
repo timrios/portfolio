@@ -1,5 +1,5 @@
 // The About page: who Tim is, his background and how he works. Preliminary draft (2026-11-04) from his resume and
-// conversations; Tim reviews every line before the site launches (README → Not started).
+// conversations; Tim reviews every line before the site launches (private task list).
 import { z } from "astro/zod";
 
 const aboutSchema = z.object({

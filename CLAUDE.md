@@ -17,9 +17,8 @@ Tim Rios's portfolio site, timrios.dev: real client work (websites, brands, loca
 CLAUDE.md            ← project rules (this file)
 DESIGN.md            ← visual design system
 README.md            ← project map, status and decisions
-DONE.md              ← older finished tasks, moved out of the README's Status
 case-studies/        ← PRIVATE notes repo (timrios/portfolio-notes, git-ignored here): raw notes and screenshots per
-                       client, and site-plan.md (the plan and brand brief). NEVER published or imported by the site
+                       client, site-plan.md (the plan and brand brief), STATUS.md and DONE.md (the task list). NEVER published or imported by the site
 _compare/            ← throwaway mockups and reference shots while deciding (git-ignored; emptied once decided)
 scripts/
   shots.mjs          ← screenshots of every page of this site, phone and desktop
@@ -111,5 +110,5 @@ public/              ← only files that need a fixed address (favicons; media/r
 5. Reuse existing components, layouts and tokens before creating new ones.
 6. When you add a convention, data file or design token, record it in this file or `DESIGN.md` in the same change.
 7. Run `npm run check` and fix every error before calling a change done. Before testing against a server, check whether it is `astro dev` or `astro preview`: preview serves the last build, so it needs `npm run build` first. For visual changes, also run `npm run shots` and `npm run phone-check` against a running server and look at the screenshots in `screenshots/`.
-8. Before calling any change done, check `README.md` → Status for a matching task (or one the change partly finishes) and tick it, moving it to **Recently completed**, in the same change (older finished tasks live in `DONE.md`). Do this even when the task wasn't what you were asked about by name.
+8. Before calling any change done, check the private task list, `case-studies/STATUS.md`, for a matching task (or one the change partly finishes) and tick it, moving it to **Recently completed**, in the same change (older finished tasks live in `DONE.md`). Do this even when the task wasn't what you were asked about by name.
 9. Use the `frontend-design` skill for any UI work.
