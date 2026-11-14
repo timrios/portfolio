@@ -32,9 +32,8 @@ npm-debug.log*
 .DS_Store
 .idea/
 
-# Raw client photos and footage: never committed (phone files can carry GPS). See README → Where everything is.
-Image Drop/
-Video Drop/
+# Raw client photos and footage: never committed (phone files can carry GPS). image-originals/ is ignored above.
+video-originals/
 
 # Throwaway comparison images and reference screenshots; deleted once decided
 _compare/
