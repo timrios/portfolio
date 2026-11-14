@@ -1,6 +1,6 @@
-// Client quotes, word for word. `approved` means the client has seen this exact wording and said yes. Drafts (written
-// for the client to approve) show only while search engines are blocked, labeled as
-// drafts, so the page can be judged with its quotes in place; the launch build drops them by itself. Once a client
+// Client quotes, word for word. `approved` means the client has seen this exact wording and said yes. Quotes not yet
+// approved show only while search engines are blocked, labeled as drafts, so the page can be judged with its quotes
+// in place; the launch build drops them by itself. Once a client
 // replies, paste their words exactly, trimming with "…" only, and set approved: true.
 import { z } from "astro/zod";
 
