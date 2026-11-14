@@ -40,3 +40,6 @@ _compare/
 
 # Resume PDFs (npm run resume-pdf): they carry the phone number
 resume/
+
+# Private case-study notes: their own repo, timrios/portfolio-notes (2026-11-14)
+/case-studies/
