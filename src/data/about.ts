@@ -43,7 +43,8 @@ export const about = aboutSchema.parse({
       id: "freelance",
       when: "2005",
       what: "Websites for businesses",
-      detail: "Started building websites for business clients, and kept building them alongside every job since.",
+      detail:
+        "Started with hand-coded HTML and CSS, then Perl back ends for freelance clients, and kept building websites alongside every job since.",
     },
     {
       id: "agsa",
@@ -57,7 +58,7 @@ export const about = aboutSchema.parse({
       when: "2020–2024",
       what: "JPMorgan Chase",
       detail:
-        "Supervising private-client service, then training new hires, then Quality Data Analyst: automated reporting in Power BI and built Tableau and Power BI reports for leadership.",
+        "Executive and private-client service, then training new hires, then Quality Data Analyst: automated reporting in Power BI, built reports for leadership, and guided team leaders on compliance and quality goals.",
     },
     {
       id: "tim-rios",

@@ -93,9 +93,6 @@ const domain = site.domain;
           </ul>
         </div>
       ))}
-      <p class="certs">
-        <strong>{resume.certifications.heading}:</strong> {resume.certifications.items.join(", ")}.
-      </p>
     </section>
 
     <section aria-labelledby="skills-heading">
@@ -220,10 +217,6 @@ const domain = site.domain;
     margin-block: calc(-1 * var(--space-3));
     text-decoration-color: var(--rule);
     text-underline-offset: 0.2em;
-  }
-
-  .certs {
-    margin-top: var(--space-4);
   }
 
   .skills div + div {

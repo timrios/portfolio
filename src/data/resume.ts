@@ -1,5 +1,6 @@
 // Tim's master resume: the /resume/ page and the PDF (npm run resume-pdf) both come from this file. Leads with web
-// development and cloud computing (Tim, 2026-11-04). Tailored versions per job are made in ~/Projects/job-search.
+// development and cloud computing (Tim, 2026-11-04). Kept in line with the one-page CV in job-search (2026-11-14): no
+// certifications until one is earned, no client count, and never "supervised" for the Chase roles. Tailored versions per job are made in ~/Projects/job-search.
 // The phone number is never here: the public page leaves it out, and the PDF script adds it from .env.
 import { z } from "astro/zod";
 
@@ -31,7 +32,6 @@ const resumeSchema = z.object({
       details: z.array(z.string()),
     }),
   ),
-  certifications: z.object({ heading: z.string(), items: z.array(z.string()) }),
   skills: z.array(z.object({ id: z.string(), group: z.string(), items: z.array(z.string()) })),
   printLabel: z.string(),
 });
@@ -39,28 +39,28 @@ const resumeSchema = z.object({
 export const resume = resumeSchema.parse({
   title: "Resume",
   description:
-    "Resume of Tim Rios, web developer and cloud computing student in San Antonio: 20 years building websites, data analysis at JPMorgan Chase, and nine years running a small business.",
+    "Resume of Tim Rios, web developer and cloud computing student in San Antonio: freelance websites since 2005, data analysis at JPMorgan Chase, and nine years running a small business.",
   name: "Tim Rios",
   headline: "Web developer and cloud computing student",
   summary:
-    "Web developer with 20 years of building websites for businesses, now completing an A.A.S. in Cloud Computing (May 2027). I design, build and deploy production sites on serverless edge hosting with Git-based continuous deployment, set up DNS and email authentication, and integrate payments securely. Background in data analysis, where my Power BI automation cut the reporting work of my role by 80%, and nine years running a small business, where a new website and marketing doubled its income.",
+    "Web developer moving into full-time development and cloud work, completing an A.A.S. in Cloud Computing (May 2027). I design, build and deploy production websites for businesses with Next.js, React, Astro and TypeScript on Cloudflare Workers, set up DNS and email authentication, and integrate payments securely. Background in data analysis at JPMorgan Chase, where my Power BI automation cut the reporting work of my role by 80%, and nine years running a small business, where a new website and marketing doubled its income.",
   experience: [
     {
       id: "freelance",
-      employer: "Tim Rios, websites and brands (self-employed)",
+      employer: "Tim Rios, websites and brands",
       place: "San Antonio, TX",
       dates: "2005 – present",
       roles: [
         {
-          title: "Web Developer and Designer",
+          title: "Freelance Web Developer and Designer (alongside full-time roles until 2024)",
           dates: null,
           points: [
-            "Design, build and deploy websites for local businesses with Astro, Next.js and TypeScript on Cloudflare Workers, with automatic builds and branch previews from GitHub; AI-assisted development with Claude Code.",
-            "Move domains and DNS to Cloudflare with no email downtime; configure MX, SPF and DKIM records and custom-domain email.",
+            "Design, build and deploy production websites for local businesses with Next.js, React, Astro and TypeScript on Cloudflare Workers, with automatic builds and branch previews from GitHub; AI-assisted development with Claude Code.",
             "Integrate Stripe hosted checkout so no card data touches the site, with secret keys kept server-side only.",
-            "Cut the time for a restaurant site’s main image to appear on phones from 6.1 s to 3.4 s, with a Lighthouse accessibility score of 100 on every page tested.",
+            "Move domains and DNS to Cloudflare with no email downtime, setting up MX, SPF and DKIM records for custom-domain email.",
+            "Cut the time for a restaurant’s new site’s main image to appear on phones from 6.1 s to 3.4 s, with a Lighthouse accessibility score of 100 on every page tested.",
             "Set up Google Business Profile and Apple Business Connect for a solo stylist: 3,749 Google profile views and 299 direction requests in five months, and website visitors up 72% year over year.",
-            "Earlier sites in PHP, Perl, JavaScript and MySQL, including database migrations from staging to production, security patching and access control.",
+            "Started with hand-coded HTML and CSS, then Perl CGI and PHP with MySQL back ends for freelance clients, including database migrations from staging to production, security patching and access control.",
           ],
         },
       ],
@@ -75,9 +75,9 @@ export const resume = resumeSchema.parse({
           title: "Quality Data Analyst",
           dates: "Jan 2023 – Oct 2024",
           points: [
-            "Automated every recurring quality report in Power BI, cutting analyst workload by 80% and leading to the role’s evolution.",
+            "Automated every recurring quality report in Power BI, cutting the reporting work of my role by 80%.",
+            "Guided team leaders and division leaders on meeting regulatory compliance and quality KPIs, and wrote call evaluations and coaching for telephone specialists.",
             "Built Tableau and Power BI reports that turned quality findings into insights for executive leadership.",
-            "Worked with cross-functional teams to find process improvements in quality data.",
           ],
         },
         {
@@ -88,7 +88,9 @@ export const resume = resumeSchema.parse({
         {
           title: "Executive Line / Private Client Supervisor",
           dates: "Dec 2020 – May 2022",
-          points: ["Desk work and client phone calls for the firm’s executive and private clients."],
+          points: [
+            "Escalation point for specialists on complex questions from the firm’s executive and private clients.",
+          ],
         },
       ],
     },
@@ -104,7 +106,7 @@ export const resume = resumeSchema.parse({
           points: [
             "Doubled the gym’s income in 2012 (+100%) with a new website, marketing and search optimization.",
             "Cut total operating costs by 50% by analyzing overhead and renegotiating business services.",
-            "Designed the logo and tuition calendars; built and ran the gym’s website, which it used until 2026.",
+            "Designed the logo and tuition calendars, and built and ran the gym’s website.",
           ],
         },
       ],
@@ -122,10 +124,6 @@ export const resume = resumeSchema.parse({
       ],
     },
   ],
-  certifications: {
-    heading: "Certifications in preparation",
-    items: ["CompTIA Security+", "CompTIA Linux+", "Fortinet NSE 4", "Cisco CCNA"],
-  },
   skills: [
     {
       id: "web",
@@ -135,12 +133,11 @@ export const resume = resumeSchema.parse({
         "CSS",
         "JavaScript",
         "TypeScript",
-        "Astro",
+        "React",
         "Next.js",
+        "Astro",
         "PHP",
-        "Perl",
         "WordPress",
-        "Java",
       ],
     },
     {
