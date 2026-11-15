@@ -4,7 +4,7 @@
 // Usage: npm run resume-pdf [-- <base-url> <output.pdf>]
 //   base-url defaults to http://localhost:4321 (a running dev or preview server)
 //   output   defaults to resume/Tim-Rios-resume.pdf (git-ignored)
-// Uses the globally installed Playwright, like scripts/shots.mjs.
+// Uses the globally installed Playwright, like ~/Tools/site-checks/shots.mjs.
 import { execSync } from "node:child_process";
 import { mkdirSync } from "node:fs";
 import { dirname } from "node:path";

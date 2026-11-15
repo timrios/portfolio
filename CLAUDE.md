@@ -21,9 +21,6 @@ case-studies/        ← PRIVATE notes repo (timrios/portfolio-notes, git-ignore
                        client, site-plan.md (the plan and brand brief), STATUS.md and DONE.md (the task list). NEVER published or imported by the site
 _compare/            ← throwaway mockups and reference shots while deciding (git-ignored; emptied once decided)
 scripts/
-  shots.mjs          ← screenshots of every page of this site, phone and desktop
-  phone-check.mjs    ← measures sideways scroll, small targets and small fields on every page
-  client-shots.mjs   ← screenshots of a client's live site, for case studies
   project-screens.mjs← crops a client's screenshots into the site's images
   resume-pdf.mjs     ← the resume as a PDF
 src/

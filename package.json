@@ -13,8 +13,9 @@
     "typecheck": "astro check",
     "format": "prettier --write src scripts \"*.{ts,mjs,json}\"",
     "check": "npm run typecheck && npm run build",
-    "shots": "node scripts/shots.mjs",
-    "phone-check": "node scripts/phone-check.mjs",
+    "shots": "node $HOME/Tools/site-checks/shots.mjs",
+    "phone-check": "node $HOME/Tools/site-checks/phone-check.mjs",
+    "client-shots": "node $HOME/Tools/site-checks/client-shots.mjs",
     "project-screens": "node scripts/project-screens.mjs",
     "resume-pdf": "node --env-file-if-exists=.env scripts/resume-pdf.mjs",
     "format:check": "prettier --check src scripts \"*.{ts,mjs,json}\""

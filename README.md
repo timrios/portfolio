@@ -32,9 +32,6 @@ portfolio/
 │   └── miros-wings/
 ├── _compare/              ← throwaway mockups and reference shots while deciding (not in git; emptied once decided)
 ├── scripts/
-│   ├── shots.mjs          ← screenshots of every page of this site
-│   ├── phone-check.mjs    ← measures phone problems on every page
-│   ├── client-shots.mjs   ← screenshots of a client's live site, for case studies
 │   ├── project-screens.mjs← crops a client's screenshots into the site's images
 │   └── resume-pdf.mjs     ← the resume as a PDF
 ├── public/                ← files that need a fixed address
@@ -55,7 +52,7 @@ portfolio/
 
 - Add a line to the client's `notes.md` whenever a milestone lands: a launch, a Reel the client loves, good numbers,
   a before/after.
-- Website screenshots: `node scripts/client-shots.mjs case-studies/<client>/screenshots/after home=https://… grooming=https://…`
+- Website screenshots: `npm run client-shots -- case-studies/<client>/screenshots/after home=https://… grooming=https://…`
   (phone and desktop, full page; needs Playwright installed globally). Convert to JPEG to keep the repo small.
   If a site's bot protection (a Cloudflare "Verify you are human" page) blocks the capture, don't try to get around
   it: use the newest Internet Archive copy (`https://web.archive.org/web/<timestamp>if_/<url>`, where `if_` hides the
@@ -77,7 +74,7 @@ The whole life of a project, from the first day to the portfolio page. Steps 1�
 (they're in Tim's global instructions too); steps 4–8 put it on the site.
 
 1. **Day one:** create `case-studies/<id>/notes.md` (`<id>` is kebab-case, like `fanzi-pet`; it becomes the page
-   address `/work/<id>/`). Capture the "before": the current site with `scripts/client-shots.mjs` into
+   address `/work/<id>/`). Capture the "before": the current site with `npm run client-shots` into
    `screenshots/before/`, and the social profiles.
 2. **As work happens:** add a dated line to `notes.md` for every milestone, decision and number.
 3. **When the new site is up** (live or a development preview): capture `screenshots/after/` the same way.
