@@ -12,7 +12,7 @@
     "astro": "astro",
     "typecheck": "astro check",
     "format": "prettier --write src scripts \"*.{ts,mjs,json}\"",
-    "check": "npm run typecheck && npm run build",
+    "check": "npm run format:check && npm run typecheck && npm run build",
     "shots": "node $HOME/Tools/site-checks/shots.mjs",
     "phone-check": "node $HOME/Tools/site-checks/phone-check.mjs",
     "client-shots": "node $HOME/Tools/site-checks/client-shots.mjs",
@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
-    "prettier": "^3.9.10",
+    "prettier": "3.9.10",
     "prettier-plugin-astro": "^1.1.2",
     "typescript": "^6.0.3"
   }
