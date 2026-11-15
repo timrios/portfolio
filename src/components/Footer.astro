@@ -21,12 +21,12 @@ import { site } from "../data/site";
       {site.footer.buildNotes}
     </a>
   </p>
-  <p>
-    <a class="link" href="/privacy-policy/">
+  <p class="legal">
+    © {new Date().getFullYear()}{" "}
+    <a class="tap" href="/privacy-policy/">
       {site.footer.privacy}
     </a>
   </p>
-  <p>© {new Date().getFullYear()}</p>
 </footer>
 
 <style>
@@ -44,6 +44,20 @@ import { site } from "../data/site";
     display: inline-flex;
     align-items: center;
     min-height: var(--target);
+    color: var(--text);
+  }
+
+  /* Rarely visited, so quieter than the links above: smaller, regular weight, muted */
+  .legal a {
+    min-height: 0;
+    margin-left: var(--space-3);
+    color: var(--text-muted);
+    font-size: var(--text-mono);
+    text-decoration: underline;
+    text-underline-offset: 0.22em;
+  }
+
+  .legal a:hover {
     color: var(--text);
   }
 

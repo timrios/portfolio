@@ -304,7 +304,7 @@ switches instantly, Reels start paused, and every transition is instant.
 - **Dock:** phones only: Menu, Free quote, Text me; holds the menu sheet (Home first, because the logo scrolls away on
   phones; then the links and the theme toggle). Desktop needs no Home link: its logo stays pinned.
 - **Footer:** name and city, email, text number, year, and the door for employers (the resume and `/how-this-site-was-built/`): "Hiring a developer?" with the
-  resume.
+  resume. The year line also holds "Privacy Policy", small (`--text-mono`), regular weight and muted, since it is rarely visited.
 - **WindowLight:** the fixed panes of light behind every page. Hidden in print.
 - **HomeHero:** the headline, what Tim does, the ask box, then the work. Phones: a real phone beside its switcher.
   Desktop: the offset window with a phone, thumbnails under the ask box. Finished sites only, whole, never a before
