@@ -39,7 +39,7 @@ const resumeSchema = z.object({
 export const resume = resumeSchema.parse({
   title: "Resume",
   description:
-    "Resume of Tim Rios, web developer and cloud computing student in San Antonio: freelance websites since 2005, data analysis at JPMorgan Chase, and nine years running a small business.",
+    "Resume of Tim Rios, San Antonio web developer and cloud computing student: freelance sites since 2005, data analysis at JPMorgan Chase, nine years in small business.",
   name: "Tim Rios",
   headline: "Web developer and cloud computing student",
   summary:

@@ -11,9 +11,13 @@ import { site } from "../data/site";
     <Logo />
   </a>
   <nav class="plate menu only-wide" aria-label="Main">
-    {site.navigation.map((item) => <a href={item.href}>{item.label}</a>)}
+    {site.navigation.map((item) => (
+      <a href={item.href}>{item.label}</a>
+    ))}
     <ThemeToggle />
-    <a class="text" href={`sms:${site.phoneSms}`}>{site.home.textAction}</a>
+    <a class="text" href={`sms:${site.phoneSms}`}>
+      {site.home.textAction}
+    </a>
   </nav>
 </header>
 

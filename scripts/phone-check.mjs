@@ -12,12 +12,18 @@ const require = createRequire(execSync("npm root -g").toString().trim() + "/");
 const { webkit, devices } = require("playwright");
 
 const DEFAULT_BASE = "http://localhost:4321";
-const base = (process.argv.slice(2).find((a) => !a.startsWith("--")) ?? DEFAULT_BASE).replace(/\/$/, "");
+const base = (process.argv.slice(2).find((a) => !a.startsWith("--")) ?? DEFAULT_BASE).replace(
+  /\/$/,
+  "",
+);
 
 let response = await fetch(`${base}/sitemap.xml`);
 if (!response.ok) response = await fetch(`${base}/sitemap-0.xml`);
-if (!response.ok) throw new Error(`No sitemap at ${base}. Is the server running, on a build rather than dev?`);
-const paths = [...(await response.text()).matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => new URL(m[1]).pathname);
+if (!response.ok)
+  throw new Error(`No sitemap at ${base}. Is the server running, on a build rather than dev?`);
+const paths = [...(await response.text()).matchAll(/<loc>(.*?)<\/loc>/g)].map(
+  (m) => new URL(m[1]).pathname,
+);
 
 const browser = await webkit.launch();
 let problems = 0;
@@ -37,8 +43,10 @@ for (const [name, device] of [
     await page.waitForTimeout(600);
 
     const found = await page.evaluate(() => {
-      const shown = (el) => el.getClientRects().length > 0 && getComputedStyle(el).visibility !== "hidden";
-      const label = (el) => (el.getAttribute("aria-label") || el.textContent || el.tagName).trim().slice(0, 40);
+      const shown = (el) =>
+        el.getClientRects().length > 0 && getComputedStyle(el).visibility !== "hidden";
+      const label = (el) =>
+        (el.getAttribute("aria-label") || el.textContent || el.tagName).trim().slice(0, 40);
       const size = (el) => {
         const r = el.getBoundingClientRect();
         return [Math.round(r.width), Math.round(r.height)];
@@ -51,7 +59,11 @@ for (const [name, device] of [
           .map((el) => [label(el), ...size(el)])
           .filter(([, w, h]) => w > 0 && (w < 44 || h < 44)),
         // iPhones zoom the whole page when someone taps a field with smaller text
-        zoomingFields: [...document.querySelectorAll("input:not([type=range],[type=hidden],[type=checkbox],[type=radio]), select, textarea")]
+        zoomingFields: [
+          ...document.querySelectorAll(
+            "input:not([type=range],[type=hidden],[type=checkbox],[type=radio]), select, textarea",
+          ),
+        ]
           .filter(shown)
           .filter((el) => parseFloat(getComputedStyle(el).fontSize) < 16)
           .map((el) => el.name || el.id || label(el)),
@@ -74,5 +86,9 @@ for (const [name, device] of [
 }
 
 await browser.close();
-console.log(problems ? `\n${problems} problem(s) on ${paths.length} pages.` : `No problems on ${paths.length} pages.`);
+console.log(
+  problems
+    ? `\n${problems} problem(s) on ${paths.length} pages.`
+    : `No problems on ${paths.length} pages.`,
+);
 process.exitCode = problems ? 1 : 0;

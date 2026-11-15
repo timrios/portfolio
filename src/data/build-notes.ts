@@ -11,7 +11,9 @@ export const buildNotes = z
     measuredLabel: z.string(),
     measured: z.array(z.object({ figure: z.string(), text: z.string() })),
     measuredSource: z.string(),
-    sections: z.array(z.object({ id: z.string().regex(/^[a-z0-9-]+$/), heading: z.string(), text: z.string() })),
+    sections: z.array(
+      z.object({ id: z.string().regex(/^[a-z0-9-]+$/), heading: z.string(), text: z.string() }),
+    ),
     resumeAction: z.string(),
     contactAction: z.string(),
   })
@@ -29,7 +31,8 @@ export const buildNotes = z
       { figure: "100", text: "Lighthouse best practices and SEO, on all four pages tested" },
       { figure: "2.2 KB", text: "of this site’s own JavaScript on the home page, compressed" },
     ],
-    measuredSource: "Lighthouse run on the live site (home, Hair By Christopher, About and Contact; phone and desktop), 7 November 2026. The JavaScript figure counts the code written for this site.",
+    measuredSource:
+      "Lighthouse run on the live site (home, Hair By Christopher, About and Contact; phone and desktop), 7 November 2026. The JavaScript figure counts the code written for this site.",
     sections: [
       {
         id: "phones",

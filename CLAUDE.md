@@ -27,7 +27,7 @@ scripts/
   project-screens.mjs← crops a client's screenshots into the site's images
   resume-pdf.mjs     ← the resume as a PDF
 src/
-  pages/             ← routes (index, work/[id], about, contact, resume, how-this-site-was-built, 404, robots.txt)
+  pages/             ← routes (index, work/[id], about, contact, resume, how-this-site-was-built, privacy-policy, 404, robots.txt, llms.txt)
   components/        ← reusable UI components
   layouts/           ← BaseLayout (head, header, footer)
   utils/             ← helpers (image lookup)
@@ -83,7 +83,8 @@ public/              ← only files that need a fixed address (favicons; media/r
 - Every page sets its own title, description and social preview image. The home preview is `src/assets/images/social/home.jpg`, a capture of the home page's opening; retake it when the hero changes (README → Social preview).
 - Project pages are generated from `projects.ts` at `/work/<id>/`; the social preview is the client's desktop screenshot.
 - The 404 page is `noindex` and out of the sitemap.
-- Search engines are open (`SITE_INDEXABLE=true`, launched 2026-11-07); `robots.txt` (`src/pages/robots.txt.ts`) disallows everything unless the build has `SITE_INDEXABLE=true`.
+- Search engines are open (`SITE_INDEXABLE=true`, launched 2026-11-07); `robots.txt` (`src/pages/robots.txt.ts`) disallows everything unless the build has `SITE_INDEXABLE=true`. A reconnect in Cloudflare can drop that variable (found 2026-11-14), so run `node ~/Tools/page-check/page-check.mjs https://timrios.dev` after any change to the Worker's settings.
+- The privacy page (`src/data/privacy.ts`) is written from what the site really sends (Formspree form, saved light/dark choice, Cloudflare). Update it and its date in the same change that adds a form, embed, analytics or another outside service. `llms.txt` is built from `site.ts`, `services.ts` and `projects.ts`.
 
 ## Integrations and secrets
 

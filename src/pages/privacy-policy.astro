@@ -1,0 +1,57 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { privacy } from "../data/privacy";
+import { site } from "../data/site";
+
+const fill = (text: string) => text.replace("{email}", site.email).replace("{phone}", site.phone);
+---
+
+<BaseLayout title={privacy.title} description={privacy.description} image="social/home.jpg">
+  <header class="intro container">
+    <h1>{privacy.heading}</h1>
+    <p class="updated">Last updated {privacy.updated}</p>
+  </header>
+
+  <div class="container section notes">
+    {privacy.sections.map((section) => (
+      <section aria-labelledby={section.id}>
+        <h2 id={section.id}>{section.heading}</h2>
+        {section.paragraphs.map((text) => (
+          <p>{fill(text)}</p>
+        ))}
+      </section>
+    ))}
+  </div>
+</BaseLayout>
+
+<style>
+  .intro {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-5);
+  }
+
+  .updated {
+    margin-top: var(--space-3);
+    color: var(--text-muted);
+  }
+
+  .notes {
+    display: grid;
+    gap: var(--space-6);
+    max-width: var(--content-narrow);
+    margin-inline: 0;
+    padding-bottom: var(--section);
+  }
+
+  h2 {
+    font-size: var(--text-3);
+    letter-spacing: -0.022em;
+    line-height: 1.12;
+  }
+
+  section p {
+    margin-top: var(--space-3);
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+</style>

@@ -27,7 +27,9 @@ const beforeAlt = beforeWide?.alt ?? "";
         <Img src={project.hero.beforePhone} alt={beforeAlt} sizes="100vw" />
       </div>
     ) : (
-      <div class="old note"><p>{project.beforeShort}</p></div>
+      <div class="old note">
+        <p>{project.beforeShort}</p>
+      </div>
     )}
   </div>
   <div class="set only-wide">
@@ -37,13 +39,21 @@ const beforeAlt = beforeWide?.alt ?? "";
         <Img src={beforeWide.src} alt={beforeAlt} sizes={sizes} />
       </div>
     ) : (
-      <div class="old note"><p>{project.beforeShort}</p></div>
+      <div class="old note">
+        <p>{project.beforeShort}</p>
+      </div>
     )}
   </div>
-  <span class="tag before" aria-hidden="true">{h.beforeLabel}</span>
-  <span class="tag after" aria-hidden="true">{h.afterLabel}</span>
+  <span class="tag before" aria-hidden="true">
+    {h.beforeLabel}
+  </span>
+  <span class="tag after" aria-hidden="true">
+    {h.afterLabel}
+  </span>
   <span class="seam" aria-hidden="true">
-    <span class="grip"><Star /></span>
+    <span class="grip">
+      <Star />
+    </span>
   </span>
   <input
     type="range"

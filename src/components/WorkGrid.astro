@@ -10,21 +10,34 @@ const sizes = "(min-width: 768px) 25vw, 50vw";
 ---
 
 <div class="switch on-deep" role="group" aria-label={h.workToggleLabel} data-work-switch>
-  <button type="button" aria-pressed="false" data-show="before">{h.beforeLabel}</button>
-  <button type="button" aria-pressed="true" data-show="after">{h.afterLabel}</button>
+  <button type="button" aria-pressed="false" data-show="before">
+    {h.beforeLabel}
+  </button>
+  <button type="button" aria-pressed="true" data-show="after">
+    {h.afterLabel}
+  </button>
 </div>
 
 <div class="grid" data-work-grid>
   {projects.map((project, i) => (
-    <article style={`--client: ${project.accent}; --i: ${i}`} aria-labelledby={`work-${project.id}`}>
+    <article
+      style={`--client: ${project.accent}; --i: ${i}`}
+      aria-labelledby={`work-${project.id}`}
+    >
       <div class="shot">
         <Img src={project.screens.phone.src} alt={project.screens.phone.alt} sizes={sizes} />
         {project.hero.beforePhone ? (
           <div class="old">
-            <Img src={project.hero.beforePhone} alt={project.before.image?.alt ?? ""} sizes={sizes} />
+            <Img
+              src={project.hero.beforePhone}
+              alt={project.before.image?.alt ?? ""}
+              sizes={sizes}
+            />
           </div>
         ) : (
-          <div class="old empty"><p>{project.beforeShort}</p></div>
+          <div class="old empty">
+            <p>{project.beforeShort}</p>
+          </div>
         )}
       </div>
       <h3 id={`work-${project.id}`} style={`view-transition-name: project-${project.id}`}>
@@ -33,11 +46,16 @@ const sizes = "(min-width: 768px) 25vw, 50vw";
       <p class="kind">
         <i aria-hidden="true"></i>
         <span>
-          {project.hero.label}{project.status === "in-progress" && `. ${site.projectLabels.inProgress}`}
+          {project.hero.label}
+          {project.status === "in-progress" && `. ${site.projectLabels.inProgress}`}
         </span>
       </p>
       <p class="outcome">{project.outcome}</p>
-      <a class="story" href={`/work/${project.id}/`} aria-label={h.storyLabel.replace("{who}", project.name)}>
+      <a
+        class="story"
+        href={`/work/${project.id}/`}
+        aria-label={h.storyLabel.replace("{who}", project.name)}
+      >
         {site.preview.story}
       </a>
     </article>
@@ -218,7 +236,8 @@ const sizes = "(min-width: 768px) 25vw, 50vw";
   const buttons = document.querySelectorAll<HTMLButtonElement>("[data-work-switch] button");
   const grid = document.querySelector("[data-work-grid]");
   const show = (side: string) => {
-    for (const button of buttons) button.setAttribute("aria-pressed", String(button.dataset.show === side));
+    for (const button of buttons)
+      button.setAttribute("aria-pressed", String(button.dataset.show === side));
     grid?.classList.toggle("before", side === "before");
   };
   let pressed = false;

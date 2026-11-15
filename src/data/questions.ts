@@ -3,7 +3,9 @@
 import { z } from "astro/zod";
 
 export const questions = z
-  .array(z.object({ id: z.string().regex(/^[a-z0-9-]+$/), question: z.string(), answer: z.string() }))
+  .array(
+    z.object({ id: z.string().regex(/^[a-z0-9-]+$/), question: z.string(), answer: z.string() }),
+  )
   .parse([
     {
       id: "cost",

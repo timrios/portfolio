@@ -47,8 +47,21 @@ const siteSchema = z.object({
     /** {name} and {city} are filled in by the component */
     closingText: z.string(),
   }),
-  dock: z.object({ label: z.string(), menu: z.string(), home: z.string(), quote: z.string(), close: z.string() }),
-  footer: z.object({ about: z.string(), hiring: z.string(), resume: z.string(), or: z.string(), buildNotes: z.string() }),
+  dock: z.object({
+    label: z.string(),
+    menu: z.string(),
+    home: z.string(),
+    quote: z.string(),
+    close: z.string(),
+  }),
+  footer: z.object({
+    about: z.string(),
+    hiring: z.string(),
+    resume: z.string(),
+    or: z.string(),
+    buildNotes: z.string(),
+    privacy: z.string(),
+  }),
   theme: z.object({ toLight: z.string(), toDark: z.string() }),
   preview: z.object({
     open: z.string(),
@@ -123,7 +136,7 @@ export const site = siteSchema.parse({
   region: "TX",
   formEndpoint: "https://formspree.io/f/xnpplzng",
   description:
-    "Tim Rios designs websites, logos, packaging, vehicle wraps and social media for local businesses in San Antonio, so every part of the business looks like it belongs together.",
+    "Tim Rios designs websites, logos, packaging, vehicle wraps and social media for San Antonio local businesses, so everything a customer sees looks like one business.",
   navigation: [
     { label: "Work", href: "/#work" },
     { label: "How it works", href: "/#how-it-works" },
@@ -146,7 +159,8 @@ export const site = siteSchema.parse({
       ],
       submit: "Get a free quote",
     },
-    timing: "Most websites are ready in 2 to 4 weeks. The first conversation and the quote are free.",
+    timing:
+      "Most websites are ready in 2 to 4 weeks. The first conversation and the quote are free.",
     orText: "Or text",
     switcherLabel: "See the site I built for a",
     storyLabel: "Read the story of {who}",
@@ -164,8 +178,7 @@ export const site = siteSchema.parse({
     draftLabel: "Draft, awaiting the client’s OK",
     servicesHeading: "Sound familiar?",
     processHeading: "From first text to live site.",
-    processIntro:
-      "No packages: every quote fits the business.",
+    processIntro: "No packages: every quote fits the business.",
     questionsHeading: "Before you ask.",
     questionsIntro: "Straight answers about money, changes, ownership and who does the work.",
     closingHeading: "Let’s get your business more customers.",
@@ -178,6 +191,7 @@ export const site = siteSchema.parse({
     resume: "See my resume",
     or: "or",
     buildNotes: "how this site was built",
+    privacy: "Privacy Policy",
   },
   theme: { toLight: "Daylight look", toDark: "After-hours look" },
   preview: {
@@ -234,7 +248,8 @@ export const site = siteSchema.parse({
       "Social media",
       "Not sure yet",
     ],
-    messagePlaceholder: "My business is… and I’d like… A link to your website or Instagram helps too.",
+    messagePlaceholder:
+      "My business is… and I’d like… A link to your website or Instagram helps too.",
     submitLabel: "Send message",
     sending: "Sending…",
     success: "Message sent, thank you! I’ll reply by text or email to set up a time to talk.",

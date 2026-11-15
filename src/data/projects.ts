@@ -509,7 +509,7 @@ const all = z.array(projectSchema).parse([
           text: "people viewed his Google profile in five months",
           band: { text: "people found a solo stylist on Google in five months", order: 2 },
         },
-{ figure: "299", text: "asked Google for directions to his chair, and 31 called" },
+        { figure: "299", text: "asked Google for directions to his chair, and 31 called" },
         {
           figure: "333",
           text: "tapped his place in Apple Maps in a year, two thirds of them searching for a salon, not for him",

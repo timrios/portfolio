@@ -8,17 +8,27 @@ import { site } from "../data/site";
 <div class="only-phone">
   <nav class="dock" aria-label={site.dock.label} data-dock>
     <button class="menu" type="button" aria-haspopup="dialog" data-menu-open>
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"></path></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 8h16M4 16h16"></path>
+      </svg>
       {site.dock.menu}
     </button>
-    <a class="quote" href={site.home.primaryAction.href}>{site.dock.quote}</a>
-    <a class="text" href={`sms:${site.phoneSms}`}>{site.home.textAction}</a>
+    <a class="quote" href={site.home.primaryAction.href}>
+      {site.dock.quote}
+    </a>
+    <a class="text" href={`sms:${site.phoneSms}`}>
+      {site.home.textAction}
+    </a>
   </nav>
 
   <dialog class="sheet" aria-label={site.dock.menu} data-menu>
-    <button class="close" type="button" data-menu-close>{site.dock.close}</button>
+    <button class="close" type="button" data-menu-close>
+      {site.dock.close}
+    </button>
     <a href="/">{site.dock.home}</a>
-    {site.navigation.map((item) => <a href={item.href}>{item.label}</a>)}
+    {site.navigation.map((item) => (
+      <a href={item.href}>{item.label}</a>
+    ))}
     <ThemeToggle labeled />
   </dialog>
 </div>

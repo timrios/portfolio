@@ -39,7 +39,10 @@ const errorText = c.error.replace("{email}", site.email);
         <div class="field-wrap">
           <label class="field">
             <span class="label">
-              {f.name} <span class="note" aria-hidden="true">{c.required}</span>
+              {f.name}{" "}
+              <span class="note" aria-hidden="true">
+                {c.required}
+              </span>
             </span>
             <input
               type="text"
@@ -125,7 +128,10 @@ const errorText = c.error.replace("{email}", site.email);
       <div class="field-wrap">
         <label class="field">
           <span class="label">
-            {f.message} <span class="note" aria-hidden="true">{c.required}</span>
+            {f.message}{" "}
+            <span class="note" aria-hidden="true">
+              {c.required}
+            </span>
           </span>
           <textarea
             name="message"
@@ -161,7 +167,6 @@ const errorText = c.error.replace("{email}", site.email);
         </a>
       </p>
     </div>
-
   </div>
 </BaseLayout>
 

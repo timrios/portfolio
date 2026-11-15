@@ -17,9 +17,15 @@ const blank = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAI
 ---
 
 <section class="hero" aria-labelledby="hero-heading" data-hero>
-  <h1 id="hero-heading">{h.headlineLines.map((line) => <span>{line} </span>)}</h1>
+  <h1 id="hero-heading">
+    {h.headlineLines.map((line) => (
+      <span>{line} </span>
+    ))}
+  </h1>
   <p class="intro">{h.lede}</p>
-  <div class="asking"><AskBox /></div>
+  <div class="asking">
+    <AskBox />
+  </div>
 
   <div class="stage">
     <div class="ph">
@@ -39,10 +45,16 @@ const blank = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAI
 
     <div class="side">
       <div class="pick" role="group" aria-labelledby="pick-label">
-        <span class="pick-label" id="pick-label">{h.switcherLabel}</span>
+        <span class="pick-label" id="pick-label">
+          {h.switcherLabel}
+        </span>
         <div class="choices">
           {shown.map((project, i) => (
-            <button type="button" aria-pressed={i === 0 ? "true" : "false"} data-choose={project.id}>
+            <button
+              type="button"
+              aria-pressed={i === 0 ? "true" : "false"}
+              data-choose={project.id}
+            >
               <span class="thumb only-phone">
                 <Img src={project.screens.phone.src} alt="" sizes="2rem" />
               </span>
@@ -59,8 +71,15 @@ const blank = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAI
         {shown.map((project, i) => {
           const result = project.results.items[0];
           return (
-            <div class:list={["res", { on: i === 0 }]} data-res={project.id} style={`--client: ${project.accent}`}>
-              <p class="biz"><i aria-hidden="true"></i>{project.hero.shortName}</p>
+            <div
+              class:list={["res", { on: i === 0 }]}
+              data-res={project.id}
+              style={`--client: ${project.accent}`}
+            >
+              <p class="biz">
+                <i aria-hidden="true"></i>
+                {project.hero.shortName}
+              </p>
               <p class="fig">{result.figure}</p>
               <p class="line">{result.text}</p>
               <a
@@ -102,8 +121,13 @@ const blank = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAI
   <div class="window only-wide">
     <div class="bar">
       {shown.map((project, i) => (
-        <span class:list={["addr", { on: i === 0 }]} data-res={project.id} style={`--client: ${project.accent}`}>
-          <i aria-hidden="true"></i>{project.hero.address}
+        <span
+          class:list={["addr", { on: i === 0 }]}
+          data-res={project.id}
+          style={`--client: ${project.accent}`}
+        >
+          <i aria-hidden="true"></i>
+          {project.hero.address}
         </span>
       ))}
     </div>
@@ -541,7 +565,8 @@ const blank = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAI
       border-radius: var(--radius-card) 0 0 var(--radius-card);
       background: var(--surface);
       box-shadow:
-        calc(var(--sun-shadow-x, 0px)) 28px 60px -22px color-mix(in oklch, var(--shadow-tint) 55%, transparent),
+        calc(var(--sun-shadow-x, 0px)) 28px 60px -22px
+          color-mix(in oklch, var(--shadow-tint) 55%, transparent),
         0 2px 4px color-mix(in oklch, var(--shadow-tint) 12%, transparent);
     }
 
@@ -556,7 +581,6 @@ const blank = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAI
       color: var(--text-muted);
       font: 400 0.75rem / 1 var(--font-mono);
     }
-
 
     .addr {
       grid-area: 1 / 1;
@@ -607,7 +631,6 @@ const blank = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAI
       padding: var(--space-1);
       pointer-events: none;
     }
-
   }
 </style>
 
@@ -636,7 +659,8 @@ const blank = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAI
         next.loading = "eager";
         const swap = () => {
           // A later choice has already moved on
-          if (hero.querySelector(`[data-choose="${id}"]`)?.getAttribute("aria-pressed") !== "true") return;
+          if (hero.querySelector(`[data-choose="${id}"]`)?.getAttribute("aria-pressed") !== "true")
+            return;
           for (const img of set.querySelectorAll<HTMLImageElement>("[data-shot]")) {
             img.classList.toggle("on", img === next);
           }

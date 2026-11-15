@@ -23,7 +23,7 @@ const aboutSchema = z.object({
 export const about = aboutSchema.parse({
   title: "About: San Antonio web and brand designer",
   description:
-    "Tim Rios has built websites since 2005. He ran the business side of a San Antonio gym for nine years and now designs brands, websites and social media for local businesses.",
+    "Tim Rios has built websites since 2005. After nine years running a San Antonio gym’s business side, he designs brands, websites and social media for local businesses.",
   heading: "I’ve been building websites since 2005.",
   portrait: {
     src: "brand/tim-portrait.jpg",

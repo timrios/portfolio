@@ -10,7 +10,11 @@ import { buildNotes } from "../data/build-notes";
     <p class="lede">{buildNotes.intro}</p>
   </header>
 
-  <ResultsBand items={buildNotes.measured} source={buildNotes.measuredSource} label={buildNotes.measuredLabel} />
+  <ResultsBand
+    items={buildNotes.measured}
+    source={buildNotes.measuredSource}
+    label={buildNotes.measuredLabel}
+  />
 
   <div class="container section notes">
     {buildNotes.sections.map((section) => (
@@ -22,8 +26,12 @@ import { buildNotes } from "../data/build-notes";
   </div>
 
   <div class="container actions">
-    <a class="btn btn--primary" href="/resume/">{buildNotes.resumeAction}</a>
-    <a class="btn btn--ghost" href="/contact/">{buildNotes.contactAction}</a>
+    <a class="btn btn--primary" href="/resume/">
+      {buildNotes.resumeAction}
+    </a>
+    <a class="btn btn--ghost" href="/contact/">
+      {buildNotes.contactAction}
+    </a>
   </div>
 </BaseLayout>
 

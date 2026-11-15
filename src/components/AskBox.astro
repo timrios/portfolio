@@ -6,11 +6,19 @@ import { site } from "../data/site";
 const { ask } = site.home;
 ---
 
-<form class="ask" action="/contact/" method="get" data-ask data-examples={JSON.stringify(ask.examples)}>
+<form
+  class="ask"
+  action="/contact/"
+  method="get"
+  data-ask
+  data-examples={JSON.stringify(ask.examples)}
+>
   <label for="ask-need">{ask.label}</label>
   <div class="box">
     <input id="ask-need" name="need" type="text" autocomplete="off" placeholder={ask.examples[0]} />
-    <button class="btn btn--primary" type="submit">{ask.submit}</button>
+    <button class="btn btn--primary" type="submit">
+      {ask.submit}
+    </button>
   </div>
 </form>
 

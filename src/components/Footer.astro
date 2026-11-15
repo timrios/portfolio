@@ -3,7 +3,9 @@ import { site } from "../data/site";
 ---
 
 <footer class="footer container">
-  <p><strong>{site.name}</strong></p>
+  <p>
+    <strong>{site.name}</strong>
+  </p>
   <p>{site.footer.about.replace("{city}", site.city)}</p>
   <p class="contact">
     <a href={`mailto:${site.email}`}>{site.email}</a>
@@ -11,9 +13,18 @@ import { site } from "../data/site";
   </p>
   <p class="door">
     {site.footer.hiring}{" "}
-    <a class="link" href="/resume/">{site.footer.resume}</a>
-    {" "}{site.footer.or}{" "}
-    <a class="link" href="/how-this-site-was-built/">{site.footer.buildNotes}</a>
+    <a class="link" href="/resume/">
+      {site.footer.resume}
+    </a>{" "}
+    {site.footer.or}{" "}
+    <a class="link" href="/how-this-site-was-built/">
+      {site.footer.buildNotes}
+    </a>
+  </p>
+  <p>
+    <a class="link" href="/privacy-policy/">
+      {site.footer.privacy}
+    </a>
   </p>
   <p>© {new Date().getFullYear()}</p>
 </footer>
