@@ -29,6 +29,11 @@ import { buildNotes } from "../data/build-notes";
     <a class="btn btn--primary" href="/resume/">
       {buildNotes.resumeAction}
     </a>
+    {buildNotes.sourceLinks.map((link) => (
+      <a class="btn btn--ghost" href={link.href} rel="noopener">
+        {link.label}
+      </a>
+    ))}
     <a class="btn btn--ghost" href="/contact/">
       {buildNotes.contactAction}
     </a>

@@ -14,6 +14,7 @@ export const buildNotes = z
     sections: z.array(
       z.object({ id: z.string().regex(/^[a-z0-9-]+$/), heading: z.string(), text: z.string() }),
     ),
+    sourceLinks: z.array(z.object({ label: z.string(), href: z.string().url() })),
     resumeAction: z.string(),
     contactAction: z.string(),
   })
@@ -64,6 +65,15 @@ export const buildNotes = z
         heading: "Accessible by default",
         text: "Keyboard focus is always visible, tap targets are at least 44 pixels, and motion stops for anyone who asks their device to reduce it. The before and after slider is a real range input, so arrow keys work.",
       },
+      {
+        id: "open-source",
+        heading: "Open source, down to the domain",
+        text: "The code for this site is public on GitHub. So is the Terraform module that sets up a small business’s domain on Cloudflare (DNS, email records, redirects and security settings) from a reviewed file instead of clicks in a dashboard. I use it to run this site’s own domain.",
+      },
+    ],
+    sourceLinks: [
+      { label: "This site’s code", href: "https://github.com/timrios/portfolio" },
+      { label: "The Terraform module", href: "https://github.com/timrios/cloudflare-terraform" },
     ],
     resumeAction: "See my resume",
     contactAction: "Get in touch",
