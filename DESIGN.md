@@ -278,7 +278,7 @@ One set of timings, used everywhere, all on one curve, `--ease` (`cubic-bezier(.
 | **Sound familiar answers** | Slide open with `::details-content` and `interpolate-size`, at `--t-base`; elsewhere they simply appear. |
 | **Step rail**      | Fills with `--action` as the steps scroll past (`animation-timeline: view()`), step by step on desktop. Elsewhere, and under reduced motion, a plain `--rule` line. |
 | **Dock (phones)**  | Menu and Text me sit under the thumb. "Free quote" joins once the question box scrolls away. The dock steps aside for the keyboard and for the closing band. The logo scrolls away at the top. |
-| **Menu sheet**     | A native dialog rising from the bottom; closes by the backdrop, Close, Escape, or a link. |
+| **Menu sheet**     | A native dialog rising from the bottom; closes by the backdrop, Close, Escape, or a link. Every modal dialog (this sheet and the preview window) contains scroll gestures so the page behind doesn't move (`dialog:modal` and `dialog::backdrop` in `global.css`; Chrome and Firefox honor it, Safari doesn't yet). |
 | **Hero switcher**  | One choice drives everything: the picture, the name, the result. Results sit stacked in one space, so nothing jumps. |
 | **Work switch**    | Before and After wipe all four cards left to right (`clip-path`, `--t-sweep`), 60ms apart, so they read as one gesture. Instant, with no stagger, under reduced motion. |
 | **Before/after**   | On project pages, a range slider wipes between the old and new site (`clip-path`). Press, then slide; arrow keys work. On touch, a sideways swipe moves it and an up-and-down swipe scrolls the page; it moves by finger travel, so nothing jumps. Starts at 50%. Without an old site, the "before" is a short note. |

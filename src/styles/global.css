@@ -213,6 +213,18 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* A modal dialog (menu sheet, project preview) must not let a scroll gesture reach the page underneath. The backdrop only
+   honors overscroll-behavior once it is a scroll container, hence overflow: hidden. Browsers that don't enforce this on a
+   non-scrolling dialog just ignore it (Chrome Android and Firefox do; Safari doesn't yet). */
+dialog:modal {
+  overscroll-behavior: contain;
+}
+
+dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
 @media (min-width: 1024px) {
   html {
     scroll-padding-top: 6rem; /* Links to a section land below the pinned plates */
