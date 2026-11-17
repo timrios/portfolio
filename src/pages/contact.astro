@@ -86,6 +86,7 @@ const errorText = c.error.replace("{email}", site.email);
                 type="email"
                 name="email"
                 autocomplete="email"
+                spellcheck="false"
                 enterkeyhint="next"
                 aria-describedby="error-email"
                 data-check="email"
@@ -520,6 +521,10 @@ const errorText = c.error.replace("{email}", site.email);
     f.setAttribute("aria-invalid", String(!ok));
     form.querySelector(`#error-${f.dataset.check}`)!.textContent = ok ? "" : f.dataset.invalid!;
   };
+
+  // Start every field at "not invalid": Safari and Firefox otherwise read an empty required
+  // field to screen readers as invalid before the visitor has typed anything
+  fields.forEach((f) => f.setAttribute("aria-invalid", "false"));
 
   const reachOk = () => Boolean(email.value.trim() || phone.value.trim());
   const showReach = (ok: boolean) => {
