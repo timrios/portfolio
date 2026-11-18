@@ -38,7 +38,7 @@ const first = shown[0];
       <p class="story" data-reel-story>
         {first.story}
       </p>
-      <ul class="stills" aria-label={reelsSection.pickLabel}>
+      <ul class="stills" role="list" aria-label={reelsSection.pickLabel}>
         {shown.map((reel, i) => (
           <li>
             <button

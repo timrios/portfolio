@@ -35,7 +35,7 @@ import { about } from "../data/about";
         {about.resumeLink}
       </a>
     </div>
-    <ol class="timeline">
+    <ol class="timeline" role="list">
       {about.background.map((item) => (
         <li>
           <p class="when">{item.when}</p>
@@ -50,7 +50,7 @@ import { about } from "../data/about";
 
   <section class="container section block" aria-labelledby="principles-heading">
     <h2 id="principles-heading">{about.principlesHeading}</h2>
-    <ul class="principles">
+    <ul class="principles" role="list">
       {about.principles.map((principle) => (
         <li>
           <h3>{principle.name}</h3>

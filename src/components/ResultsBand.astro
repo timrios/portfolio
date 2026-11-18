@@ -24,7 +24,7 @@ const { items = featured, source, label = site.home.resultsLabel } = Astro.props
   aria-label={label}
   style={`--cols: ${items.length > 4 ? 3 : items.length}`}
 >
-  <ul class="container">
+  <ul class="container" role="list">
     {items.map((item) => (
       <li>
         <b>{item.figure}</b>

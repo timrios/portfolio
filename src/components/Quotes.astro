@@ -11,7 +11,7 @@ const clients = new Map(projects.map((project) => [project.id, project]));
 {visibleQuotes.length > 0 && (
   <section class="container section" aria-labelledby="quotes-heading">
     <h2 id="quotes-heading">{site.home.quotesHeading}</h2>
-    <ul class="quotes">
+    <ul class="quotes" role="list">
       {visibleQuotes.map((quote) => (
         <li style={`--client: ${clients.get(quote.projectId)?.accent}`}>
           <figure>

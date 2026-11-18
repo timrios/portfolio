@@ -4,7 +4,7 @@
 import { process } from "../data/process";
 ---
 
-<ol class="steps">
+<ol class="steps" role="list">
   {process.map((step, i) => (
     <li style={`--i: ${i}`}>
       <h3>{step.name}</h3>

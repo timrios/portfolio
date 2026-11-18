@@ -15,7 +15,7 @@ const { heading } = Astro.props;
   <h2 id="logos-heading" class="heading">
     {heading}
   </h2>
-  <ul>
+  <ul role="list">
     {projects.map((project) => (
       <li>
         <a href={`/work/${project.id}/`} class:list={["tile", project.logo.on]}>
