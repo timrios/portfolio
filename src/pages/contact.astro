@@ -569,6 +569,8 @@ const errorText = c.error.replace("{email}", site.email);
         method: "POST",
         body: new FormData(form),
         headers: { Accept: "application/json" },
+        // A stalled connection would otherwise leave "Sending…" up forever with no way to retry
+        signal: AbortSignal.timeout(15_000),
       });
       if (!response.ok) throw new Error(String(response.status));
       form.reset();
