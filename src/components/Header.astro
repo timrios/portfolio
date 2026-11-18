@@ -4,6 +4,9 @@
 import Logo from "./Logo.astro";
 import ThemeToggle from "./ThemeToggle.astro";
 import { site } from "../data/site";
+
+// Screen readers say "current page" on the link to the page being read; section links (/#work) never match
+const here = Astro.url.pathname;
 ---
 
 <header class="top">
@@ -12,7 +15,9 @@ import { site } from "../data/site";
   </a>
   <nav class="plate menu only-wide" aria-label="Main">
     {site.navigation.map((item) => (
-      <a href={item.href}>{item.label}</a>
+      <a href={item.href} aria-current={item.href === here ? "page" : undefined}>
+        {item.label}
+      </a>
     ))}
     <ThemeToggle />
     <a class="text" href={`sms:${site.phoneSms}`}>

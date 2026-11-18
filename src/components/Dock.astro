@@ -3,6 +3,9 @@
 // has scrolled away. The dock steps aside for the keyboard and for the closing band. Menu opens a native dialog sheet.
 import ThemeToggle from "./ThemeToggle.astro";
 import { site } from "../data/site";
+
+// Screen readers say "current page" on the link to the page being read; section links (/#work) never match
+const here = Astro.url.pathname;
 ---
 
 <div class="only-phone">
@@ -25,9 +28,13 @@ import { site } from "../data/site";
     <button class="close" type="button" data-menu-close>
       {site.dock.close}
     </button>
-    <a href="/">{site.dock.home}</a>
+    <a href="/" aria-current={here === "/" ? "page" : undefined}>
+      {site.dock.home}
+    </a>
     {site.navigation.map((item) => (
-      <a href={item.href}>{item.label}</a>
+      <a href={item.href} aria-current={item.href === here ? "page" : undefined}>
+        {item.label}
+      </a>
     ))}
     <ThemeToggle labeled />
   </dialog>
@@ -200,9 +207,26 @@ import { site } from "../data/site";
 
     document.querySelector("[data-menu-open]")?.addEventListener("click", () => sheet.showModal());
     document.querySelector("[data-menu-close]")?.addEventListener("click", () => sheet.close());
-    // A press on the backdrop lands on the dialog itself; a link closes it, for links within this page
+    // A tap on the backdrop closes the sheet. Judged by where the finger is, not by event.target: the sheet's own
+    // padding also targets the dialog, so a near-miss on a link would close it. Press and release must both be
+    // outside, so a drag that ends on the backdrop doesn't count.
+    const outside = (event: PointerEvent) => {
+      const box = sheet.getBoundingClientRect();
+      return (
+        event.clientY < box.top ||
+        event.clientY > box.bottom ||
+        event.clientX < box.left ||
+        event.clientX > box.right
+      );
+    };
+    let pressedOutside = false;
+    sheet.addEventListener("pointerdown", (event) => (pressedOutside = outside(event)));
+    sheet.addEventListener("pointerup", (event) => {
+      if (pressedOutside && outside(event)) sheet.close();
+    });
+    // A link closes it, for links within this page
     sheet.addEventListener("click", (event) => {
-      if (event.target === sheet || (event.target as HTMLElement).closest("a")) sheet.close();
+      if ((event.target as HTMLElement).closest("a")) sheet.close();
     });
   }
 </script>
