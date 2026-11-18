@@ -12,7 +12,7 @@ import { site } from "../data/site";
 import { projects } from "../data/projects";
 
 const h = site.home;
-const shown = [...projects].sort((a, b) => a.hero.order - b.hero.order);
+const shown = projects.toSorted((a, b) => a.hero.order - b.hero.order);
 const blank = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
 ---
 
