@@ -1,6 +1,6 @@
-# Basic browser protections on every page. No includeSubDomains on HSTS: the domain's mail records live beside the site.
+# Basic browser protections on every page. HSTS isn't here: Cloudflare sends it for the whole domain, set in the
+# private dns-live Terraform repo (one year, no includeSubDomains, since the mail records live beside the site).
 /*
-  Strict-Transport-Security: max-age=31536000
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: DENY
