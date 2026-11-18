@@ -91,6 +91,7 @@ public/              ← only files that need a fixed address (favicons; media/r
 
 ## Images
 
+- Rules for a client's photos and footage are in `~/Projects/dev-setup/knowledge/Photos and client media rules.md`; read it before handling originals.
 - Store every image in `src/assets/images/<client>/`. Never hotlink.
 - Add full-size originals; the build makes compressed WebP copies. Screenshots are cropped (not resized) from the case-study captures. The social preview stays JPG.
 - File names are kebab-case and descriptive.
