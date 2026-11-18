@@ -288,7 +288,7 @@ One set of timings, used everywhere, all on one curve, `--ease` (`cubic-bezier(.
 | **Reels**          | One featured silent loop, never taller than the screen, plays only while visible; stills switch it; a pause button stops it. Paused under reduced motion. |
 | **Ask box**        | The field's placeholder types the five real owner problems once, then rests on the first; focus stops it. What they type (or nothing) goes to the contact form, prefilled. |
 | **Sound familiar?**| One answer open at a time (native `details`); the star turns 72° as it opens. |
-| **Buttons**        | Hover lightens slightly (`--action-hi`).                                          |
+| **Buttons**        | Hover lightens slightly (`--action-hi`), never while disabled (the form's "Sending…"). |
 | **Links**          | Underlined in the accent, 1px; 2px on hover.                                      |
 | **Header (desktop)** | Two solid plates pinned at the top, the logo and the menu, so the page shows between them. |
 
