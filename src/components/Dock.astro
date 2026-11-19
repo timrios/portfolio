@@ -175,6 +175,8 @@ const here = Astro.url.pathname;
 </style>
 
 <script>
+  import { closeOnBackdrop } from "../utils/dialog";
+
   const dock = document.querySelector<HTMLElement>("[data-dock]");
   const sheet = document.querySelector<HTMLDialogElement>("[data-menu]");
   if (dock && sheet) {
@@ -215,23 +217,7 @@ const here = Astro.url.pathname;
 
     document.querySelector("[data-menu-open]")?.addEventListener("click", () => sheet.showModal());
     document.querySelector("[data-menu-close]")?.addEventListener("click", () => sheet.close());
-    // A tap on the backdrop closes the sheet. Judged by where the finger is, not by event.target: the sheet's own
-    // padding also targets the dialog, so a near-miss on a link would close it. Press and release must both be
-    // outside, so a drag that ends on the backdrop doesn't count.
-    const outside = (event: PointerEvent) => {
-      const box = sheet.getBoundingClientRect();
-      return (
-        event.clientY < box.top ||
-        event.clientY > box.bottom ||
-        event.clientX < box.left ||
-        event.clientX > box.right
-      );
-    };
-    let pressedOutside = false;
-    sheet.addEventListener("pointerdown", (event) => (pressedOutside = outside(event)));
-    sheet.addEventListener("pointerup", (event) => {
-      if (pressedOutside && outside(event)) sheet.close();
-    });
+    closeOnBackdrop(sheet);
     // A link closes it, for links within this page
     sheet.addEventListener("click", (event) => {
       if ((event.target as HTMLElement).closest("a")) sheet.close();

@@ -27,7 +27,7 @@ src/
   pages/             ← routes (index, work/[id], about, contact, resume, how-this-site-was-built, privacy-policy, 404, robots.txt, llms.txt)
   components/        ← reusable UI components
   layouts/           ← BaseLayout (head, header, footer)
-  utils/             ← helpers (image lookup)
+  utils/             ← helpers (image lookup, closing a dialog from its backdrop)
   data/              ← all site content
   styles/            ← global CSS and design tokens
   assets/images/     ← images used by the site, one folder per client plus social/ and brand/ (Tim's logo files and his illustrated portrait)

@@ -324,6 +324,7 @@ const host = new URL(
 
 <script>
   import { site } from "../data/site";
+  import { closeOnBackdrop } from "../utils/dialog";
 
   const phoneScreen = matchMedia("(max-width: 767px)");
 
@@ -366,10 +367,7 @@ const host = new URL(
 
   for (const dialog of document.querySelectorAll<HTMLDialogElement>("dialog[data-preview]")) {
     dialog.querySelector("[data-close]")?.addEventListener("click", () => dialog.close());
-    // A click on the dimmed backdrop (the dialog element itself, outside its content) closes it
-    dialog.addEventListener("click", (event) => {
-      if (event.target === dialog) dialog.close();
-    });
+    closeOnBackdrop(dialog);
     for (const button of dialog.querySelectorAll<HTMLButtonElement>("[data-view]")) {
       button.addEventListener("click", () => show(dialog, button.dataset.view!));
     }
