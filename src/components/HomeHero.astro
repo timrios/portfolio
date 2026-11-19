@@ -632,6 +632,13 @@ const blank = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAI
       pointer-events: none;
     }
   }
+
+  /* The thumbnail's lift on hover is movement; its ring still fades */
+  @media (prefers-reduced-motion: reduce) {
+    .thumb {
+      transition: box-shadow var(--t-fast) var(--ease);
+    }
+  }
 </style>
 
 <script>

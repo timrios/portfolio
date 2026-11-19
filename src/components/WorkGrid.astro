@@ -230,6 +230,13 @@ const sizes = "(min-width: 768px) 25vw, 50vw";
       font-size: var(--text-ui);
     }
   }
+
+  /* The before/after wipe is instant under reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .old {
+      transition: none;
+    }
+  }
 </style>
 
 <script>

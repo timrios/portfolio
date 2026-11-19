@@ -164,6 +164,14 @@ const here = Astro.url.pathname;
       display: none;
     }
   }
+
+  /* Slides and the "Free quote" growth are movement, so they happen instantly under reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .dock,
+    .quote {
+      transition: none;
+    }
+  }
 </style>
 
 <script>

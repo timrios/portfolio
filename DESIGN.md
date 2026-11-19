@@ -295,7 +295,11 @@ One set of timings, used everywhere, all on one curve, `--ease` (`cubic-bezier(.
 ### Reduced motion
 
 With `prefers-reduced-motion: reduce`: the window light holds still, the ask box shows one static example, the theme
-switches instantly, Reels start paused, and every transition is instant.
+switches instantly, Reels start paused, and there is no smooth scrolling, page-change transition, answer slide, step-rail
+fill or loading sweep. There is no blanket rule: each animation has its own path. Movement (the dock sliding, the star
+turning, the before/after wipe, a thumbnail or card lifting) is instant; colour, shadow and opacity fades stay, since they
+move nothing. A new animation must add its own path, either inside `prefers-reduced-motion: no-preference` or with a
+`reduce` rule that removes the movement.
 
 ## Components
 

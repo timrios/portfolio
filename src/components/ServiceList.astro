@@ -124,4 +124,11 @@ const published = new Map(projects.map((project) => [project.id, project]));
       max-width: var(--content-narrow);
     }
   }
+
+  /* The star turns instantly under reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    summary :global(svg) {
+      transition: none;
+    }
+  }
 </style>
